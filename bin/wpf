@@ -3,6 +3,8 @@
 # WPF - WordPress Site Factory CLI
 # Rapidly create WordPress websites from development to production
 #
+# Version: 0.2.0-beta
+#
 # Usage: wpf [command]
 #
 
@@ -12,6 +14,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WPF_ROOT="$(dirname "$SCRIPT_DIR")"
 CLI_DIR="$WPF_ROOT/cli"
+LIB_DIR="$WPF_ROOT/lib"
 PROJECTS_DIR="$WPF_ROOT/projects"
 
 # Colors for output
@@ -22,29 +25,45 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+# Source library files
+source "$LIB_DIR/registry.sh"
+source "$LIB_DIR/learnings.sh"
+
+# Initialize registry
+registry_init
+
 # Print banner
 print_banner() {
     echo -e "${CYAN}"
     echo "╔═══════════════════════════════════════════════════════════╗"
     echo "║     WPF - WordPress Site Factory                          ║"
     echo "║     Rapid WordPress Development to Production             ║"
+    echo "║     v0.2.0-beta                                           ║"
     echo "╚═══════════════════════════════════════════════════════════╝"
     echo -e "${NC}"
 }
 
 # Print menu
 print_menu() {
+    # Show pending learnings count if any
+    local learning_count=$(learnings_count 2>/dev/null || echo 0)
+    local project_count=$(registry_count 2>/dev/null || echo 0)
+
     echo -e "${GREEN}What would you like to do?${NC}"
+    echo -e "Projects: ${BLUE}$project_count${NC} | Pending Learnings: ${BLUE}$learning_count${NC}"
     echo ""
     echo "  1. Create new project"
     echo "  2. Continue existing project"
     echo "  3. List all projects"
-    echo "  4. Deploy project"
-    echo "  5. Run tests"
-    echo "  6. Create backup"
-    echo "  7. Health check (doctor)"
-    echo "  8. Browse knowledge base"
-    echo "  9. Help"
+    echo "  4. Register existing project"
+    echo "  5. Deploy project"
+    echo "  6. Run tests"
+    echo "  7. Create backup"
+    echo "  8. Health check (doctor)"
+    echo "  9. Browse knowledge base"
+    echo " 10. Capture learning"
+    echo " 11. Review learnings"
+    echo " 12. Help"
     echo "  0. Exit"
     echo ""
 }
@@ -65,8 +84,8 @@ handle_selection() {
             ;;
         2)
             echo ""
-            echo "Available projects:"
-            ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
+            echo "Registered projects:"
+            registry_list simple 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
             echo ""
             read -p "Enter project name to continue: " project_name
             if [ -n "$project_name" ]; then
@@ -80,6 +99,15 @@ handle_selection() {
             ;;
         4)
             echo ""
+            read -p "Enter path to existing project: " project_path
+            if [ -n "$project_path" ]; then
+                source "$CLI_DIR/register.sh" "$project_path"
+            else
+                echo -e "${RED}Path is required${NC}"
+            fi
+            ;;
+        5)
+            echo ""
             echo "Deploy options:"
             echo "  1. Staging"
             echo "  2. Production"
@@ -90,21 +118,27 @@ handle_selection() {
                 *) echo -e "${RED}Invalid option${NC}" ;;
             esac
             ;;
-        5)
+        6)
             source "$CLI_DIR/test.sh"
             ;;
-        6)
+        7)
             source "$CLI_DIR/backup.sh"
             ;;
-        7)
+        8)
             source "$CLI_DIR/doctor.sh"
             ;;
-        8)
+        9)
             source "$CLI_DIR/knowledge.sh"
             ;;
-        9)
+        10)
+            source "$CLI_DIR/learn.sh"
+            ;;
+        11)
+            source "$CLI_DIR/knowledge-review.sh"
+            ;;
+        12)
             echo ""
-            echo -e "${GREEN}WPF - WordPress Site Factory${NC}"
+            echo -e "${GREEN}WPF - WordPress Site Factory v0.1.0-beta${NC}"
             echo ""
             echo "A CLI tool for rapidly creating WordPress websites."
             echo ""
@@ -115,14 +149,20 @@ handle_selection() {
             echo "  4. Test               - Run E2E and Lighthouse tests"
             echo "  5. Deploy             - Push to staging or production"
             echo ""
+            echo -e "${CYAN}Knowledge System:${NC}"
+            echo "  • Capture learnings - Record insights during development"
+            echo "  • Review learnings  - See pending knowledge"
+            echo "  • Knowledge base    - Browse all documentation"
+            echo ""
             echo -e "${CYAN}Directories:${NC}"
-            echo "  Projects:  $PROJECTS_DIR"
-            echo "  Knowledge: $WPF_ROOT/knowledge/"
-            echo "  Templates: $WPF_ROOT/templates/"
+            echo "  Projects:   $PROJECTS_DIR"
+            echo "  Knowledge:  $WPF_ROOT/knowledge/"
+            echo "  Learnings:  $WPF_ROOT/learnings/"
+            echo "  Templates:  $WPF_ROOT/templates/"
             echo ""
             echo -e "${CYAN}Documentation:${NC}"
-            echo "  README:    $WPF_ROOT/README.md"
-            echo "  AI Guide:  $WPF_ROOT/CLAUDE.md"
+            echo "  README:     $WPF_ROOT/README.md"
+            echo "  AI Guide:   $WPF_ROOT/CLAUDE.md"
             echo ""
             ;;
         0)
@@ -131,7 +171,7 @@ handle_selection() {
             exit 0
             ;;
         *)
-            echo -e "${RED}Invalid option. Please select 0-9.${NC}"
+            echo -e "${RED}Invalid option. Please select 0-12.${NC}"
             ;;
     esac
 }
@@ -142,7 +182,7 @@ main_interactive() {
 
     while true; do
         print_menu
-        read -p "Select option (0-9): " choice
+        read -p "Select option (0-12): " choice
         handle_selection "$choice"
 
         if [ "$choice" != "0" ]; then
@@ -172,8 +212,8 @@ main() {
                 ;;
             continue)
                 if [ -z "$1" ]; then
-                    echo "Available projects:"
-                    ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
+                    echo "Registered projects:"
+                    registry_list simple 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
                     read -p "Enter project name: " project_name
                     source "$CLI_DIR/continue.sh" "$project_name"
                 else
@@ -182,6 +222,12 @@ main() {
                 ;;
             list)
                 source "$CLI_DIR/list.sh"
+                ;;
+            register)
+                source "$CLI_DIR/register.sh" "$@"
+                ;;
+            unregister)
+                source "$CLI_DIR/unregister.sh" "$@"
                 ;;
             deploy)
                 source "$CLI_DIR/deploy.sh" "$@"
@@ -195,8 +241,37 @@ main() {
             doctor)
                 source "$CLI_DIR/doctor.sh"
                 ;;
+            build)
+                source "$CLI_DIR/build.sh" "$@"
+                ;;
+            optimize)
+                source "$CLI_DIR/optimize.sh" "$@"
+                ;;
+            verify)
+                source "$CLI_DIR/verify.sh" "$@"
+                ;;
+            discover)
+                source "$CLI_DIR/discover.sh" "$@"
+                ;;
+            content)
+                source "$CLI_DIR/content.sh" "$@"
+                ;;
+            auto)
+                source "$CLI_DIR/auto.sh" "$@"
+                ;;
             knowledge)
-                source "$CLI_DIR/knowledge.sh"
+                if [ "$1" = "review" ]; then
+                    shift
+                    source "$CLI_DIR/knowledge-review.sh" "$@"
+                elif [ "$1" = "merge" ]; then
+                    shift
+                    source "$CLI_DIR/knowledge-merge.sh" "$@"
+                else
+                    source "$CLI_DIR/knowledge.sh"
+                fi
+                ;;
+            learn)
+                source "$CLI_DIR/learn.sh" "$@"
                 ;;
             help|-h|--help)
                 print_banner
@@ -204,20 +279,43 @@ main() {
                 echo ""
                 echo "Run 'wpf' without arguments for interactive menu."
                 echo ""
-                echo -e "${GREEN}Commands:${NC}"
-                echo "  create <name>     Create a new WordPress project"
-                echo "  continue <name>   Continue working on existing project"
-                echo "  list              List all projects"
-                echo "  deploy <env>      Deploy project (staging|production)"
-                echo "  test              Run all tests"
-                echo "  backup            Create full backup"
-                echo "  doctor            Health check for current project"
-                echo "  knowledge         Browse knowledge base"
-                echo "  help              Show this help message"
+                echo -e "${GREEN}Project Commands:${NC}"
+                echo "  create <name>        Create a new WordPress project"
+                echo "  continue <name>      Continue working on existing project"
+                echo "  discover [opts]      Interactive discovery wizard for config"
+                echo "                       Options: --quick, --json"
+                echo "  list                 List all registered projects"
+                echo "  register <path>      Register an existing project"
+                echo "  unregister <name>    Remove project from registry"
+                echo ""
+                echo -e "${GREEN}Development Commands:${NC}"
+                echo "  build [target]       Build assets (css|images|critical|watch|all)"
+                echo "  optimize [target]    Configure plugins (plugins|seo|cache|images|all)"
+                echo "  content [cmd]        Generate content (prompts|pages|services|generate)"
+                echo "  test [target]        Run tests (local|staging|production|URL)"
+                echo "  deploy <env> [opts]  Deploy project (staging|production)"
+                echo "                       Options: --build, --verify, --full, --dry-run"
+                echo "  verify [target]      Verify deployment (smoke|files|performance|all)"
+                echo "  backup               Create full backup"
+                echo "  doctor               Health check for current project"
+                echo ""
+                echo -e "${GREEN}Automation:${NC}"
+                echo "  auto [opts]          Full automation: discover → create → build → deploy"
+                echo "                       Options: --quick, --skip-deploy, --skip-content"
+                echo ""
+                echo -e "${GREEN}Knowledge Commands:${NC}"
+                echo "  knowledge            Browse knowledge base"
+                echo "  knowledge review     Review pending learnings"
+                echo "  knowledge merge      Merge learnings into knowledge base"
+                echo "  learn [category]     Capture a new learning"
+                echo ""
+                echo -e "${GREEN}Other:${NC}"
+                echo "  help                 Show this help message"
+                echo "  version              Show version"
                 echo ""
                 ;;
             version|-v|--version)
-                echo "WPF v1.0.0"
+                echo "WPF v0.2.0-beta"
                 ;;
             *)
                 echo -e "${RED}Unknown command: $COMMAND${NC}"

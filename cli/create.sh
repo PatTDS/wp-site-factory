@@ -2,6 +2,13 @@
 #
 # wpf create - Create a new WordPress project
 #
+# Auto-registers project in WPF registry upon creation
+#
+
+# Source registry library if not already loaded
+if [ -z "$(type -t registry_add 2>/dev/null)" ]; then
+    source "$WPF_ROOT/lib/registry.sh"
+fi
 
 # Ensure we have a project name
 if [ -z "$1" ]; then
@@ -13,9 +20,22 @@ fi
 PROJECT_NAME="$1"
 PROJECT_DIR="$PROJECTS_DIR/$PROJECT_NAME"
 
-# Check if project already exists
+# Check if project already exists in directory
 if [ -d "$PROJECT_DIR" ]; then
     echo -e "${YELLOW}Warning:${NC} Project '$PROJECT_NAME' already exists at $PROJECT_DIR"
+    read -p "Do you want to continue working on it? (y/n): " continue_choice
+    if [ "$continue_choice" = "y" ]; then
+        source "$CLI_DIR/continue.sh" "$PROJECT_NAME"
+        exit 0
+    else
+        exit 1
+    fi
+fi
+
+# Check if project name already exists in registry
+if registry_exists "$PROJECT_NAME"; then
+    existing_path=$(registry_get_path "$PROJECT_NAME")
+    echo -e "${YELLOW}Warning:${NC} Project '$PROJECT_NAME' already registered at $existing_path"
     read -p "Do you want to continue working on it? (y/n): " continue_choice
     if [ "$continue_choice" = "y" ]; then
         source "$CLI_DIR/continue.sh" "$PROJECT_NAME"
@@ -393,9 +413,16 @@ See [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md) for full project details.
 *Created with WPF (WordPress Site Factory)*
 README
 
+# =====================================================
+# REGISTER PROJECT
+# =====================================================
+echo ""
+echo -e "${GREEN}Registering project in WPF...${NC}"
+registry_add "$PROJECT_NAME" "$PROJECT_DIR" "$COMPANY_NAME" "$DOMAIN"
+
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}✓ Project '$PROJECT_NAME' created successfully!${NC}"
+echo -e "${GREEN}✓ Project '$PROJECT_NAME' created and registered!${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo -e "Project Location: ${BLUE}$PROJECT_DIR${NC}"

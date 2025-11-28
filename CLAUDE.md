@@ -1,10 +1,14 @@
 # WPF - WordPress Site Factory
 
+**Version: 0.1.0-beta**
+
 ## Overview
 
 WPF (WordPress Site Factory) is a CLI-driven framework for rapidly creating production-ready WordPress websites. It contains accumulated knowledge from real projects, validated best practices, and reusable templates.
 
 **Goal:** Create professional websites from initial concept to production deployment in the shortest possible time.
+
+**Status:** Beta - Under active development and testing.
 
 ## Quick Start
 
@@ -12,15 +16,34 @@ WPF (WordPress Site Factory) is a CLI-driven framework for rapidly creating prod
 # Add to PATH (one time)
 export PATH="$PATH:/home/atric/wp-site-factory/bin"
 
-# Create new project
-wpf create company-name
+# Run interactive menu
+wpf
 
-# Continue existing project
-wpf continue company-name
-
-# List all projects
-wpf list
+# Or use direct commands:
+wpf create company-name    # Create new project
+wpf continue company-name  # Continue existing
+wpf list                   # List all projects
+wpf register /path/to/site # Register existing project
 ```
+
+## Core Concepts
+
+### Project Registry
+
+WPF tracks all projects in `.wpf-registry.json`:
+- Projects can live anywhere on your filesystem
+- Use `wpf register` to add existing WordPress projects
+- Use `wpf list` to see all registered projects
+- Use `wpf continue <name>` to quickly switch between projects
+
+### Learning System
+
+Capture knowledge as you work:
+- `wpf learn` - Record insights, fixes, discoveries
+- `wpf knowledge review` - Review pending learnings
+- `wpf knowledge merge` - Add learnings to knowledge base
+
+Categories: wordpress, webdesign, deployment, performance, testing
 
 ## Project Creation Workflow
 
@@ -91,12 +114,21 @@ wpf deploy production  # Final deployment
 ├── cli/                    # CLI command scripts
 │   ├── create.sh          # Create new project
 │   ├── continue.sh        # Continue existing
+│   ├── register.sh        # Register existing project
+│   ├── unregister.sh      # Remove from registry
+│   ├── list.sh            # List projects
 │   ├── deploy.sh          # Deploy to hosting
 │   ├── test.sh            # Run tests
 │   ├── backup.sh          # Create backups
 │   ├── doctor.sh          # Health check
-│   ├── list.sh            # List projects
-│   └── knowledge.sh       # Browse knowledge
+│   ├── knowledge.sh       # Browse knowledge
+│   ├── learn.sh           # Capture learning
+│   ├── knowledge-review.sh  # Review learnings
+│   └── knowledge-merge.sh   # Merge learnings
+│
+├── lib/                    # Shared libraries
+│   ├── registry.sh        # Project registry functions
+│   └── learnings.sh       # Learning capture functions
 │
 ├── knowledge/              # Accumulated knowledge
 │   ├── wordpress/         # WP best practices
@@ -104,6 +136,13 @@ wpf deploy production  # Final deployment
 │   ├── deployment/        # Hosting guides
 │   ├── performance/       # Optimization
 │   └── testing/           # Test strategies
+│
+├── learnings/              # Captured learnings (pending merge)
+│   ├── wordpress/
+│   ├── webdesign/
+│   ├── deployment/
+│   ├── performance/
+│   └── testing/
 │
 ├── templates/              # Project templates
 │   ├── docker/            # Docker configs
@@ -117,8 +156,41 @@ wpf deploy production  # Final deployment
 │   ├── design.md          # Design decisions
 │   └── pre-launch.md      # Launch checklist
 │
-└── projects/              # Created projects
+├── projects/              # WPF-created projects
+└── .wpf-registry.json     # Project registry
 ```
+
+## Commands Reference
+
+### Project Management
+
+| Command | Description |
+|---------|-------------|
+| `wpf` | Interactive menu |
+| `wpf create <name>` | Create new project |
+| `wpf continue <name>` | Resume project |
+| `wpf list` | List all projects |
+| `wpf register <path>` | Register existing project |
+| `wpf unregister <name>` | Remove from registry |
+
+### Development
+
+| Command | Description |
+|---------|-------------|
+| `wpf deploy staging` | Deploy to staging |
+| `wpf deploy production` | Deploy to production |
+| `wpf test` | Run all tests |
+| `wpf backup` | Create backup |
+| `wpf doctor` | Health check |
+
+### Knowledge
+
+| Command | Description |
+|---------|-------------|
+| `wpf knowledge` | Browse knowledge base |
+| `wpf learn` | Capture new learning |
+| `wpf knowledge review` | Review learnings |
+| `wpf knowledge merge` | Merge to knowledge base |
 
 ## Key Knowledge Files
 
@@ -259,7 +331,7 @@ find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 ```
 
-## Creating New Projects - AI Instructions
+## AI Instructions
 
 When asked to create a new website:
 
@@ -274,6 +346,7 @@ When asked to create a new website:
    - Follow patterns in templates
    - Reference knowledge base for best practices
    - Test frequently with `wpf test`
+   - **Capture learnings with `wpf learn`**
 
 4. **Before launch**:
    - Complete `prompts/pre-launch.md` checklist
@@ -285,13 +358,32 @@ When asked to create a new website:
    - Monitor for 24 hours
    - Verify analytics working
    - Document project completion
+   - **Merge any learnings with `wpf knowledge merge`**
+
+## Registering Existing Projects
+
+To add a WordPress project that wasn't created with WPF:
+
+```bash
+wpf register /path/to/my-wordpress-project
+
+# Or with a custom name
+wpf register /path/to/project custom-name
+```
+
+The registration wizard will:
+- Auto-detect project info from existing files
+- Create `.wpf-config` if missing
+- Add to central registry
 
 ## Version
 
-WPF v1.0.0
+WPF v0.1.0-beta
 Based on NatiGeo project experience
 Created: 2025-11-28
+Status: Under active development
 
 ---
 
 *This framework is designed for rapid WordPress development with AI assistance.*
+*Version 0.1.0-beta - Being refined through real-world usage.*

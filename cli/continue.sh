@@ -2,6 +2,13 @@
 #
 # wpf continue - Continue working on an existing project
 #
+# Uses registry to find project location
+#
+
+# Source registry library if not already loaded
+if [ -z "$(type -t registry_get_path 2>/dev/null)" ]; then
+    source "$WPF_ROOT/lib/registry.sh"
+fi
 
 # Ensure we have a project name
 if [ -z "$1" ]; then
@@ -9,20 +16,57 @@ if [ -z "$1" ]; then
     echo "Usage: wpf continue <project-name>"
     echo ""
     echo "Available projects:"
-    ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /'
+
+    # List from registry first
+    registry_init
+    project_count=$(registry_count)
+
+    if [ "$project_count" -gt 0 ]; then
+        registry_list simple | sed 's/^/  - /'
+    else
+        # Fallback to old directory method
+        ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
+    fi
     exit 1
 fi
 
 PROJECT_NAME="$1"
-PROJECT_DIR="$PROJECTS_DIR/$PROJECT_NAME"
 
-# Check if project exists
-if [ ! -d "$PROJECT_DIR" ]; then
-    echo -e "${RED}Error:${NC} Project '$PROJECT_NAME' not found"
-    echo ""
-    echo "Available projects:"
-    ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /'
-    exit 1
+# First, try to find project in registry
+if registry_exists "$PROJECT_NAME"; then
+    PROJECT_DIR=$(registry_get_path "$PROJECT_NAME")
+    if [ -z "$PROJECT_DIR" ] || [ ! -d "$PROJECT_DIR" ]; then
+        echo -e "${RED}Error:${NC} Project '$PROJECT_NAME' registered but path not found: $PROJECT_DIR"
+        echo ""
+        echo "Use 'wpf unregister $PROJECT_NAME' to remove from registry."
+        exit 1
+    fi
+else
+    # Fallback: check old projects directory
+    PROJECT_DIR="$PROJECTS_DIR/$PROJECT_NAME"
+
+    if [ ! -d "$PROJECT_DIR" ]; then
+        echo -e "${RED}Error:${NC} Project '$PROJECT_NAME' not found"
+        echo ""
+        echo "Available registered projects:"
+        registry_list simple | sed 's/^/  - /' 2>/dev/null || echo "  (none)"
+        echo ""
+        echo "You can register an existing project with:"
+        echo "  wpf register <path-to-project>"
+        exit 1
+    else
+        # Found in old location, offer to register
+        echo -e "${YELLOW}Note:${NC} Project found but not registered."
+        read -p "Register this project in WPF? (y/n): " register_choice
+        if [ "$register_choice" = "y" ]; then
+            # Load config if available for registration
+            if [ -f "$PROJECT_DIR/.wpf-config" ]; then
+                source "$PROJECT_DIR/.wpf-config"
+            fi
+            registry_add "$PROJECT_NAME" "$PROJECT_DIR" "${COMPANY_NAME:-}" "${DOMAIN:-}"
+            echo -e "${GREEN}✓ Project registered!${NC}"
+        fi
+    fi
 fi
 
 # Load project config
@@ -33,6 +77,7 @@ fi
 
 print_banner
 echo -e "${GREEN}Continuing project:${NC} $PROJECT_NAME"
+echo -e "Location: ${BLUE}$PROJECT_DIR${NC}"
 echo ""
 
 # Show project context
