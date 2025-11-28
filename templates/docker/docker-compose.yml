@@ -1,0 +1,91 @@
+version: '3.8'
+
+# WordPress Development Environment
+# Replace {{PROJECT_NAME}} with your project name before use
+
+services:
+  wordpress:
+    image: wordpress:6.7-php8.2-apache
+    container_name: {{PROJECT_NAME}}_wordpress
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_MEMORY_LIMIT', '256M');
+        define('WP_MAX_MEMORY_LIMIT', '512M');
+        define('DISALLOW_FILE_EDIT', true);
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content/themes:/var/www/html/wp-content/themes
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+    depends_on:
+      - db
+    networks:
+      - {{PROJECT_NAME}}_network
+
+  db:
+    image: mysql:8.0
+    container_name: {{PROJECT_NAME}}_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - {{PROJECT_NAME}}_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: {{PROJECT_NAME}}_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: wordpress
+      PMA_PASSWORD: wordpress
+    depends_on:
+      - db
+    networks:
+      - {{PROJECT_NAME}}_network
+
+  # Optional: Redis for object caching
+  redis:
+    image: redis:alpine
+    container_name: {{PROJECT_NAME}}_redis
+    restart: unless-stopped
+    networks:
+      - {{PROJECT_NAME}}_network
+
+  # Optional: WP-CLI for command line management
+  wpcli:
+    image: wordpress:cli
+    container_name: {{PROJECT_NAME}}_wpcli
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content/themes:/var/www/html/wp-content/themes
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+    depends_on:
+      - db
+      - wordpress
+    networks:
+      - {{PROJECT_NAME}}_network
+    entrypoint: ["wp", "--allow-root"]
+    command: ["--info"]
+
+volumes:
+  wordpress_data:
+  db_data:
+
+networks:
+  {{PROJECT_NAME}}_network:
+    driver: bridge

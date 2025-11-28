@@ -1,0 +1,17 @@
+{
+  "name": "{{PROJECT_NAME}}-tests",
+  "version": "1.0.0",
+  "description": "Test suite for {{COMPANY_NAME}} website",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "lighthouse": "lighthouse http://localhost:8080 --output=html --output-path=./lighthouse-report.html --chrome-flags=\"--headless\""
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "lighthouse": "^12.0.0"
+  }
+}

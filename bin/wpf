@@ -1,0 +1,101 @@
+#!/bin/bash
+#
+# WPF - WordPress Site Factory CLI
+# Rapidly create WordPress websites from development to production
+#
+# Usage: wpf <command> [options]
+#
+
+set -e
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WPF_ROOT="$(dirname "$SCRIPT_DIR")"
+CLI_DIR="$WPF_ROOT/cli"
+PROJECTS_DIR="$WPF_ROOT/projects"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Print banner
+print_banner() {
+    echo -e "${CYAN}"
+    echo "╔═══════════════════════════════════════════════════════════╗"
+    echo "║     WPF - WordPress Site Factory                          ║"
+    echo "║     Rapid WordPress Development to Production             ║"
+    echo "╚═══════════════════════════════════════════════════════════╝"
+    echo -e "${NC}"
+}
+
+# Print usage
+print_usage() {
+    echo -e "${GREEN}Usage:${NC} wpf <command> [options]"
+    echo ""
+    echo -e "${GREEN}Commands:${NC}"
+    echo "  create <name>     Create a new WordPress project"
+    echo "  continue <name>   Continue working on existing project"
+    echo "  list              List all projects"
+    echo "  deploy <env>      Deploy project (staging|production)"
+    echo "  test              Run all tests (E2E, Lighthouse, A11y)"
+    echo "  backup            Create full backup"
+    echo "  doctor            Health check for current project"
+    echo "  knowledge         Browse knowledge base"
+    echo "  help              Show this help message"
+    echo ""
+    echo -e "${GREEN}Examples:${NC}"
+    echo "  wpf create acme-corp      # Create new project for ACME Corp"
+    echo "  wpf continue acme-corp    # Resume work on ACME project"
+    echo "  wpf deploy staging        # Deploy to staging environment"
+    echo "  wpf test                  # Run all tests"
+    echo ""
+    echo -e "${YELLOW}Documentation:${NC} $WPF_ROOT/README.md"
+    echo -e "${YELLOW}Knowledge Base:${NC} $WPF_ROOT/knowledge/"
+}
+
+# Check if command exists
+command_exists() {
+    [ -f "$CLI_DIR/$1.sh" ]
+}
+
+# Main
+main() {
+    if [ $# -eq 0 ]; then
+        print_banner
+        print_usage
+        exit 0
+    fi
+
+    COMMAND=$1
+    shift
+
+    case $COMMAND in
+        create|continue|deploy|test|backup|doctor|list|knowledge)
+            if command_exists "$COMMAND"; then
+                source "$CLI_DIR/$COMMAND.sh" "$@"
+            else
+                echo -e "${RED}Error:${NC} Command '$COMMAND' not implemented yet"
+                exit 1
+            fi
+            ;;
+        help|-h|--help)
+            print_banner
+            print_usage
+            ;;
+        version|-v|--version)
+            echo "WPF v1.0.0"
+            ;;
+        *)
+            echo -e "${RED}Error:${NC} Unknown command '$COMMAND'"
+            echo ""
+            print_usage
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
