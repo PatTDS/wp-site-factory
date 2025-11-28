@@ -3,7 +3,7 @@
 # WPF - WordPress Site Factory CLI
 # Rapidly create WordPress websites from development to production
 #
-# Usage: wpf <command> [options]
+# Usage: wpf [command]
 #
 
 set -e
@@ -32,70 +32,203 @@ print_banner() {
     echo -e "${NC}"
 }
 
-# Print usage
-print_usage() {
-    echo -e "${GREEN}Usage:${NC} wpf <command> [options]"
+# Print menu
+print_menu() {
+    echo -e "${GREEN}What would you like to do?${NC}"
     echo ""
-    echo -e "${GREEN}Commands:${NC}"
-    echo "  create <name>     Create a new WordPress project"
-    echo "  continue <name>   Continue working on existing project"
-    echo "  list              List all projects"
-    echo "  deploy <env>      Deploy project (staging|production)"
-    echo "  test              Run all tests (E2E, Lighthouse, A11y)"
-    echo "  backup            Create full backup"
-    echo "  doctor            Health check for current project"
-    echo "  knowledge         Browse knowledge base"
-    echo "  help              Show this help message"
+    echo "  1. Create new project"
+    echo "  2. Continue existing project"
+    echo "  3. List all projects"
+    echo "  4. Deploy project"
+    echo "  5. Run tests"
+    echo "  6. Create backup"
+    echo "  7. Health check (doctor)"
+    echo "  8. Browse knowledge base"
+    echo "  9. Help"
+    echo "  0. Exit"
     echo ""
-    echo -e "${GREEN}Examples:${NC}"
-    echo "  wpf create acme-corp      # Create new project for ACME Corp"
-    echo "  wpf continue acme-corp    # Resume work on ACME project"
-    echo "  wpf deploy staging        # Deploy to staging environment"
-    echo "  wpf test                  # Run all tests"
-    echo ""
-    echo -e "${YELLOW}Documentation:${NC} $WPF_ROOT/README.md"
-    echo -e "${YELLOW}Knowledge Base:${NC} $WPF_ROOT/knowledge/"
 }
 
-# Check if command exists
-command_exists() {
-    [ -f "$CLI_DIR/$1.sh" ]
-}
+# Handle menu selection
+handle_selection() {
+    local choice=$1
 
-# Main
-main() {
-    if [ $# -eq 0 ]; then
-        print_banner
-        print_usage
-        exit 0
-    fi
-
-    COMMAND=$1
-    shift
-
-    case $COMMAND in
-        create|continue|deploy|test|backup|doctor|list|knowledge)
-            if command_exists "$COMMAND"; then
-                source "$CLI_DIR/$COMMAND.sh" "$@"
+    case $choice in
+        1)
+            echo ""
+            read -p "Enter project name (e.g., acme-corp): " project_name
+            if [ -n "$project_name" ]; then
+                source "$CLI_DIR/create.sh" "$project_name"
             else
-                echo -e "${RED}Error:${NC} Command '$COMMAND' not implemented yet"
-                exit 1
+                echo -e "${RED}Project name is required${NC}"
             fi
             ;;
-        help|-h|--help)
-            print_banner
-            print_usage
+        2)
+            echo ""
+            echo "Available projects:"
+            ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
+            echo ""
+            read -p "Enter project name to continue: " project_name
+            if [ -n "$project_name" ]; then
+                source "$CLI_DIR/continue.sh" "$project_name"
+            else
+                echo -e "${RED}Project name is required${NC}"
+            fi
             ;;
-        version|-v|--version)
-            echo "WPF v1.0.0"
+        3)
+            source "$CLI_DIR/list.sh"
+            ;;
+        4)
+            echo ""
+            echo "Deploy options:"
+            echo "  1. Staging"
+            echo "  2. Production"
+            read -p "Select environment (1-2): " env_choice
+            case $env_choice in
+                1) source "$CLI_DIR/deploy.sh" staging ;;
+                2) source "$CLI_DIR/deploy.sh" production ;;
+                *) echo -e "${RED}Invalid option${NC}" ;;
+            esac
+            ;;
+        5)
+            source "$CLI_DIR/test.sh"
+            ;;
+        6)
+            source "$CLI_DIR/backup.sh"
+            ;;
+        7)
+            source "$CLI_DIR/doctor.sh"
+            ;;
+        8)
+            source "$CLI_DIR/knowledge.sh"
+            ;;
+        9)
+            echo ""
+            echo -e "${GREEN}WPF - WordPress Site Factory${NC}"
+            echo ""
+            echo "A CLI tool for rapidly creating WordPress websites."
+            echo ""
+            echo -e "${CYAN}Workflow:${NC}"
+            echo "  1. Create new project - Interactive wizard to set up a new site"
+            echo "  2. Continue project   - Resume work on an existing project"
+            echo "  3. Develop            - Customize theme, add content"
+            echo "  4. Test               - Run E2E and Lighthouse tests"
+            echo "  5. Deploy             - Push to staging or production"
+            echo ""
+            echo -e "${CYAN}Directories:${NC}"
+            echo "  Projects:  $PROJECTS_DIR"
+            echo "  Knowledge: $WPF_ROOT/knowledge/"
+            echo "  Templates: $WPF_ROOT/templates/"
+            echo ""
+            echo -e "${CYAN}Documentation:${NC}"
+            echo "  README:    $WPF_ROOT/README.md"
+            echo "  AI Guide:  $WPF_ROOT/CLAUDE.md"
+            echo ""
+            ;;
+        0)
+            echo ""
+            echo -e "${GREEN}Goodbye!${NC}"
+            exit 0
             ;;
         *)
-            echo -e "${RED}Error:${NC} Unknown command '$COMMAND'"
-            echo ""
-            print_usage
-            exit 1
+            echo -e "${RED}Invalid option. Please select 0-9.${NC}"
             ;;
     esac
+}
+
+# Main interactive loop
+main_interactive() {
+    print_banner
+
+    while true; do
+        print_menu
+        read -p "Select option (0-9): " choice
+        handle_selection "$choice"
+
+        if [ "$choice" != "0" ]; then
+            echo ""
+            read -p "Press Enter to continue..."
+            clear
+            print_banner
+        fi
+    done
+}
+
+# Main entry point
+main() {
+    # If command provided as argument, execute directly
+    if [ $# -gt 0 ]; then
+        COMMAND=$1
+        shift
+
+        case $COMMAND in
+            create)
+                if [ -z "$1" ]; then
+                    read -p "Enter project name: " project_name
+                    source "$CLI_DIR/create.sh" "$project_name"
+                else
+                    source "$CLI_DIR/create.sh" "$@"
+                fi
+                ;;
+            continue)
+                if [ -z "$1" ]; then
+                    echo "Available projects:"
+                    ls -1 "$PROJECTS_DIR" 2>/dev/null | sed 's/^/  - /' || echo "  (none)"
+                    read -p "Enter project name: " project_name
+                    source "$CLI_DIR/continue.sh" "$project_name"
+                else
+                    source "$CLI_DIR/continue.sh" "$@"
+                fi
+                ;;
+            list)
+                source "$CLI_DIR/list.sh"
+                ;;
+            deploy)
+                source "$CLI_DIR/deploy.sh" "$@"
+                ;;
+            test)
+                source "$CLI_DIR/test.sh"
+                ;;
+            backup)
+                source "$CLI_DIR/backup.sh"
+                ;;
+            doctor)
+                source "$CLI_DIR/doctor.sh"
+                ;;
+            knowledge)
+                source "$CLI_DIR/knowledge.sh"
+                ;;
+            help|-h|--help)
+                print_banner
+                echo -e "${GREEN}Usage:${NC} wpf [command] [options]"
+                echo ""
+                echo "Run 'wpf' without arguments for interactive menu."
+                echo ""
+                echo -e "${GREEN}Commands:${NC}"
+                echo "  create <name>     Create a new WordPress project"
+                echo "  continue <name>   Continue working on existing project"
+                echo "  list              List all projects"
+                echo "  deploy <env>      Deploy project (staging|production)"
+                echo "  test              Run all tests"
+                echo "  backup            Create full backup"
+                echo "  doctor            Health check for current project"
+                echo "  knowledge         Browse knowledge base"
+                echo "  help              Show this help message"
+                echo ""
+                ;;
+            version|-v|--version)
+                echo "WPF v1.0.0"
+                ;;
+            *)
+                echo -e "${RED}Unknown command: $COMMAND${NC}"
+                echo "Run 'wpf help' for usage information."
+                exit 1
+                ;;
+        esac
+    else
+        # No arguments - run interactive mode
+        main_interactive
+    fi
 }
 
 main "$@"
