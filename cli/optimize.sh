@@ -37,8 +37,26 @@ check_docker() {
 }
 
 # Execute WP-CLI command in Docker
+# Tries multiple strategies: wpcli service, wordpress container, docker exec by name
 wp_cli() {
-    docker-compose exec -T wordpress wp "$@" --allow-root 2>/dev/null
+    # Strategy 1: Use dedicated wpcli service (preferred)
+    if docker-compose ps 2>/dev/null | grep -q "wpcli"; then
+        docker-compose run --rm wpcli "$@" 2>/dev/null && return 0
+    fi
+
+    # Strategy 2: Try wordpress service with wp command
+    if docker-compose exec -T wordpress which wp >/dev/null 2>&1; then
+        docker-compose exec -T wordpress wp "$@" --allow-root 2>/dev/null && return 0
+    fi
+
+    # Strategy 3: Try container by project name pattern
+    local container=$(docker ps --format '{{.Names}}' | grep -E "(wordpress|wp)" | head -1)
+    if [ -n "$container" ]; then
+        docker exec "$container" wp "$@" --allow-root 2>/dev/null && return 0
+    fi
+
+    echo "WP-CLI not available" >&2
+    return 1
 }
 
 # Install required plugins
