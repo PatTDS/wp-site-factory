@@ -219,6 +219,91 @@ test('should pass accessibility checks', async ({ page }) => {
 - [ ] No broken links
 - [ ] Correct contact info
 
+## Production Testing Best Practices
+
+### Running Tests Against Production
+```bash
+# Use BASE_URL environment variable
+BASE_URL=https://production-domain.com npx playwright test
+
+# Exclude admin tests (require authentication)
+BASE_URL=https://production-domain.com npx playwright test --grep-invert "admin"
+```
+
+### Common Production Test Issues & Fixes
+
+#### 1. aria-hidden Elements
+Icons with `aria-hidden="true"` fail visibility checks:
+```javascript
+// ❌ Fails for aria-hidden
+await expect(icon).toBeVisible();
+
+// ✅ Use count instead
+const iconCount = await icon.count();
+expect(iconCount).toBeGreaterThan(0);
+```
+
+#### 2. Multiple Footer Elements
+Pages may have multiple `<footer>` tags:
+```javascript
+// ❌ Strict mode violation
+const footer = page.locator('footer');
+
+// ✅ Target specific footer
+const footer = page.locator('footer').first();
+// or use specific selector
+const mainFooter = page.locator('footer[role="contentinfo"]');
+```
+
+#### 3. Environment-Agnostic URLs
+```javascript
+// ❌ Hardcoded
+expect(url).toContain('localhost:8080');
+
+// ✅ Use BASE_URL
+const baseUrl = process.env.BASE_URL || 'http://localhost:8080';
+expect(url.startsWith(baseUrl)).toBeTruthy();
+```
+
+#### 4. Form Submission Verification
+Custom forms may not use standard CF7 response classes:
+```javascript
+// Check multiple indicators
+const hasCustomMessage = await page.locator('#contact-message')
+  .evaluate(el => el.textContent.trim().length > 0).catch(() => false);
+const hasCF7Success = await page.locator('.wpcf7-mail-sent-ok')
+  .isVisible().catch(() => false);
+const formCleared = await emailInput
+  .evaluate(el => el.value === '').catch(() => false);
+
+expect(hasCustomMessage || hasCF7Success || formCleared).toBeTruthy();
+```
+
+#### 5. Production Timing
+Production needs longer waits than localhost:
+```javascript
+await page.waitForLoadState('networkidle');
+await page.waitForTimeout(1000); // Extra stabilization
+
+// Scroll before interacting
+await element.scrollIntoViewIfNeeded();
+await page.waitForTimeout(500);
+```
+
+### Test Configuration for Multi-Environment
+```javascript
+// playwright.config.js
+module.exports = defineConfig({
+  use: {
+    baseURL: process.env.BASE_URL || 'http://localhost:8080',
+    // Longer timeouts for production
+    actionTimeout: process.env.BASE_URL ? 10000 : 5000,
+  },
+});
+```
+
+---
+
 ## Automated Test Script
 ```bash
 #!/bin/bash
