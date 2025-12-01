@@ -93,16 +93,29 @@ fi
 echo ""
 
 # Show updated knowledge base locations
+WP_KB="/home/atric/wordpress-knowledge-base"
+
 echo "Updated knowledge files:"
-for category in wordpress webdesign deployment performance testing; do
-    local_file="$WPF_ROOT/knowledge/$category/lessons-learned.md"
-    if [ -f "$local_file" ]; then
-        count=$(grep -c "^### " "$local_file" 2>/dev/null || echo 0)
-        echo "  $category: $count entries"
-    fi
-done
+echo ""
+echo "  WordPress KB (external):"
+if [ -f "$WP_KB/examples/examples-natigeo-lessons.md" ]; then
+    count=$(grep -c "^### " "$WP_KB/examples/examples-natigeo-lessons.md" 2>/dev/null || echo 0)
+    echo "    examples-natigeo-lessons.md: $count entries"
+fi
+if [ -f "$WP_KB/examples/examples-testing-patterns.md" ]; then
+    count=$(grep -c "^### " "$WP_KB/examples/examples-testing-patterns.md" 2>/dev/null || echo 0)
+    echo "    examples-testing-patterns.md: $count entries"
+fi
+
+echo ""
+echo "  Local (webdesign):"
+if [ -f "$WPF_ROOT/knowledge/webdesign/lessons-learned.md" ]; then
+    count=$(grep -c "^### " "$WPF_ROOT/knowledge/webdesign/lessons-learned.md" 2>/dev/null || echo 0)
+    echo "    lessons-learned.md: $count entries"
+fi
 echo ""
 
-echo "Knowledge base updated. Files can be found in:"
-echo "  $WPF_ROOT/knowledge/"
+echo "Knowledge base locations:"
+echo "  WordPress: $WP_KB"
+echo "  Local:     $WPF_ROOT/knowledge/"
 echo ""

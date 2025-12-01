@@ -89,7 +89,7 @@ Essential plugins to configure:
 - **ShortPixel** - Image optimization
 - **Contact Form 7** - Forms
 
-See `knowledge/wordpress/plugin-setup.md` for WP-CLI commands.
+See `@/home/atric/wordpress-knowledge-base/howtos/howto-plugin-configuration.md` for WP-CLI commands.
 
 ### Step 6: Testing
 
@@ -130,12 +130,11 @@ wpf deploy production  # Final deployment
 │   ├── registry.sh        # Project registry functions
 │   └── learnings.sh       # Learning capture functions
 │
-├── knowledge/              # Accumulated knowledge
-│   ├── wordpress/         # WP best practices
-│   ├── webdesign/         # UI/UX guidelines
-│   ├── deployment/        # Hosting guides
-│   ├── performance/       # Optimization
-│   └── testing/           # Test strategies
+├── knowledge/              # Local design knowledge
+│   └── webdesign/         # UI/UX guidelines (general)
+│
+│   # WordPress knowledge is in external repo:
+│   # @/home/atric/wordpress-knowledge-base/
 │
 ├── learnings/              # Captured learnings (pending merge)
 │   ├── wordpress/
@@ -194,22 +193,21 @@ wpf deploy production  # Final deployment
 
 ## Key Knowledge Files
 
-### WordPress Development
-- `knowledge/wordpress/best-practices.md` - Code standards, security
-- `knowledge/wordpress/plugin-setup.md` - Plugin configuration
-- `knowledge/wordpress/troubleshooting.md` - Common issues
-- `knowledge/wordpress/lessons-learned.md` - Real project insights
+### WordPress Knowledge Base (External Repo)
+@/home/atric/wordpress-knowledge-base/
 
-### Web Design
+Key files:
+- `howtos/howto-plugin-configuration.md` - Plugin setup with WP-CLI
+- `howtos/howto-deployment.md` - Full deployment workflow
+- `howtos/howto-performance-optimization.md` - Lighthouse optimization
+- `howtos/howto-troubleshooting.md` - Common issues
+- `reference/ref-coding-standards.md` - Code standards, security
+- `examples/examples-natigeo-lessons.md` - Real project insights
+
+### Web Design (Local)
 - `knowledge/webdesign/web-design-guide-for-llms.md` - Comprehensive guide (40k+ words)
 - `knowledge/webdesign/beautiful-backgrounds-2025.md` - Modern backgrounds
 - `knowledge/webdesign/shadcn-ui-integration.md` - Component library
-
-### Deployment
-- `knowledge/deployment/deployment.md` - Full deployment workflow
-
-### Performance
-- `knowledge/performance/optimization-guide.md` - Lighthouse optimization
 
 ## Template Placeholders
 

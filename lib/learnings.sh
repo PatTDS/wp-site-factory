@@ -146,6 +146,9 @@ learnings_summary() {
     echo "  Total: $total pending"
 }
 
+# External WordPress Knowledge Base location
+WP_KNOWLEDGE_BASE="/home/atric/wordpress-knowledge-base"
+
 # Append learning to knowledge file
 # Usage: learnings_append_to_knowledge <category> <content>
 learnings_append_to_knowledge() {
@@ -155,19 +158,20 @@ learnings_append_to_knowledge() {
 
     case "$category" in
         wordpress)
-            knowledge_file="$WPF_ROOT/knowledge/wordpress/lessons-learned.md"
+            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-natigeo-lessons.md"
             ;;
         webdesign)
+            # Webdesign stays local
             knowledge_file="$WPF_ROOT/knowledge/webdesign/lessons-learned.md"
             ;;
         deployment)
-            knowledge_file="$WPF_ROOT/knowledge/deployment/lessons-learned.md"
+            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-natigeo-lessons.md"
             ;;
         performance)
-            knowledge_file="$WPF_ROOT/knowledge/performance/lessons-learned.md"
+            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-natigeo-lessons.md"
             ;;
         testing)
-            knowledge_file="$WPF_ROOT/knowledge/testing/lessons-learned.md"
+            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-testing-patterns.md"
             ;;
     esac
 

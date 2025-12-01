@@ -3,7 +3,8 @@
 # wpf knowledge - Browse the knowledge base
 #
 
-KNOWLEDGE_DIR="$WPF_ROOT/knowledge"
+LOCAL_KNOWLEDGE="$WPF_ROOT/knowledge"
+WP_KNOWLEDGE="/home/atric/wordpress-knowledge-base"
 
 print_banner
 echo -e "${GREEN}WPF Knowledge Base${NC}"
@@ -13,80 +14,59 @@ echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━�
 echo -e "${CYAN}CATEGORIES${NC}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
-echo "  1. WordPress Development"
-echo "  2. Web Design & UI"
-echo "  3. Deployment & Hosting"
-echo "  4. Performance Optimization"
-echo "  5. Testing Strategies"
+echo "  WordPress Knowledge (external repo):"
+echo "  1. Tutorials"
+echo "  2. How-Tos"
+echo "  3. Reference"
+echo "  4. Concepts"
+echo "  5. Examples"
+echo ""
+echo "  Local Knowledge:"
+echo "  6. Web Design & UI"
+echo ""
 echo "  0. Exit"
 echo ""
-read -p "Select category (0-5): " category
+read -p "Select category (0-6): " category
+
+browse_folder() {
+    local folder="$1"
+    local title="$2"
+
+    echo ""
+    echo -e "${CYAN}$title${NC}"
+    echo ""
+    if [ -d "$folder" ]; then
+        ls -1 "$folder"/*.md 2>/dev/null | xargs -I{} basename {} | while read file; do
+            echo "  - $file"
+        done
+    else
+        echo "  (folder not found: $folder)"
+    fi
+    echo ""
+    read -p "Enter filename to view (or press Enter to go back): " filename
+    if [ -n "$filename" ] && [ -f "$folder/$filename" ]; then
+        less "$folder/$filename"
+    fi
+}
 
 case $category in
     1)
-        echo ""
-        echo -e "${CYAN}WordPress Development${NC}"
-        echo ""
-        ls -1 "$KNOWLEDGE_DIR/wordpress/" 2>/dev/null | while read file; do
-            echo "  - $file"
-        done
-        echo ""
-        read -p "Enter filename to view (or press Enter to go back): " filename
-        if [ -n "$filename" ] && [ -f "$KNOWLEDGE_DIR/wordpress/$filename" ]; then
-            less "$KNOWLEDGE_DIR/wordpress/$filename"
-        fi
+        browse_folder "$WP_KNOWLEDGE/tutorials" "WordPress Tutorials"
         ;;
     2)
-        echo ""
-        echo -e "${CYAN}Web Design & UI${NC}"
-        echo ""
-        ls -1 "$KNOWLEDGE_DIR/webdesign/" 2>/dev/null | while read file; do
-            echo "  - $file"
-        done
-        echo ""
-        read -p "Enter filename to view (or press Enter to go back): " filename
-        if [ -n "$filename" ] && [ -f "$KNOWLEDGE_DIR/webdesign/$filename" ]; then
-            less "$KNOWLEDGE_DIR/webdesign/$filename"
-        fi
+        browse_folder "$WP_KNOWLEDGE/howtos" "WordPress How-Tos"
         ;;
     3)
-        echo ""
-        echo -e "${CYAN}Deployment & Hosting${NC}"
-        echo ""
-        ls -1 "$KNOWLEDGE_DIR/deployment/" 2>/dev/null | while read file; do
-            echo "  - $file"
-        done
-        echo ""
-        read -p "Enter filename to view (or press Enter to go back): " filename
-        if [ -n "$filename" ] && [ -f "$KNOWLEDGE_DIR/deployment/$filename" ]; then
-            less "$KNOWLEDGE_DIR/deployment/$filename"
-        fi
+        browse_folder "$WP_KNOWLEDGE/reference" "WordPress Reference"
         ;;
     4)
-        echo ""
-        echo -e "${CYAN}Performance Optimization${NC}"
-        echo ""
-        ls -1 "$KNOWLEDGE_DIR/performance/" 2>/dev/null | while read file; do
-            echo "  - $file"
-        done
-        echo ""
-        read -p "Enter filename to view (or press Enter to go back): " filename
-        if [ -n "$filename" ] && [ -f "$KNOWLEDGE_DIR/performance/$filename" ]; then
-            less "$KNOWLEDGE_DIR/performance/$filename"
-        fi
+        browse_folder "$WP_KNOWLEDGE/concepts" "WordPress Concepts"
         ;;
     5)
-        echo ""
-        echo -e "${CYAN}Testing Strategies${NC}"
-        echo ""
-        ls -1 "$KNOWLEDGE_DIR/testing/" 2>/dev/null | while read file; do
-            echo "  - $file"
-        done
-        echo ""
-        read -p "Enter filename to view (or press Enter to go back): " filename
-        if [ -n "$filename" ] && [ -f "$KNOWLEDGE_DIR/testing/$filename" ]; then
-            less "$KNOWLEDGE_DIR/testing/$filename"
-        fi
+        browse_folder "$WP_KNOWLEDGE/examples" "WordPress Examples"
+        ;;
+    6)
+        browse_folder "$LOCAL_KNOWLEDGE/webdesign" "Web Design & UI"
         ;;
     0)
         echo "Goodbye!"
@@ -97,5 +77,8 @@ case $category in
 esac
 
 echo ""
-echo "Knowledge base location: $KNOWLEDGE_DIR"
+echo "Knowledge base locations:"
+echo "  WordPress: $WP_KNOWLEDGE"
+echo "  Local:     $LOCAL_KNOWLEDGE"
+echo ""
 echo "Use 'less' or your editor to browse files directly."
