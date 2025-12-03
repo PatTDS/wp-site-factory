@@ -241,6 +241,12 @@ main() {
             doctor)
                 source "$CLI_DIR/doctor.sh"
                 ;;
+            setup)
+                source "$CLI_DIR/setup.sh" "$@"
+                ;;
+            status)
+                source "$CLI_DIR/status.sh"
+                ;;
             build)
                 source "$CLI_DIR/build.sh" "$@"
                 ;;
@@ -287,6 +293,10 @@ main() {
                 echo "  list                 List all registered projects"
                 echo "  register <path>      Register an existing project"
                 echo "  unregister <name>    Remove project from registry"
+                echo ""
+                echo -e "${GREEN}Setup Commands:${NC}"
+                echo "  setup                Zero-touch WordPress setup (install, theme, plugins, pages)"
+                echo "  status               Show project completion status"
                 echo ""
                 echo -e "${GREEN}Development Commands:${NC}"
                 echo "  build [target]       Build assets (css|images|critical|watch|all)"
