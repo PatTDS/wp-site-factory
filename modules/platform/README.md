@@ -1,74 +1,36 @@
-# WPF Platform Module (SaaS)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**Branch:** `module/platform`
-**Knowledge Base:** (new - SaaS-specific)
-**Status:** Planned
+## Getting Started
 
-## Overview
+First, run the development server:
 
-The platform module provides the SaaS web interface, user authentication, project management dashboard, and visual design builder.
-
-## Features
-
-- **User Authentication** - Sign up, login, SSO
-- **Project Dashboard** - Manage multiple projects
-- **Visual Designer** - Drag-and-drop design builder
-- **Preview System** - Real-time design preview
-- **Team Collaboration** - Multi-user projects
-
-## Directory Structure
-
-```
-modules/platform/
-├── src/
-│   ├── app/            # Next.js application
-│   ├── components/     # React components
-│   ├── api/            # API routes
-│   └── lib/            # Shared utilities
-├── prisma/
-│   └── schema.prisma   # Database schema
-├── tests/
-│   └── integration/    # Platform tests
-├── README.md
-├── RULES.md
-└── CLAUDE.md
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Technology Stack
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | Next.js 14 (App Router) |
-| UI | shadcn/ui, Tailwind CSS |
-| Auth | Clerk / Auth0 |
-| Database | PostgreSQL |
-| ORM | Prisma |
-| State | Zustand |
-| API | tRPC |
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Routes
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```
-/                    # Landing page
-/login              # Authentication
-/dashboard          # Project list
-/project/[id]       # Project detail
-/project/[id]/design # Visual designer
-/project/[id]/settings # Project settings
-/account            # User settings
-/billing            # Subscription management
-```
+## Learn More
 
-## Dependencies
+To learn more about Next.js, take a look at the following resources:
 
-- Node.js 20+
-- PostgreSQL 14+
-- Redis (sessions)
-- Vercel / Railway (hosting)
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Related Modules
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- **webdesign** - Component library
-- **orchestrator** - Workflow management
-- **billing** - Payment processing
-- **infrastructure** - Deployment
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

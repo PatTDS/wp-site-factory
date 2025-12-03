@@ -1,0 +1,120 @@
+// WPF Platform Database Schema
+// Prisma ORM for PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User model - synced with Clerk
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  name          String?
+  imageUrl      String?
+
+  // Subscription
+  plan          Plan      @default(FREE)
+  stripeCustomerId String?
+
+  // Relations
+  projects      Project[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Project model - WordPress site configuration
+model Project {
+  id            String        @id @default(cuid())
+  name          String
+  slug          String        @unique
+
+  // Company info
+  companyName   String
+  industry      String
+
+  // Design settings
+  primaryColor  String        @default("#16a34a")
+  secondaryColor String       @default("#0f766e")
+
+  // Contact info
+  email         String?
+  phone         String?
+  address       String?
+  city          String?
+  state         String?
+
+  // Configuration (JSON)
+  config        Json?
+
+  // Status
+  status        ProjectStatus @default(DRAFT)
+
+  // Relations
+  owner         User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId       String
+  deployments   Deployment[]
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([ownerId])
+}
+
+// Deployment model - tracks WordPress deployments
+model Deployment {
+  id            String           @id @default(cuid())
+
+  // Deployment info
+  environment   Environment      @default(STAGING)
+  url           String?
+  provider      String?          // railway, render, vercel, custom
+
+  // Status
+  status        DeploymentStatus @default(PENDING)
+  logs          String?
+
+  // Relations
+  project       Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     String
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([projectId])
+}
+
+// Enums
+enum Plan {
+  FREE
+  PRO
+  TEAM
+  ENTERPRISE
+}
+
+enum ProjectStatus {
+  DRAFT
+  GENERATING
+  PREVIEW
+  DEPLOYED
+  ARCHIVED
+}
+
+enum Environment {
+  DEVELOPMENT
+  STAGING
+  PRODUCTION
+}
+
+enum DeploymentStatus {
+  PENDING
+  BUILDING
+  DEPLOYING
+  LIVE
+  FAILED
+}
