@@ -1,0 +1,20 @@
+{
+  "name": "@wpf/billing",
+  "version": "0.1.0",
+  "description": "Stripe billing and subscription management for WPF",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "stripe": "^17.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { projectService } from "@/services/project-service";
 
 // GET /api/projects - List user's projects
 export async function GET() {
@@ -9,37 +10,17 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // TODO: Fetch from database
-    // For now, return mock data
-    const projects = [
-      {
-        id: "proj_demo1",
-        name: "Demo Restaurant",
-        slug: "demo-restaurant",
-        companyName: "Demo Restaurant LLC",
-        industry: "restaurant",
-        status: "deployed",
-        primaryColor: "#16a34a",
-        secondaryColor: "#0f766e",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        deployments: [
-          {
-            id: "deploy_1",
-            environment: "production",
-            url: "https://demo-restaurant.wpf.dev",
-            status: "active",
-            deployedAt: new Date().toISOString(),
-          },
-        ],
-      },
-    ];
+    // Fetch projects from disk
+    const projects = await projectService.listProjects();
 
     return NextResponse.json({ projects }, { status: 200 });
   } catch (error) {
     console.error("Error fetching projects:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      {
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }

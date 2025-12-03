@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
+import { projectService } from "@/services/project-service";
 
 // Project generation request schema
 const GenerateRequestSchema = z.object({
@@ -59,31 +60,39 @@ export async function POST(request: NextRequest) {
       state: config.state,
     };
 
-    // TODO: Call orchestrator service
-    // For now, return mock response indicating generation started
-    // In production, this would:
-    // 1. Create project in database
-    // 2. Queue generation job
-    // 3. Call orchestrator module
-    // 4. Store generated files
-    // 5. Return project details
+    // Generate project using orchestrator
+    const generationResult = await projectService.generateProject(projectConfig);
 
-    // Simulated response
-    const generationResult = {
-      success: true,
-      projectId: `proj_${Date.now()}`,
-      slug,
-      status: "generating",
-      message: "Site generation started",
-      estimatedTime: "30-60 seconds",
-      config: projectConfig,
-    };
+    if (!generationResult.success) {
+      return NextResponse.json(
+        {
+          error: "Generation failed",
+          details: generationResult.errors,
+        },
+        { status: 500 }
+      );
+    }
 
-    return NextResponse.json(generationResult, { status: 202 });
+    // Return success response
+    return NextResponse.json(
+      {
+        success: true,
+        projectId: generationResult.projectId,
+        slug: generationResult.slug,
+        status: "ready",
+        message: "Site generated successfully",
+        filesGenerated: generationResult.files.length,
+        metadata: generationResult.metadata,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Generation error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      {
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }
