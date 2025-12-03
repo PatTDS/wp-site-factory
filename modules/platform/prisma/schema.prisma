@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Plan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum ProjectStatus {
+  DRAFT
+  GENERATING
+  READY
+  DEPLOYING
+  DEPLOYED
+  FAILED
+}
+
+enum DeploymentEnvironment {
+  STAGING
+  PRODUCTION
+}
+
+enum DeploymentStatus {
+  PENDING
+  IN_PROGRESS
+  ACTIVE
+  FAILED
+  TERMINATED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  name          String?
+  plan          Plan      @default(FREE)
+  projectLimit  Int       @default(3)
+  projects      Project[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Project {
+  id             String          @id @default(cuid())
+  name           String
+  slug           String          @unique
+  companyName    String
+  industry       String
+  primaryColor   String          @default("#16a34a")
+  secondaryColor String          @default("#0f766e")
+  email          String?
+  phone          String?
+  address        String?
+  city           String?
+  state          String?
+  status         ProjectStatus   @default(DRAFT)
+  generatedFiles Json?
+  aiContent      Json?
+  owner          User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId        String
+  deployments    Deployment[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Deployment {
+  id          String                  @id @default(cuid())
+  project     Project                 @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String
+  environment DeploymentEnvironment
+  provider    String                  @default("vercel")
+  url         String?
+  status      DeploymentStatus        @default(PENDING)
+  logs        String?
+  deployedAt  DateTime?
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+}
