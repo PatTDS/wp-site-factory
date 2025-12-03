@@ -64,6 +64,67 @@ Capture knowledge as you work:
 
 Categories: wordpress, webdesign, deployment, performance, testing
 
+## Module Architecture
+
+WPF is organized into 10 independent modules, each with its own branch, rules, and resources. This architecture supports both CLI tool development and the eventual SaaS platform.
+
+### Module Overview
+
+| Module | Branch | Purpose | Status |
+|--------|--------|---------|--------|
+| **webdesign** | `module/webdesign` | Component library, design tokens, industry presets | Active |
+| **tools** | `module/tools` | CLI framework, project registry, Docker, deployment | Core |
+| **performance** | `module/performance` | Core Web Vitals, caching, image optimization | Planned |
+| **seo** | `module/seo` | Schema markup, meta tags, sitemaps | Planned |
+| **testing** | `module/testing` | Playwright E2E, Lighthouse CI, accessibility | Planned |
+| **security** | `module/security` | Hardening scripts, headers, wp-config | Planned |
+| **orchestrator** | `module/orchestrator` | AI workflows, learning capture, multi-agent | Planned |
+| **platform** | `module/platform` | SaaS dashboard (Next.js, Prisma) | Planned |
+| **billing** | `module/billing` | Stripe integration, subscriptions | Planned |
+| **infrastructure** | `module/infrastructure` | Docker, CI/CD, Kubernetes | Planned |
+
+### Module Structure
+
+Each module follows a consistent structure:
+
+```
+modules/<name>/
+├── src/            # Source code
+├── lib/            # Shared utilities
+├── tests/          # Module tests
+├── README.md       # Module overview
+├── RULES.md        # Coding standards
+└── CLAUDE.md       # AI instructions (optional)
+```
+
+### Working with Modules
+
+```bash
+# Switch to module branch
+git checkout module/webdesign
+
+# View module rules
+cat modules/webdesign/RULES.md
+
+# Run module-specific commands
+wpf design list          # webdesign module
+wpf test lighthouse      # testing module
+wpf seo schema          # seo module
+```
+
+### SaaS Roadmap
+
+The modules build toward a full SaaS platform:
+
+1. **Phase 1 (Current):** CLI tools for local development
+   - tools, webdesign, performance, testing
+
+2. **Phase 2:** API layer and orchestration
+   - orchestrator, seo, security
+
+3. **Phase 3:** SaaS platform
+   - platform, billing, infrastructure
+
 ## Project Creation Workflow
 
 ### Step 1: Discovery (15-30 minutes)
@@ -148,6 +209,18 @@ wpf deploy production  # Final deployment
 ├── lib/                    # Shared libraries
 │   ├── registry.sh        # Project registry functions
 │   └── learnings.sh       # Learning capture functions
+│
+├── modules/                # Modular architecture (see Module Architecture)
+│   ├── webdesign/         # Design system, components
+│   ├── tools/             # CLI framework, Docker
+│   ├── performance/       # Core Web Vitals, caching
+│   ├── seo/               # Schema, meta tags
+│   ├── testing/           # Playwright, Lighthouse
+│   ├── security/          # Hardening, headers
+│   ├── orchestrator/      # AI workflows
+│   ├── platform/          # SaaS dashboard
+│   ├── billing/           # Stripe, subscriptions
+│   └── infrastructure/    # DevOps, CI/CD
 │
 ├── knowledge/              # Local design knowledge
 │   └── webdesign/         # UI/UX guidelines (general)
@@ -401,10 +474,11 @@ The registration wizard will:
 
 ## Version
 
-WPF v0.1.0-beta
+WPF v0.2.0-beta
 Based on NatiGeo project experience
 Created: 2025-11-28
-Status: Under active development
+Updated: 2025-12-03
+Status: Modular architecture implemented
 
 ---
 
