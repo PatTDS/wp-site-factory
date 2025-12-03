@@ -89,7 +89,7 @@ Essential plugins to configure:
 - **ShortPixel** - Image optimization
 - **Contact Form 7** - Forms
 
-See `@/home/atric/wordpress-knowledge-base/howtos/howto-plugin-configuration.md` for WP-CLI commands.
+See `@/home/atric/wordpress-knowledge-base/tools/howto-development-environment.md` for WP-CLI commands.
 
 ### Step 6: Testing
 
@@ -196,13 +196,15 @@ wpf deploy production  # Final deployment
 ### WordPress Knowledge Base (External Repo)
 @/home/atric/wordpress-knowledge-base/
 
+**Structure:** Diataxis-based with category folders (webdesign, seo, testing, security, performance, tools)
+
 Key files:
-- `howtos/howto-plugin-configuration.md` - Plugin setup with WP-CLI
-- `howtos/howto-deployment.md` - Full deployment workflow
-- `howtos/howto-performance-optimization.md` - Lighthouse optimization
-- `howtos/howto-troubleshooting.md` - Common issues
-- `reference/ref-coding-standards.md` - Code standards, security
-- `examples/examples-natigeo-lessons.md` - Real project insights
+- `tools/howto-development-environment.md` - Plugin setup, WP-CLI
+- `tools/howto-deployment-automation.md` - Full deployment workflow
+- `performance/howto-caching-setup.md` - Performance optimization
+- `performance/ref-performance-targets.md` - Lighthouse targets
+- `security/howto-security-hardening.md` - Security best practices
+- `testing/howto-playwright-wordpress.md` - E2E testing
 
 ### Web Design (Local)
 - `knowledge/webdesign/web-design-guide-for-llms.md` - Comprehensive guide (40k+ words)

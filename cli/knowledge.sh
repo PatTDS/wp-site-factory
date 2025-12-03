@@ -14,19 +14,20 @@ echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━�
 echo -e "${CYAN}CATEGORIES${NC}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
-echo "  WordPress Knowledge (external repo):"
-echo "  1. Tutorials"
-echo "  2. How-Tos"
-echo "  3. Reference"
-echo "  4. Concepts"
-echo "  5. Examples"
+echo "  WordPress Knowledge (external repo - Diataxis structure):"
+echo "  1. Web Design (webdesign/)"
+echo "  2. SEO (seo/)"
+echo "  3. Testing (testing/)"
+echo "  4. Security (security/)"
+echo "  5. Performance (performance/)"
+echo "  6. Tools (tools/)"
 echo ""
 echo "  Local Knowledge:"
-echo "  6. Web Design & UI"
+echo "  7. Web Design & UI (local)"
 echo ""
 echo "  0. Exit"
 echo ""
-read -p "Select category (0-6): " category
+read -p "Select category (0-7): " category
 
 browse_folder() {
     local folder="$1"
@@ -51,22 +52,25 @@ browse_folder() {
 
 case $category in
     1)
-        browse_folder "$WP_KNOWLEDGE/tutorials" "WordPress Tutorials"
+        browse_folder "$WP_KNOWLEDGE/webdesign" "Web Design (Tailwind, shadcn, responsive)"
         ;;
     2)
-        browse_folder "$WP_KNOWLEDGE/howtos" "WordPress How-Tos"
+        browse_folder "$WP_KNOWLEDGE/seo" "SEO (Technical SEO, schema, local)"
         ;;
     3)
-        browse_folder "$WP_KNOWLEDGE/reference" "WordPress Reference"
+        browse_folder "$WP_KNOWLEDGE/testing" "Testing (Playwright, Lighthouse, a11y)"
         ;;
     4)
-        browse_folder "$WP_KNOWLEDGE/concepts" "WordPress Concepts"
+        browse_folder "$WP_KNOWLEDGE/security" "Security (Hardening, OWASP, GDPR)"
         ;;
     5)
-        browse_folder "$WP_KNOWLEDGE/examples" "WordPress Examples"
+        browse_folder "$WP_KNOWLEDGE/performance" "Performance (Core Web Vitals, caching)"
         ;;
     6)
-        browse_folder "$LOCAL_KNOWLEDGE/webdesign" "Web Design & UI"
+        browse_folder "$WP_KNOWLEDGE/tools" "Tools (WP-CLI, Docker, deployment)"
+        ;;
+    7)
+        browse_folder "$LOCAL_KNOWLEDGE/webdesign" "Web Design & UI (local)"
         ;;
     0)
         echo "Goodbye!"

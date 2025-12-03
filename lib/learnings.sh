@@ -151,6 +151,7 @@ WP_KNOWLEDGE_BASE="/home/atric/wordpress-knowledge-base"
 
 # Append learning to knowledge file
 # Usage: learnings_append_to_knowledge <category> <content>
+# Maps WPF categories to new Diataxis-based KB structure
 learnings_append_to_knowledge() {
     local category="$1"
     local content="$2"
@@ -158,20 +159,24 @@ learnings_append_to_knowledge() {
 
     case "$category" in
         wordpress)
-            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-natigeo-lessons.md"
+            # General WordPress -> tools category
+            knowledge_file="$WP_KNOWLEDGE_BASE/tools/lessons-learned.md"
             ;;
         webdesign)
             # Webdesign stays local
             knowledge_file="$WPF_ROOT/knowledge/webdesign/lessons-learned.md"
             ;;
         deployment)
-            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-natigeo-lessons.md"
+            # Deployment -> tools category
+            knowledge_file="$WP_KNOWLEDGE_BASE/tools/lessons-learned.md"
             ;;
         performance)
-            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-natigeo-lessons.md"
+            # Performance -> performance category
+            knowledge_file="$WP_KNOWLEDGE_BASE/performance/lessons-learned.md"
             ;;
         testing)
-            knowledge_file="$WP_KNOWLEDGE_BASE/examples/examples-testing-patterns.md"
+            # Testing -> testing category
+            knowledge_file="$WP_KNOWLEDGE_BASE/testing/lessons-learned.md"
             ;;
     esac
 

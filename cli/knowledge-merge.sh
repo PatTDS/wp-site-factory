@@ -97,15 +97,14 @@ WP_KB="/home/atric/wordpress-knowledge-base"
 
 echo "Updated knowledge files:"
 echo ""
-echo "  WordPress KB (external):"
-if [ -f "$WP_KB/examples/examples-natigeo-lessons.md" ]; then
-    count=$(grep -c "^### " "$WP_KB/examples/examples-natigeo-lessons.md" 2>/dev/null || echo 0)
-    echo "    examples-natigeo-lessons.md: $count entries"
-fi
-if [ -f "$WP_KB/examples/examples-testing-patterns.md" ]; then
-    count=$(grep -c "^### " "$WP_KB/examples/examples-testing-patterns.md" 2>/dev/null || echo 0)
-    echo "    examples-testing-patterns.md: $count entries"
-fi
+echo "  WordPress KB (external - Diataxis structure):"
+echo "    Categories: webdesign/, seo/, testing/, security/, performance/, tools/"
+for category in webdesign seo testing security performance tools; do
+    if [ -d "$WP_KB/$category" ]; then
+        count=$(ls -1 "$WP_KB/$category"/*.md 2>/dev/null | wc -l)
+        echo "    $category/: $count files"
+    fi
+done
 
 echo ""
 echo "  Local (webdesign):"
