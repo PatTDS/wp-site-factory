@@ -4,6 +4,7 @@
 #
 
 LOCAL_KNOWLEDGE="$WPF_ROOT/knowledge"
+# Windows path: \\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base
 WP_KNOWLEDGE="/home/atric/wordpress-knowledge-base"
 
 print_banner

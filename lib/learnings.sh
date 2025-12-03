@@ -147,6 +147,7 @@ learnings_summary() {
 }
 
 # External WordPress Knowledge Base location
+# Windows path: \\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base
 WP_KNOWLEDGE_BASE="/home/atric/wordpress-knowledge-base"
 
 # Append learning to knowledge file

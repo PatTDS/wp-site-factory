@@ -93,6 +93,7 @@ fi
 echo ""
 
 # Show updated knowledge base locations
+# Windows path: \\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base
 WP_KB="/home/atric/wordpress-knowledge-base"
 
 echo "Updated knowledge files:"

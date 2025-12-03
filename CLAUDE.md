@@ -89,7 +89,7 @@ Essential plugins to configure:
 - **ShortPixel** - Image optimization
 - **Contact Form 7** - Forms
 
-See `@/home/atric/wordpress-knowledge-base/tools/howto-development-environment.md` for WP-CLI commands.
+See `@\\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base\tools\howto-development-environment.md` for WP-CLI commands.
 
 ### Step 6: Testing
 
@@ -134,7 +134,7 @@ wpf deploy production  # Final deployment
 │   └── webdesign/         # UI/UX guidelines (general)
 │
 │   # WordPress knowledge is in external repo:
-│   # @/home/atric/wordpress-knowledge-base/
+│   # @\\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base\
 │
 ├── learnings/              # Captured learnings (pending merge)
 │   ├── wordpress/
@@ -194,7 +194,7 @@ wpf deploy production  # Final deployment
 ## Key Knowledge Files
 
 ### WordPress Knowledge Base (External Repo)
-@/home/atric/wordpress-knowledge-base/
+@\\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base\
 
 **Structure:** Diataxis-based with category folders (webdesign, seo, testing, security, performance, tools)
 
@@ -206,10 +206,14 @@ Key files:
 - `security/howto-security-hardening.md` - Security best practices
 - `testing/howto-playwright-wordpress.md` - E2E testing
 
-### Web Design (Local)
-- `knowledge/webdesign/web-design-guide-for-llms.md` - Comprehensive guide (40k+ words)
-- `knowledge/webdesign/beautiful-backgrounds-2025.md` - Modern backgrounds
-- `knowledge/webdesign/shadcn-ui-integration.md` - Component library
+### Web Design
+Now in external KB at `\\wsl.localhost\Ubuntu\home\atric\wordpress-knowledge-base\webdesign\`:
+- `ref-tailwind-css.md` - Tailwind CSS reference
+- `ref-shadcn-ui.md` - shadcn/ui components
+- `ref-color-systems.md` - Color system design
+- `ref-layout-patterns.md` - Layout patterns
+- `howto-typography-system.md` - Typography setup
+- `howto-css-performance.md` - CSS optimization
 
 ## Template Placeholders
 
