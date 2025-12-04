@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wpf.dev/schemas/client-intake.schema.json",
+  "title": "WPF Client Intake",
+  "description": "Schema for client information collected during Discovery Phase",
+  "type": "object",
+  "required": [
+    "company",
+    "contact",
+    "industry",
+    "services"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Schema reference for validation"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "default": "1.0"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the intake was submitted"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the intake was last updated"
+    },
+    "company": {
+      "type": "object",
+      "description": "Company information",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Legal or trading name of the company",
+          "minLength": 1
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Company tagline or slogan (optional)"
+        },
+        "years_in_business": {
+          "type": "integer",
+          "description": "Number of years operating",
+          "minimum": 0
+        },
+        "employees": {
+          "type": "string",
+          "description": "Number of employees range",
+          "enum": ["1", "2-5", "6-10", "11-25", "26-50", "50+"]
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "description": "Contact information",
+      "required": ["phone", "email"],
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Primary phone number"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Primary email address"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "postcode": { "type": "string" },
+            "country": { "type": "string", "default": "Australia" }
+          }
+        },
+        "hours": {
+          "type": "object",
+          "description": "Business hours",
+          "properties": {
+            "weekdays": { "type": "string", "description": "e.g., Mon-Fri 8am-6pm" },
+            "saturday": { "type": "string" },
+            "sunday": { "type": "string" },
+            "notes": { "type": "string", "description": "e.g., 24/7 emergency service" }
+          }
+        }
+      }
+    },
+    "social": {
+      "type": "object",
+      "description": "Social media profiles",
+      "properties": {
+        "website": { "type": "string", "format": "uri", "description": "Existing website (if any)" },
+        "facebook": { "type": "string" },
+        "instagram": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "google_business": { "type": "string" },
+        "youtube": { "type": "string" },
+        "tiktok": { "type": "string" }
+      }
+    },
+    "brand": {
+      "type": "object",
+      "description": "Brand identity",
+      "properties": {
+        "colors": {
+          "type": "object",
+          "properties": {
+            "primary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "accent": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+          }
+        },
+        "logo": {
+          "type": "string",
+          "description": "Path to logo file or URL"
+        },
+        "tone": {
+          "type": "string",
+          "description": "Brand voice/tone",
+          "enum": ["professional", "friendly", "casual", "authoritative", "playful", "luxury"]
+        },
+        "fonts": {
+          "type": "object",
+          "properties": {
+            "heading": { "type": "string" },
+            "body": { "type": "string" }
+          }
+        }
+      }
+    },
+    "industry": {
+      "type": "object",
+      "description": "Industry and target market",
+      "required": ["category"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "description": "Primary industry category",
+          "enum": [
+            "roofing",
+            "plumbing",
+            "electrical",
+            "hvac",
+            "landscaping",
+            "construction",
+            "automotive",
+            "healthcare",
+            "education",
+            "hospitality",
+            "retail",
+            "professional-services",
+            "technology",
+            "manufacturing",
+            "real-estate",
+            "fitness",
+            "beauty",
+            "food-beverage",
+            "other"
+          ]
+        },
+        "category_other": {
+          "type": "string",
+          "description": "Custom category if 'other' selected"
+        },
+        "niche": {
+          "type": "string",
+          "description": "Specific niche within category"
+        },
+        "target_audience": {
+          "type": "string",
+          "description": "Primary customer type (residential, commercial, both)"
+        },
+        "service_area": {
+          "type": "string",
+          "description": "Geographic service area"
+        }
+      }
+    },
+    "mission": {
+      "type": "object",
+      "description": "Company mission and values",
+      "properties": {
+        "vision": {
+          "type": "string",
+          "description": "What the company aspires to become"
+        },
+        "mission": {
+          "type": "string",
+          "description": "What the company does and why"
+        },
+        "values": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Core company values"
+        },
+        "unique_selling_points": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What makes the company different"
+        }
+      }
+    },
+    "services": {
+      "type": "array",
+      "description": "Services or products offered",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "is_primary": { "type": "boolean", "default": false },
+          "price_range": { "type": "string" }
+        }
+      }
+    },
+    "website_goals": {
+      "type": "object",
+      "description": "Goals for the new website",
+      "properties": {
+        "primary_goal": {
+          "type": "string",
+          "enum": ["generate-leads", "showcase-work", "provide-info", "sell-products", "build-brand"]
+        },
+        "desired_actions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What visitors should do (call, fill form, etc.)"
+        },
+        "pages_needed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Pages client wants (Home, About, Services, etc.)"
+        },
+        "features_needed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Special features (contact form, gallery, booking, etc.)"
+        },
+        "inspiration": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" },
+          "description": "URLs of websites they like"
+        }
+      }
+    },
+    "existing_content": {
+      "type": "object",
+      "description": "Content the client already has",
+      "properties": {
+        "has_photos": { "type": "boolean" },
+        "has_testimonials": { "type": "boolean" },
+        "has_copy": { "type": "boolean" },
+        "has_portfolio": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or special requirements"
+    }
+  }
+}

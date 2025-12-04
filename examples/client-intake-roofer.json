@@ -1,0 +1,143 @@
+{
+  "$schema": "../modules/orchestrator/schemas/client-intake.schema.json",
+  "version": "1.0",
+  "created_at": "2024-12-04T10:00:00Z",
+  "updated_at": "2024-12-04T10:00:00Z",
+
+  "company": {
+    "name": "RoofPro Sydney",
+    "tagline": "Your Trusted Local Roofers",
+    "years_in_business": 15,
+    "employees": "6-10"
+  },
+
+  "contact": {
+    "phone": "1800 ROOF PRO",
+    "email": "info@roofprosydney.com.au",
+    "address": {
+      "street": "123 Industrial Drive",
+      "city": "Parramatta",
+      "state": "NSW",
+      "postcode": "2150",
+      "country": "Australia"
+    },
+    "hours": {
+      "weekdays": "Mon-Fri 7:00 AM - 5:00 PM",
+      "saturday": "Sat 8:00 AM - 12:00 PM",
+      "sunday": "Closed",
+      "notes": "24/7 Emergency Service Available"
+    }
+  },
+
+  "social": {
+    "facebook": "https://facebook.com/roofprosydney",
+    "instagram": "https://instagram.com/roofprosydney",
+    "google_business": "https://g.page/roofprosydney"
+  },
+
+  "brand": {
+    "colors": {
+      "primary": "#1E40AF",
+      "secondary": "#059669",
+      "accent": "#F59E0B"
+    },
+    "logo": "assets/roofpro-logo.png",
+    "tone": "professional"
+  },
+
+  "industry": {
+    "category": "roofing",
+    "niche": "Residential and commercial roofing",
+    "target_audience": "Homeowners and property managers in Greater Sydney",
+    "service_area": "Greater Sydney, Blue Mountains, Central Coast"
+  },
+
+  "mission": {
+    "vision": "To be Sydney's most trusted roofing company, known for quality workmanship and exceptional customer service.",
+    "mission": "We protect Australian homes and businesses with expert roofing solutions, honest advice, and workmanship you can trust.",
+    "values": [
+      "Quality first - we never cut corners",
+      "Honest pricing - no hidden costs",
+      "Respect your property - clean worksite guaranteed",
+      "Stand behind our work - comprehensive warranties"
+    ],
+    "unique_selling_points": [
+      "15+ years local experience",
+      "Fully licensed and insured",
+      "Same-day emergency service",
+      "5-year workmanship guarantee",
+      "Free inspections and quotes"
+    ]
+  },
+
+  "services": [
+    {
+      "name": "Roof Repairs",
+      "description": "Fix leaks, replace broken tiles, repair storm damage",
+      "is_primary": true,
+      "price_range": "From $350"
+    },
+    {
+      "name": "Roof Restoration",
+      "description": "Complete roof makeover including cleaning, repairs, and recoating",
+      "is_primary": true,
+      "price_range": "From $3,500"
+    },
+    {
+      "name": "New Roof Installation",
+      "description": "Full roof replacement for renovations and new builds",
+      "is_primary": false,
+      "price_range": "From $15,000"
+    },
+    {
+      "name": "Gutter Services",
+      "description": "Gutter cleaning, repairs, and replacement",
+      "is_primary": false,
+      "price_range": "From $250"
+    },
+    {
+      "name": "Roof Inspections",
+      "description": "Comprehensive roof health checks with detailed reports",
+      "is_primary": false,
+      "price_range": "Free with any quote"
+    }
+  ],
+
+  "website_goals": {
+    "primary_goal": "generate-leads",
+    "desired_actions": [
+      "Call for free quote",
+      "Fill out contact form",
+      "Request emergency service"
+    ],
+    "pages_needed": [
+      "Home",
+      "About Us",
+      "Services",
+      "Gallery",
+      "Testimonials",
+      "Contact"
+    ],
+    "features_needed": [
+      "Contact form",
+      "Click-to-call phone number",
+      "Project gallery",
+      "Google reviews integration",
+      "Service area map"
+    ],
+    "inspiration": [
+      "https://www.roofingcorp.com.au",
+      "https://www.allroofing.com.au"
+    ]
+  },
+
+  "existing_content": {
+    "has_photos": true,
+    "has_testimonials": true,
+    "has_copy": false,
+    "has_portfolio": true,
+    "notes": "Have 50+ project photos and 30+ Google reviews to pull from"
+  },
+
+  "notes": "Owner John wants to emphasize the family-owned aspect. His father started the business in 2009, and John took over in 2018. Important to highlight emergency service as a key differentiator."
+}

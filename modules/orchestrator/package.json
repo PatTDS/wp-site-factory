@@ -1,0 +1,37 @@
+{
+  "name": "@wpf/orchestrator",
+  "version": "0.1.0",
+  "description": "WPF Orchestrator - LLM-powered research and content generation for Discovery Phase",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "wpf-research": "./src/cli/research.js",
+    "wpf-blueprint": "./src/cli/blueprint.js"
+  },
+  "scripts": {
+    "research": "node src/cli/research.js",
+    "blueprint": "node src/cli/blueprint.js",
+    "test": "vitest",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.1",
+    "dotenv": "^17.2.3",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "wpf",
+    "wordpress",
+    "llm",
+    "research",
+    "content-generation"
+  ],
+  "author": "WPF Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
