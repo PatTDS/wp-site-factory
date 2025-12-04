@@ -63,7 +63,11 @@ print_menu() {
     echo "  9. Browse knowledge base"
     echo " 10. Capture learning"
     echo " 11. Review learnings"
-    echo " 12. Help"
+    echo -e "${YELLOW}--- AI Orchestrator ---${NC}"
+    echo " 12. Run AI research"
+    echo " 13. Manage blueprints"
+    echo " 14. Review blueprint"
+    echo " 15. Help"
     echo "  0. Exit"
     echo ""
 }
@@ -137,8 +141,95 @@ handle_selection() {
             source "$CLI_DIR/knowledge-review.sh"
             ;;
         12)
+            # AI Research
             echo ""
-            echo -e "${GREEN}WPF - WordPress Site Factory v0.1.0-beta${NC}"
+            echo -e "${GREEN}AI Research - Choose research type:${NC}"
+            echo "  1. Best Practices (industry website patterns)"
+            echo "  2. Competitors (analyze competitor sites)"
+            echo "  3. Full Research (both)"
+            echo ""
+            read -p "Select type (1-3): " research_type
+            read -p "Enter industry (e.g., construction, restaurant): " industry
+
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            case $research_type in
+                1)
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/research.js best-practices --industry "$industry"
+                    ;;
+                2)
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/research.js competitors --industry "$industry"
+                    ;;
+                3)
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/research.js full --industry "$industry"
+                    ;;
+                *)
+                    echo -e "${RED}Invalid option${NC}"
+                    ;;
+            esac
+            ;;
+        13)
+            # Blueprint Management
+            echo ""
+            echo -e "${GREEN}Blueprint Management - Choose action:${NC}"
+            echo "  1. Generate blueprint from intake"
+            echo "  2. View existing blueprint"
+            echo "  3. Export blueprint"
+            echo ""
+            read -p "Select action (1-3): " blueprint_action
+
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            case $blueprint_action in
+                1)
+                    read -p "Enter intake JSON path: " intake_path
+                    read -p "Enter research JSON path (optional, press Enter to skip): " research_path
+                    if [ -n "$research_path" ]; then
+                        cd "$ORCHESTRATOR_DIR" && node src/cli/blueprint.js generate "$intake_path" --research "$research_path"
+                    else
+                        cd "$ORCHESTRATOR_DIR" && node src/cli/blueprint.js generate "$intake_path"
+                    fi
+                    ;;
+                2)
+                    read -p "Enter blueprint JSON path: " blueprint_path
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/blueprint.js view "$blueprint_path"
+                    ;;
+                3)
+                    read -p "Enter blueprint JSON path: " blueprint_path
+                    read -p "Export format (md|json|html): " export_format
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/blueprint.js export "$blueprint_path" "$export_format"
+                    ;;
+                *)
+                    echo -e "${RED}Invalid option${NC}"
+                    ;;
+            esac
+            ;;
+        14)
+            # Blueprint Review
+            echo ""
+            echo -e "${GREEN}Blueprint Review - Choose action:${NC}"
+            echo "  1. Run auto review"
+            echo "  2. Start manual review"
+            echo ""
+            read -p "Select action (1-2): " review_action
+
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            case $review_action in
+                1)
+                    read -p "Enter blueprint JSON path: " blueprint_path
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/review.js auto "$blueprint_path"
+                    ;;
+                2)
+                    read -p "Enter blueprint JSON path: " blueprint_path
+                    read -p "Reviewer name: " reviewer_name
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/review.js start "$blueprint_path" --operator "$reviewer_name"
+                    ;;
+                *)
+                    echo -e "${RED}Invalid option${NC}"
+                    ;;
+            esac
+            ;;
+        15)
+            echo ""
+            echo -e "${GREEN}WPF - WordPress Site Factory v0.2.0-beta${NC}"
             echo ""
             echo "A CLI tool for rapidly creating WordPress websites."
             echo ""
@@ -171,7 +262,7 @@ handle_selection() {
             exit 0
             ;;
         *)
-            echo -e "${RED}Invalid option. Please select 0-12.${NC}"
+            echo -e "${RED}Invalid option. Please select 0-15.${NC}"
             ;;
     esac
 }
@@ -182,7 +273,7 @@ main_interactive() {
 
     while true; do
         print_menu
-        read -p "Select option (0-12): " choice
+        read -p "Select option (0-15): " choice
         handle_selection "$choice"
 
         if [ "$choice" != "0" ]; then
@@ -279,6 +370,94 @@ main() {
             learn)
                 source "$CLI_DIR/learn.sh" "$@"
                 ;;
+            research)
+                # AI Orchestrator: Research command
+                ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+                if [ ! -d "$ORCHESTRATOR_DIR" ]; then
+                    echo -e "${RED}Error: Orchestrator module not found${NC}"
+                    exit 1
+                fi
+                if [ -z "$1" ]; then
+                    echo -e "${GREEN}WPF Research - AI-powered research for Discovery Phase${NC}"
+                    echo ""
+                    echo "Usage: wpf research <type> [options]"
+                    echo ""
+                    echo "Types:"
+                    echo "  best-practices    Research industry best practices for website sections"
+                    echo "  competitors       Research competitor websites"
+                    echo "  full              Run both best-practices and competitor research"
+                    echo ""
+                    echo "Options:"
+                    echo "  --industry <name>     Industry to research (e.g., construction, restaurant)"
+                    echo "  --sections <list>     Comma-separated sections (hero,about,services,contact)"
+                    echo "  --output <file>       Output file path (JSON)"
+                    echo ""
+                    echo "Examples:"
+                    echo "  wpf research best-practices --industry construction"
+                    echo "  wpf research competitors --industry \"precast concrete\""
+                    echo "  wpf research full --industry restaurant --output ./research.json"
+                else
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/research.js "$@"
+                fi
+                ;;
+            blueprint)
+                # AI Orchestrator: Blueprint command
+                ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+                if [ ! -d "$ORCHESTRATOR_DIR" ]; then
+                    echo -e "${RED}Error: Orchestrator module not found${NC}"
+                    exit 1
+                fi
+                if [ -z "$1" ]; then
+                    echo -e "${GREEN}WPF Blueprint - Generate and manage website blueprints${NC}"
+                    echo ""
+                    echo "Usage: wpf blueprint <command> [options]"
+                    echo ""
+                    echo "Commands:"
+                    echo "  generate <intake>     Generate blueprint from client intake JSON"
+                    echo "  view <file>           View an existing blueprint"
+                    echo "  export <file> [fmt]   Export blueprint (md|json|html)"
+                    echo ""
+                    echo "Options:"
+                    echo "  --research <file>     Include research JSON in generation"
+                    echo "  --output <file>       Output file path"
+                    echo ""
+                    echo "Examples:"
+                    echo "  wpf blueprint generate ./intake.json --research ./research.json"
+                    echo "  wpf blueprint view ./blueprint.json"
+                    echo "  wpf blueprint export ./blueprint.json md"
+                else
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/blueprint.js "$@"
+                fi
+                ;;
+            review)
+                # AI Orchestrator: Review command
+                ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+                if [ ! -d "$ORCHESTRATOR_DIR" ]; then
+                    echo -e "${RED}Error: Orchestrator module not found${NC}"
+                    exit 1
+                fi
+                if [ -z "$1" ]; then
+                    echo -e "${GREEN}WPF Review - Operator quality review for blueprints${NC}"
+                    echo ""
+                    echo "Usage: wpf review <command> [options]"
+                    echo ""
+                    echo "Commands:"
+                    echo "  auto <blueprint>        Run automated review checks"
+                    echo "  start <blueprint>       Start interactive manual review"
+                    echo "  status <review-file>    Show review status"
+                    echo "  report <review-file>    Generate review report"
+                    echo ""
+                    echo "Options:"
+                    echo "  --operator <name>       Reviewer name"
+                    echo "  --output <dir>          Output directory"
+                    echo ""
+                    echo "Examples:"
+                    echo "  wpf review auto ./blueprint-v1.json"
+                    echo "  wpf review start ./blueprint-v1.json --operator \"John\""
+                else
+                    cd "$ORCHESTRATOR_DIR" && node src/cli/review.js "$@"
+                fi
+                ;;
             help|-h|--help)
                 print_banner
                 echo -e "${GREEN}Usage:${NC} wpf [command] [options]"
@@ -318,6 +497,11 @@ main() {
                 echo "  knowledge review     Review pending learnings"
                 echo "  knowledge merge      Merge learnings into knowledge base"
                 echo "  learn [category]     Capture a new learning"
+                echo ""
+                echo -e "${GREEN}AI Orchestrator Commands:${NC}"
+                echo "  research <type>      Run AI-powered research (best-practices|competitors|full)"
+                echo "  blueprint <cmd>      Generate/manage blueprints (generate|view|export)"
+                echo "  review <cmd>         Operator quality review (auto|start|status|report)"
                 echo ""
                 echo -e "${GREEN}Other:${NC}"
                 echo "  help                 Show this help message"

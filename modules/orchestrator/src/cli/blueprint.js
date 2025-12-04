@@ -11,6 +11,8 @@ import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 import blueprint from '../lib/blueprint.js';
 import research from '../lib/research.js';
+import { validateClientIntake, formatErrors } from '../lib/validator.js';
+import { initTracker, getCurrentTracker } from '../lib/claude.js';
 
 // Load environment variables
 config();
@@ -90,6 +92,22 @@ async function generateBlueprint(args) {
     const intakeContent = await fs.readFile(intakePath, 'utf-8');
     const clientData = JSON.parse(intakeContent);
 
+    // Validate intake data
+    console.log(`🔍 Validating intake data...`);
+    const validation = validateClientIntake(clientData);
+
+    if (!validation.valid) {
+      console.error(`\n❌ Intake validation failed:`);
+      console.error(formatErrors(validation.errors));
+      console.log(`\n💡 Fix the errors above and try again.`);
+      process.exit(1);
+    }
+    console.log(`✅ Intake validation passed\n`);
+
+    // Initialize token tracker
+    const projectName = clientData.company.slug || clientData.company.name.toLowerCase().replace(/\s+/g, '-');
+    initTracker(projectName);
+
     console.log(`📋 Client: ${clientData.company.name}`);
     console.log(`   Industry: ${clientData.industry.category}`);
     console.log(`   Services: ${clientData.services.length} listed`);
@@ -122,14 +140,26 @@ async function generateBlueprint(args) {
     const outputPath = path.resolve(outputDir);
     const savedPath = await blueprint.saveBlueprint(generatedBlueprint, outputPath);
 
+    // Show token usage
+    const tracker = getCurrentTracker();
+    const totals = tracker.getTotals();
+
     console.log(`
 ╔════════════════════════════════════════╗
 ║     Blueprint Generated Successfully   ║
 ╚════════════════════════════════════════╝
 
 📄 Saved to: ${savedPath}
+`);
 
-Next steps:
+    if (totals.total_tokens > 0) {
+      console.log(`📊 Token Usage:`);
+      console.log(`   Total: ${totals.total_tokens.toLocaleString()} tokens`);
+      console.log(`   Estimated cost: $${totals.total_cost_usd.toFixed(4)}`);
+      console.log('');
+    }
+
+    console.log(`Next steps:
 1. Review the blueprint: wpf-blueprint view ${savedPath}
 2. Edit content as needed
 3. When ready, proceed to Phase 2 (Design Draft)

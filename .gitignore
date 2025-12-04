@@ -65,3 +65,7 @@ test-results/
 modules/*/.next/
 modules/*/node_modules/
 modules/*/*.pack
+
+# Orchestrator sensitive files
+modules/orchestrator/.env
+modules/orchestrator/examples/research-log-*.json

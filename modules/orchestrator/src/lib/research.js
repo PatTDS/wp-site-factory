@@ -1,16 +1,23 @@
 /**
  * Research Engine
  * Handles best practices and competitor research
+ * With automatic token tracking
  */
 
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import claude from './claude.js';
+import claude, { initTracker, getCurrentTracker } from './claude.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KNOWLEDGE_BASE_PATH = process.env.KNOWLEDGE_BASE_PATH ||
   path.join(__dirname, '../../../../knowledge');
+
+// Cache configuration
+const CACHE_CONFIG = {
+  maxAgeDays: parseInt(process.env.CACHE_MAX_AGE_DAYS) || 30, // Default 30 days
+  checkExpiry: process.env.CACHE_CHECK_EXPIRY !== 'false', // Default true
+};
 
 /**
  * Research best practices for a section type and industry
@@ -107,25 +114,55 @@ export async function researchCompetitors(industry, location = '', options = {})
 /**
  * Run full discovery research for a client
  * @param {object} clientData - Client intake data
+ * @param {object} options - Options including project name and parallel mode
  * @returns {Promise<object>} - Complete research results
  */
-export async function runDiscoveryResearch(clientData) {
-  const { industry, services } = clientData;
+export async function runDiscoveryResearch(clientData, options = {}) {
+  const { industry, services, company } = clientData;
   const industryCategory = industry.category;
+  const parallel = options.parallel !== false; // Default to parallel
+
+  // Initialize tracker with project name
+  const projectName = options.projectName || company?.slug || 'unknown-project';
+  const tracker = initTracker(projectName);
 
   const results = {
     bestPractices: {},
     competitors: null,
     timestamp: new Date().toISOString(),
+    project: projectName,
   };
 
   // Research best practices for each section type
   const sectionTypes = ['hero', 'about-us', 'services', 'testimonials', 'contact'];
 
-  for (const sectionType of sectionTypes) {
-    console.log(`\nResearching ${sectionType} best practices...`);
-    const research = await researchBestPractices(sectionType, industryCategory);
-    results.bestPractices[sectionType] = research.data;
+  if (parallel) {
+    // Run all section research in parallel
+    console.log(`\nResearching ${sectionTypes.length} sections in parallel...`);
+    const startTime = Date.now();
+
+    const researchPromises = sectionTypes.map(async (sectionType) => {
+      console.log(`  Starting: ${sectionType}...`);
+      const research = await researchBestPractices(sectionType, industryCategory);
+      console.log(`  Completed: ${sectionType}`);
+      return { sectionType, data: research.data };
+    });
+
+    const researchResults = await Promise.all(researchPromises);
+
+    for (const { sectionType, data } of researchResults) {
+      results.bestPractices[sectionType] = data;
+    }
+
+    const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+    console.log(`\nAll ${sectionTypes.length} sections completed in ${duration}s (parallel)`);
+  } else {
+    // Sequential mode (original behavior)
+    for (const sectionType of sectionTypes) {
+      console.log(`\nResearching ${sectionType} best practices...`);
+      const research = await researchBestPractices(sectionType, industryCategory);
+      results.bestPractices[sectionType] = research.data;
+    }
   }
 
   // Research competitors
@@ -134,7 +171,18 @@ export async function runDiscoveryResearch(clientData) {
   const competitorResearch = await researchCompetitors(industryCategory, serviceArea);
   results.competitors = competitorResearch.data;
 
+  // Attach token usage summary
+  results.tokenUsage = tracker.getTotals();
+
   return results;
+}
+
+/**
+ * Get current token tracker
+ * @returns {TokenTracker} Current tracker
+ */
+export function getResearchTracker() {
+  return getCurrentTracker();
 }
 
 // ============ Helper Functions ============
@@ -229,6 +277,7 @@ function parseCompetitorResults(content, industry) {
 
 /**
  * Get existing knowledge from knowledge base
+ * Checks for cache expiry based on frontmatter last_updated
  */
 async function getExistingKnowledge(sectionType, industry) {
   const industryPath = path.join(
@@ -242,10 +291,21 @@ async function getExistingKnowledge(sectionType, industry) {
 
   try {
     const content = await fs.readFile(industryPath, 'utf-8');
+
     // Check if it's just a template (not populated)
     if (content.includes('*To be populated through research*')) {
       return null;
     }
+
+    // Check cache expiry if enabled
+    if (CACHE_CONFIG.checkExpiry) {
+      const lastUpdated = extractLastUpdated(content);
+      if (lastUpdated && isCacheExpired(lastUpdated)) {
+        console.log(`  Cache expired for ${sectionType}/${industry} (older than ${CACHE_CONFIG.maxAgeDays} days)`);
+        return null;
+      }
+    }
+
     return content;
   } catch (error) {
     // File doesn't exist, no cached knowledge
@@ -254,7 +314,29 @@ async function getExistingKnowledge(sectionType, industry) {
 }
 
 /**
+ * Extract last_updated from frontmatter
+ */
+function extractLastUpdated(content) {
+  const match = content.match(/last_updated:\s*(\d{4}-\d{2}-\d{2}[T\d:.\-Z]*)/);
+  if (match) {
+    return new Date(match[1]);
+  }
+  return null;
+}
+
+/**
+ * Check if cache is expired
+ */
+function isCacheExpired(lastUpdated) {
+  const now = new Date();
+  const ageMs = now - lastUpdated;
+  const ageDays = ageMs / (1000 * 60 * 60 * 24);
+  return ageDays > CACHE_CONFIG.maxAgeDays;
+}
+
+/**
  * Get existing competitor research
+ * Checks for cache expiry based on frontmatter last_updated
  */
 async function getExistingCompetitorResearch(industry) {
   const researchPath = path.join(
@@ -266,6 +348,16 @@ async function getExistingCompetitorResearch(industry) {
 
   try {
     const content = await fs.readFile(researchPath, 'utf-8');
+
+    // Check cache expiry if enabled
+    if (CACHE_CONFIG.checkExpiry) {
+      const lastUpdated = extractLastUpdated(content);
+      if (lastUpdated && isCacheExpired(lastUpdated)) {
+        console.log(`  Cache expired for ${industry} competitor research (older than ${CACHE_CONFIG.maxAgeDays} days)`);
+        return null;
+      }
+    }
+
     return content;
   } catch (error) {
     return null;
@@ -378,4 +470,5 @@ export default {
   researchBestPractices,
   researchCompetitors,
   runDiscoveryResearch,
+  getResearchTracker,
 };

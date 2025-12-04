@@ -1,0 +1,170 @@
+{
+  "company": {
+    "name": "Anywhere Solutions",
+    "tagline": "Your Precast Partner",
+    "years_in_business": 5
+  },
+  "contact": {
+    "phone": "0478 808 465",
+    "email": "patric@anywheresolutions.com.au",
+    "address": {
+      "city": "Sydney",
+      "state": "NSW",
+      "country": "Australia"
+    },
+    "hours": {
+      "weekdays": "Mon-Fri 6:00AM-5:00PM",
+      "saturday": "By appointment",
+      "sunday": "Closed",
+      "notes": "Emergency services available for ongoing projects"
+    }
+  },
+  "social": {
+    "instagram": "https://instagram.com/anywheresolutions"
+  },
+  "brand": {
+    "colors": {
+      "primary": "#0F2942",
+      "secondary": "#4DA6FF",
+      "accent": "#FFFFFF"
+    },
+    "tone": "professional",
+    "existing_logo": true,
+    "notes": "Dark navy and light blue color scheme. Logo features stylized 'AW' with mountain-like chevrons representing strength and reliability."
+  },
+  "industry": {
+    "category": "construction",
+    "niche": "precast-concrete-services",
+    "target_audience": "Construction companies, builders, precasters, industrial and commercial developers",
+    "service_area": "Greater Sydney, NSW, Australia"
+  },
+  "mission": {
+    "vision": "To be the most trusted precast services partner in the Australian construction industry",
+    "mission": "Delivering comprehensive precast concrete solutions with precision, reliability, and safety from panel installation to project completion",
+    "values": [
+      "Safety First - Priority on job-site safety and adherence to industry standards",
+      "Precision - Expert craftsmanship in every service we provide",
+      "Reliability - We're there from start to finish",
+      "Partnership - Building long-term relationships with construction companies"
+    ],
+    "unique_selling_points": [
+      "Comprehensive precast support from installation to final removal",
+      "Specialized expertise in precast concrete services",
+      "Trusted by major construction companies including Richard Crookes, Mainbrace, and Vaughan Constructions",
+      "Full-service offering covering all precast-related needs"
+    ]
+  },
+  "services": [
+    {
+      "name": "Precast Panel Installation (Rigging)",
+      "description": "Professional precast and tilt-up concrete panel erection services. We coordinate with crane operators to safely lift, position, and secure precast panels for industrial, commercial, and warehouse structures. Includes lift planning, sequence drawings, and safety analysis.",
+      "price_range": "Project-based quote",
+      "is_primary": true
+    },
+    {
+      "name": "Joint Sealing (Caulking)",
+      "description": "Expert joint sealing services ensuring precision and durability. We specialize in sealing gaps between precast panels, concrete slabs, and glass, preventing water infiltration and enhancing structural integrity.",
+      "price_range": "Per linear metre quote",
+      "is_primary": true
+    },
+    {
+      "name": "Concrete Repairs",
+      "description": "Specialized concrete repair services tailored for precast structures, addressing surface imperfections, bugholes, honeycombing, and other common challenges. We restore structural integrity and ensure longevity of precast installations.",
+      "price_range": "Per square metre quote",
+      "is_primary": true
+    },
+    {
+      "name": "Skincoating and Enhancement",
+      "description": "Precast concrete skincoating services designed to address surface imperfections, bugholes, honeycombing, and various pathologies. We enhance aesthetics and durability, ensuring precast elements remain in pristine condition.",
+      "price_range": "Project-based quote",
+      "is_primary": false
+    },
+    {
+      "name": "Precision Grouting",
+      "description": "Specialized grouting services that enhance the strength and alignment of precast panels. Services include bed grouting, liquid grouting, and base plate grouting, ensuring project success and structural integrity.",
+      "price_range": "Project-based quote",
+      "is_primary": true
+    },
+    {
+      "name": "Crack Injection",
+      "description": "Advanced crack injection service using epoxy and polyurethane injections to repair and restore concrete structures. This minimally invasive, cost-effective process restores concrete to its pre-cracked condition for both precast and in-situ structures.",
+      "price_range": "Per injection point quote",
+      "is_primary": false
+    },
+    {
+      "name": "Props Management",
+      "description": "Comprehensive propping management including installation, replacement, and stacking for transport. Our expertise ensures props are handled with precision, securing overall efficiency and reliability of your project.",
+      "price_range": "Project-based quote",
+      "is_primary": false
+    },
+    {
+      "name": "Coverplate Installation",
+      "description": "Expert coverplate installation offering reinforcement and protection to concrete structures, especially at joints or cracks. Durable steel plates provide additional support and even load distribution, crucial for high-stress and harsh environments.",
+      "price_range": "Per plate quote",
+      "is_primary": false
+    },
+    {
+      "name": "General Labour",
+      "description": "Comprehensive general labour services covering site preparation, concrete mixing and pouring, application of finishes, and basic repairs. Fundamental support for efficient construction execution with priority on safety and industry standards.",
+      "price_range": "Hourly or daily rates",
+      "is_primary": false
+    }
+  ],
+  "website_goals": {
+    "primary_goal": "generate-leads",
+    "secondary_goals": [
+      "Showcase project portfolio and capabilities",
+      "Establish credibility through client partnerships",
+      "Provide easy contact and quote request options"
+    ],
+    "pages_needed": [
+      "Home",
+      "About",
+      "Services",
+      "Projects",
+      "Contact"
+    ],
+    "features_needed": [
+      "Quote request form",
+      "Project gallery with filtering",
+      "Service detail pages",
+      "Mobile responsive design",
+      "Client testimonials section"
+    ]
+  },
+  "team": [
+    {
+      "name": "Patric Da Silva",
+      "role": "Project Engineer",
+      "email": "patric@anywheresolutions.com.au",
+      "phone": "0478 808 465"
+    },
+    {
+      "name": "Luiz Santiago (Dozer)",
+      "role": "Construction Director",
+      "email": "dozer@anywheresolutions.com.au",
+      "phone": "0414 771 926"
+    }
+  ],
+  "portfolio": [
+    {
+      "name": "GARMIN Distribution Centre",
+      "location": "Marsden Park, NSW",
+      "client": "Richard Crookes Constructions",
+      "type": "Industrial"
+    },
+    {
+      "name": "Storage King Facility",
+      "location": "Gregory Hills, NSW",
+      "client": "Mainbrace Constructions",
+      "type": "Commercial Storage"
+    },
+    {
+      "name": "Woolworths",
+      "location": "Auburn, NSW",
+      "client": "Vaughan Constructions",
+      "type": "Retail/Commercial"
+    }
+  ],
+  "notes": "B2B focused company serving the construction industry. Key differentiator is comprehensive precast services from start to finish. Adding rigging/panel installation services to expand offerings. Target market is builders and construction companies working on industrial, commercial, and warehouse projects in Greater Sydney area."
+}

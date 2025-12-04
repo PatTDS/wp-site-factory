@@ -1,0 +1,96 @@
+{
+  "project": "anywhere-solutions",
+  "timestamp": "2025-12-04T10:30:00.000Z",
+  "industry": "precast-concrete-services",
+  "service_area": "Greater Sydney, NSW, Australia",
+
+  "bestPractices": {
+    "hero": {
+      "section": "hero",
+      "industry": "construction",
+      "content": "## Hero Section Best Practices for Construction\n\n### Key Principles\n1. Immediate value proposition - Lead with what you do and who you serve\n2. Trust signals above the fold - Major client logos, years, certifications\n3. Strong visual impact - Project photography, avoid stock photos\n\n### Effective Headlines\n- \"Expert [Service] Solutions From Start to Finish\"\n- \"Your Trusted [Specialization] Partner\"\n- Formula: [Benefit/Expertise] + [Specialization] + [Geographic Qualifier]\n\n### CTA Best Practices\n- Primary: Action-oriented (\"Request a Quote\")\n- Secondary: Lower commitment (\"View Our Projects\")\n- Phone number prominently displayed",
+      "metadata": {
+        "researched_at": "2025-12-04T10:35:00.000Z",
+        "confidence": "high",
+        "version": "1.0",
+        "sources": [
+          "https://www.projectmark.com/blog/construction-website-design",
+          "https://www.create180design.com/12-web-design-best-practices-for-construction-company-websites/",
+          "https://clickysoft.com/best-practices-for-construction-company-web-design/"
+        ]
+      }
+    },
+    "about-us": {
+      "section": "about-us",
+      "industry": "construction",
+      "content": "## About Us Best Practices for Construction\n\n### Key Statistic\nA strong About Us page can increase visitor trust by 52%\n\n### Essential Elements\n1. Company History & Story\n2. Mission & Values (3-4 core values)\n3. Team Section with photos\n4. Credentials & Trust Signals\n5. Process Overview\n\n### Construction-Specific Trust Signals\n- Licenses and certifications\n- Insurance certificates\n- Safety protocols\n- Major builder partnerships",
+      "metadata": {
+        "researched_at": "2025-12-04T10:36:00.000Z",
+        "confidence": "high",
+        "version": "1.0",
+        "sources": [
+          "https://www.projectmark.com/blog/construction-website-design",
+          "https://fireart.studio/blog/27-examples-of-construction-websites-with-fantastic-designs/",
+          "https://htmlburger.com/blog/construction-websites/"
+        ]
+      }
+    },
+    "services": {
+      "section": "services",
+      "industry": "construction",
+      "content": "## Services Section Best Practices for Construction\n\n### Key Principles\n1. Clear categorization of services\n2. Benefit-focused descriptions\n3. Visual representation of each service\n4. Clear CTAs per service\n\n### B2B Construction Services Format\n- Service name with tagline\n- 2-3 sentence benefit-focused description\n- 3-5 key features/capabilities\n- CTA button (Get Quote)\n\n### SEO Considerations\n- Individual service pages for main offerings\n- Industry-specific keywords\n- Location qualifiers",
+      "metadata": {
+        "researched_at": "2025-12-04T10:37:00.000Z",
+        "confidence": "medium",
+        "version": "1.0",
+        "sources": []
+      }
+    },
+    "testimonials": {
+      "section": "testimonials",
+      "industry": "construction",
+      "content": "## Testimonials Best Practices for Construction\n\n### Key Principles\n1. Real testimonials with attribution\n2. Project-specific feedback preferred\n3. Include company/role of reviewer\n4. Photo adds credibility\n\n### B2B Construction Format\n- Quote from project manager/superintendent\n- Company name and role\n- Project name (if permitted)\n- Specific results mentioned\n\n### Alternative Trust Signals\n- Client logos grid\n- Google/industry review ratings\n- Case studies with metrics",
+      "metadata": {
+        "researched_at": "2025-12-04T10:38:00.000Z",
+        "confidence": "medium",
+        "version": "1.0",
+        "sources": []
+      }
+    },
+    "contact": {
+      "section": "contact",
+      "industry": "construction",
+      "content": "## Contact Section Best Practices for Construction\n\n### Key Principles\n1. Multiple contact methods\n2. Clear business hours\n3. Service area indication\n4. Quick response promise\n\n### B2B Construction Format\n- Phone numbers (direct to decision makers)\n- Email addresses\n- Quote request form\n- Business hours\n- Emergency contact (if applicable)\n\n### Form Fields for B2B\n- Company name\n- Contact name/role\n- Phone and email\n- Project type\n- Services needed\n- Timeline\n- Message",
+      "metadata": {
+        "researched_at": "2025-12-04T10:39:00.000Z",
+        "confidence": "medium",
+        "version": "1.0",
+        "sources": []
+      }
+    }
+  },
+
+  "competitors": {
+    "industry": "precast-concrete-services",
+    "location": "Australia",
+    "content": "## Precast Concrete Services - Competitor Analysis\n\n### Major Players\n1. Premier Cranes & Rigging (Melbourne) - Since 2008, CAD lift studies\n2. BSL Group (Melbourne) - 30+ years, quality craftsmanship focus\n3. Rankin Steel and Rigging (Gold Coast) - Advanced crane capabilities\n4. RAR Group (National) - Notable projects including Sydney Opera House\n5. Sventek Cranes (Melbourne) - Safety-first, state-of-art equipment\n6. Urban Cranes (WA) - Total installation packages\n\n### Common Service Offerings\n- Precast panel erection\n- Tilt-up installation\n- Crane coordination\n- Lift planning\n- Propping\n- Joint sealing\n- Grouting\n\n### Differentiators\n- Years of experience\n- Major project portfolio\n- Safety certifications\n- End-to-end support\n- Partnership emphasis",
+    "metadata": {
+      "researched_at": "2025-12-04T10:26:00.000Z",
+      "confidence": "high",
+      "version": "1.0",
+      "sources": [
+        "https://www.premiercranes.com.au/capabilities/precast-panel-installation",
+        "https://www.rankinsteel.com.au/services/precast-panel-erection/",
+        "https://bslgroup.com.au/precast-installation",
+        "https://www.australrigging.com.au/",
+        "https://www.rargroup.com.au/rigging/"
+      ]
+    }
+  },
+
+  "tokens_consumed": {
+    "best_practices_research": 6800,
+    "competitor_research": 1400,
+    "total": 8200
+  }
+}

@@ -176,9 +176,13 @@ Generate ONLY a JSON object with this exact structure (no markdown, no explanati
   }
 
   // Fallback content
+  const yearsText = clientData.company.years_in_business
+    ? `${clientData.company.years_in_business} years of`
+    : 'extensive';
+
   return {
     headline: `${clientData.industry.service_area || 'Local'}'s Trusted ${capitalizeFirst(clientData.industry.category)} Experts`,
-    subheadline: `${clientData.company.name} delivers quality ${clientData.industry.category} services with ${clientData.company.years_in_business || 'years of'} experience.`,
+    subheadline: `${clientData.company.name} delivers quality ${clientData.industry.category} services with ${yearsText} experience.`,
     cta_primary: {
       text: 'Get Free Quote',
       action: 'form',
@@ -241,14 +245,48 @@ Generate ONLY a JSON object with this exact structure (no markdown, no explanati
   }
 
   // Fallback
+  const yearsText = clientData.company.years_in_business
+    ? `For ${clientData.company.years_in_business} years, `
+    : '';
+  const serviceArea = clientData.industry.service_area || 'local';
+  const industry = clientData.industry.category;
+  const companyName = clientData.company.name;
+
+  // Build a more complete story from available data
+  const storyParts = [
+    `${yearsText}${companyName} has been serving the ${serviceArea} community with quality ${industry} services.`,
+  ];
+
+  if (clientData.mission?.mission) {
+    storyParts.push(clientData.mission.mission);
+  }
+
+  if (clientData.mission?.vision) {
+    storyParts.push(`Our vision: ${clientData.mission.vision}`);
+  }
+
+  // Extract values with proper formatting
+  const values = (clientData.mission?.values || []).slice(0, 4).map(v => {
+    const parts = v.split(' - ');
+    return {
+      title: parts[0]?.trim() || v,
+      description: parts[1]?.trim() || v,
+    };
+  });
+
   return {
-    headline: `About ${clientData.company.name}`,
-    story: `${clientData.company.name} has been serving the ${clientData.industry.service_area || 'local'} community with quality ${clientData.industry.category} services.`,
-    values: clientData.mission?.values?.slice(0, 3).map(v => ({
-      title: v.split(' - ')[0] || v,
-      description: v,
-    })) || [],
-    credentials: clientData.mission?.unique_selling_points?.slice(0, 3) || [],
+    headline: `About ${companyName}`,
+    story: storyParts.join('\n\n'),
+    values: values.length > 0 ? values : [
+      { title: 'Quality', description: 'We deliver excellence in every project.' },
+      { title: 'Reliability', description: 'You can count on us to deliver on time.' },
+      { title: 'Expertise', description: 'Years of experience in the industry.' },
+    ],
+    credentials: clientData.mission?.unique_selling_points?.slice(0, 3) || [
+      `Trusted ${industry} services in ${serviceArea}`,
+      'Experienced and professional team',
+      'Customer satisfaction guaranteed',
+    ],
   };
 }
 
@@ -302,15 +340,40 @@ Include ALL services from the list above.
     }
   }
 
-  // Fallback
+  // Fallback - extract features from description if possible
+  const extractFeatures = (service) => {
+    const features = [];
+    const desc = service.description || '';
+
+    // Try to extract key phrases from description
+    // Look for patterns like "includes X, Y, and Z" or lists
+    const includesMatch = desc.match(/includes?\s+([^.]+)/i);
+    if (includesMatch) {
+      const items = includesMatch[1].split(/,\s*(?:and\s+)?/).map(s => s.trim()).filter(s => s.length > 0);
+      features.push(...items.slice(0, 3));
+    }
+
+    // If no features found, generate from service name
+    if (features.length === 0) {
+      const serviceName = service.name.toLowerCase();
+      features.push(
+        `Professional ${serviceName}`,
+        'Quality workmanship',
+        'Competitive pricing'
+      );
+    }
+
+    return features.slice(0, 3);
+  };
+
   return {
-    headline: 'Our Services',
-    intro: `${clientData.company.name} offers a full range of ${clientData.industry.category} services.`,
+    headline: `Our ${capitalizeFirst(clientData.industry.category)} Services`,
+    intro: `${clientData.company.name} offers a full range of ${clientData.industry.category} services tailored to meet your needs.`,
     services: services.map(s => ({
       name: s.name,
-      description: s.description || `Professional ${s.name.toLowerCase()} services.`,
-      features: [],
-      cta: 'Get Quote',
+      description: s.description || `Professional ${s.name.toLowerCase()} services tailored to your specific requirements.`,
+      features: extractFeatures(s),
+      cta: s.is_primary ? 'Get Quote' : 'Learn More',
     })),
   };
 }

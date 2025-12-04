@@ -1,0 +1,319 @@
+{
+  "version": "1.0",
+  "created_at": "2025-12-04T22:41:35.313Z",
+  "status": "draft",
+  "client_profile": {
+    "company": {
+      "name": "Anywhere Solutions",
+      "tagline": "Your Precast Partner",
+      "years_in_business": 5
+    },
+    "contact": {
+      "phone": "0478 808 465",
+      "email": "patric@anywheresolutions.com.au",
+      "address": {
+        "city": "Sydney",
+        "state": "NSW",
+        "country": "Australia"
+      },
+      "hours": {
+        "weekdays": "Mon-Fri 6:00AM-5:00PM",
+        "saturday": "By appointment",
+        "sunday": "Closed",
+        "notes": "Emergency services available for ongoing projects"
+      }
+    },
+    "brand": {
+      "colors": {
+        "primary": "#0F2942",
+        "secondary": "#4DA6FF",
+        "accent": "#FFFFFF"
+      },
+      "tone": "professional"
+    },
+    "industry": {
+      "category": "construction",
+      "niche": "precast-concrete-services",
+      "target_audience": "Construction companies, builders, precasters, industrial and commercial developers",
+      "service_area": "Greater Sydney, NSW, Australia"
+    }
+  },
+  "research_summary": {
+    "best_practices_researched": [
+      "hero",
+      "about-us",
+      "services",
+      "testimonials",
+      "contact"
+    ],
+    "competitors_analyzed": true,
+    "research_date": "2025-12-04T22:41:35.299Z"
+  },
+  "content_drafts": {
+    "hero": {
+      "headline": "Your Complete Precast Partner for Every Project",
+      "subheadline": "From installation to removal, we deliver comprehensive precast concrete services trusted by Sydney's leading construction companies. Expert support at every stage.",
+      "cta_primary": {
+        "text": "Get a Free Quote",
+        "action": "quote"
+      },
+      "cta_secondary": {
+        "text": "View Our Services",
+        "action": "services"
+      }
+    },
+    "about_us": {
+      "headline": "Your Complete Precast Partner in Greater Sydney",
+      "story": "For five years, Anywhere Solutions has been delivering comprehensive precast concrete services to builders and construction companies across Greater Sydney. We established our company with a clear purpose: to become the most trusted precast services partner in the Australian construction industry. From panel installation to project completion, we provide end-to-end solutions that keep your industrial, commercial, and warehouse projects on track.\n\nWhat sets us apart is our commitment to being there from start to finish. We understand that construction projects demand precision, reliable scheduling, and unwavering attention to safety. That's why we've built our team around these principles, ensuring every job meets the exacting standards our clients expect. As we expand our rigging and panel installation services, we remain focused on what matters most—building long-term partnerships with construction companies who value quality workmanship and dependable service.",
+      "values": [
+        {
+          "title": "Safety First",
+          "description": "We prioritise job-site safety above all else, maintaining strict adherence to industry standards on every project we undertake."
+        },
+        {
+          "title": "Precision",
+          "description": "Expert craftsmanship defines our work, with meticulous attention to detail in every precast service we deliver."
+        },
+        {
+          "title": "Reliability",
+          "description": "From project commencement to completion, we're committed to being there when you need us, delivering on our promises."
+        },
+        {
+          "title": "Partnership",
+          "description": "We build lasting relationships with construction companies, working collaboratively to achieve successful project outcomes."
+        }
+      ],
+      "credentials": [
+        "5 years of specialist precast concrete services in Greater Sydney",
+        "Comprehensive end-to-end solutions for industrial, commercial, and warehouse construction",
+        "Fully licensed and compliant with Australian construction industry standards"
+      ]
+    },
+    "services": {
+      "headline": "Comprehensive Precast & Concrete Solutions",
+      "intro": "Anywhere Solutions delivers specialized precast concrete services that construction professionals trust. From panel installation to precision repairs, our expert team ensures structural integrity, project efficiency, and lasting results for industrial, commercial, and warehouse developments.",
+      "services": [
+        {
+          "name": "Precast Panel Installation (Rigging)",
+          "description": "Professional precast and tilt-up concrete panel erection services executed with precision and safety. We coordinate seamlessly with crane operators to lift, position, and secure panels for your industrial, commercial, and warehouse structures.",
+          "features": [
+            "Comprehensive lift planning",
+            "Detailed sequence drawings",
+            "Thorough safety analysis"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Joint Sealing (Caulking)",
+          "description": "Expert joint sealing services that prevent water infiltration and enhance structural integrity. Our precision application ensures durable seals between precast panels, concrete slabs, and glass assemblies.",
+          "features": [
+            "Water infiltration prevention",
+            "Long-lasting durability",
+            "Multi-substrate expertise"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Concrete Repairs",
+          "description": "Specialized repair services tailored for precast structures, addressing surface imperfections and restoring structural integrity. We tackle bugholes, honeycombing, and other common challenges to ensure the longevity of your installations.",
+          "features": [
+            "Surface imperfection correction",
+            "Structural integrity restoration",
+            "Extended installation lifespan"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Skincoating and Enhancement",
+          "description": "Professional skincoating services that transform precast concrete surfaces, eliminating bugholes, honeycombing, and various pathologies. We enhance both aesthetics and durability to keep your precast elements in pristine condition.",
+          "features": [
+            "Surface imperfection treatment",
+            "Aesthetic enhancement",
+            "Improved durability"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Precision Grouting",
+          "description": "Specialized grouting services that strengthen alignment and enhance the stability of precast panels. Our bed grouting, liquid grouting, and base plate grouting ensure your project achieves optimal structural integrity.",
+          "features": [
+            "Bed grouting",
+            "Liquid grouting",
+            "Base plate grouting"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Crack Injection",
+          "description": "Advanced crack injection services using epoxy and polyurethane to restore concrete structures to pre-cracked condition. This minimally invasive, cost-effective solution works for both precast and in-situ applications.",
+          "features": [
+            "Epoxy injection",
+            "Polyurethane injection",
+            "Minimally invasive process"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Props Management",
+          "description": "Comprehensive propping management services covering installation, replacement, and transport stacking. Our precision handling ensures efficiency and reliability throughout your project timeline.",
+          "features": [
+            "Professional installation",
+            "Efficient replacement",
+            "Transport-ready stacking"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "Coverplate Installation",
+          "description": "Expert coverplate installation providing reinforcement and protection at concrete joints and cracks. Our durable steel plates deliver additional support and even load distribution for high-stress environments.",
+          "features": [
+            "Joint reinforcement",
+            "Even load distribution",
+            "High-stress environment rated"
+          ],
+          "cta": "Get Quote"
+        },
+        {
+          "name": "General Labour",
+          "description": "Comprehensive general labour services supporting all aspects of construction execution. From site preparation to concrete mixing, finishing application, and basic repairs, our team prioritizes safety and industry standards.",
+          "features": [
+            "Site preparation",
+            "Concrete mixing and pouring",
+            "Finish application"
+          ],
+          "cta": "Learn More"
+        }
+      ]
+    },
+    "testimonials": {
+      "headline": "What Our Customers Say",
+      "intro": "See why Greater Sydney, NSW, Australia customers trust Anywhere Solutions.",
+      "testimonials": [
+        {
+          "placeholder": true,
+          "format": {
+            "quote": "Customer testimonial text",
+            "name": "Customer Name",
+            "location": "City/Suburb",
+            "rating": 5
+          }
+        }
+      ],
+      "review_platforms": {
+        "google_rating": null,
+        "google_review_count": null,
+        "facebook_rating": null
+      },
+      "notes": "Collect real testimonials from client. Consider pulling from Google Reviews."
+    },
+    "contact": {
+      "headline": "Get In Touch",
+      "intro": "Ready to get started? Contact Anywhere Solutions today.",
+      "phone": {
+        "number": "0478 808 465",
+        "display": "0478 808 465",
+        "note": "Emergency services available for ongoing projects"
+      },
+      "email": "patric@anywheresolutions.com.au",
+      "address": {
+        "city": "Sydney",
+        "state": "NSW",
+        "country": "Australia"
+      },
+      "hours": {
+        "weekdays": "Mon-Fri 6:00AM-5:00PM",
+        "saturday": "By appointment",
+        "sunday": "Closed",
+        "notes": "Emergency services available for ongoing projects"
+      },
+      "form": {
+        "fields": [
+          "name",
+          "phone",
+          "email",
+          "message"
+        ],
+        "submit_text": "Send Message",
+        "success_message": "Thanks! We'll be in touch within 24 hours."
+      },
+      "map": {
+        "show": true,
+        "address": "undefined, Sydney"
+      }
+    }
+  },
+  "structure_recommendation": {
+    "pages": [
+      {
+        "name": "Home",
+        "slug": "home",
+        "sections": [
+          "hero",
+          "services-preview",
+          "about-preview",
+          "testimonials",
+          "cta",
+          "contact-preview"
+        ]
+      },
+      {
+        "name": "About",
+        "slug": "about",
+        "sections": [
+          "hero-simple",
+          "about-full",
+          "team",
+          "values",
+          "cta"
+        ]
+      },
+      {
+        "name": "Services",
+        "slug": "services",
+        "sections": [
+          "hero-simple",
+          "services-full",
+          "process",
+          "cta"
+        ]
+      },
+      {
+        "name": "Projects",
+        "slug": "projects",
+        "sections": [
+          "hero-simple",
+          "content",
+          "cta"
+        ]
+      },
+      {
+        "name": "Contact",
+        "slug": "contact",
+        "sections": [
+          "hero-simple",
+          "contact-full",
+          "map",
+          "faq"
+        ]
+      }
+    ],
+    "navigation": {
+      "primary": [
+        "Home",
+        "About",
+        "Services",
+        "Projects",
+        "Contact"
+      ],
+      "footer": [
+        "Privacy Policy",
+        "Terms of Service"
+      ]
+    },
+    "recommendations": [
+      "Consider individual pages for each major service (better for SEO)",
+      "Add a blog/news section later for SEO value",
+      "Ensure contact info is in header and footer"
+    ]
+  }
+}

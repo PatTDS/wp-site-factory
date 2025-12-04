@@ -1,10 +1,13 @@
 /**
  * Claude API Client Wrapper
  * Provides web search capabilities for research
+ * Includes automatic token tracking
  */
 
 import Anthropic from '@anthropic-ai/sdk';
 import { config } from 'dotenv';
+import { getTracker, TokenTracker } from './token-tracker.js';
+import searchProviders from './search-providers.js';
 
 // Load environment variables
 config();
@@ -14,6 +17,86 @@ const client = new Anthropic({
 });
 
 const DEFAULT_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514';
+
+// Retry configuration
+const RETRY_CONFIG = {
+  maxRetries: 3,
+  initialDelayMs: 1000,
+  maxDelayMs: 30000,
+  backoffMultiplier: 2,
+  retryableStatusCodes: [429, 500, 502, 503, 504],
+};
+
+// Global tracker instance
+let tracker = null;
+
+/**
+ * Sleep for specified milliseconds
+ * @param {number} ms - Milliseconds to sleep
+ */
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Execute with retry and exponential backoff
+ * @param {Function} fn - Async function to execute
+ * @param {object} options - Retry options
+ * @returns {Promise} - Result of function
+ */
+async function withRetry(fn, options = {}) {
+  const config = { ...RETRY_CONFIG, ...options };
+  let lastError;
+  let delay = config.initialDelayMs;
+
+  for (let attempt = 1; attempt <= config.maxRetries + 1; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+
+      // Check if error is retryable
+      const statusCode = error.status || error.statusCode;
+      const isRetryable = config.retryableStatusCodes.includes(statusCode) ||
+        error.code === 'ECONNRESET' ||
+        error.code === 'ETIMEDOUT' ||
+        error.message?.includes('rate limit');
+
+      if (!isRetryable || attempt > config.maxRetries) {
+        throw error;
+      }
+
+      // Log retry attempt
+      console.log(`  API call failed (${error.message}), retrying in ${delay}ms (attempt ${attempt}/${config.maxRetries})...`);
+
+      // Wait with exponential backoff
+      await sleep(delay);
+      delay = Math.min(delay * config.backoffMultiplier, config.maxDelayMs);
+    }
+  }
+
+  throw lastError;
+}
+
+/**
+ * Initialize token tracker for a project
+ * @param {string} projectName - Project name for tracking
+ */
+export function initTracker(projectName) {
+  tracker = getTracker(projectName);
+  return tracker;
+}
+
+/**
+ * Get current tracker instance
+ * @returns {TokenTracker} Current tracker
+ */
+export function getCurrentTracker() {
+  if (!tracker) {
+    tracker = getTracker('default');
+  }
+  return tracker;
+}
 
 /**
  * Execute a research query using Claude with web search
@@ -26,6 +109,7 @@ export async function research(query, options = {}) {
     model = DEFAULT_MODEL,
     maxTokens = 4096,
     systemPrompt = null,
+    operation = 'research', // Operation name for tracking
   } = options;
 
   const messages = [
@@ -36,11 +120,27 @@ export async function research(query, options = {}) {
   ];
 
   try {
-    const response = await client.messages.create({
-      model,
-      max_tokens: maxTokens,
-      system: systemPrompt || getDefaultSystemPrompt(),
-      messages,
+    // Use retry wrapper for API calls
+    const response = await withRetry(async () => {
+      return await client.messages.create({
+        model,
+        max_tokens: maxTokens,
+        system: systemPrompt || getDefaultSystemPrompt(),
+        messages,
+      });
+    });
+
+    // Automatic token tracking
+    const currentTracker = getCurrentTracker();
+    currentTracker.track({
+      operation,
+      model: response.model,
+      inputTokens: response.usage.input_tokens,
+      outputTokens: response.usage.output_tokens,
+      metadata: {
+        maxTokens,
+        queryLength: query.length,
+      }
     });
 
     return {
@@ -62,9 +162,9 @@ export async function research(query, options = {}) {
 }
 
 /**
- * Execute a web search query using Claude's web search capability
- * Note: This uses the standard API - for actual web search,
- * you may need to use tools or a search API
+ * Execute a web search query using configured search provider
+ * Uses search providers (Brave, Serper, Bing, or Claude's knowledge)
+ * and synthesizes results with Claude
  * @param {string} query - The search query
  * @param {object} options - Additional options
  * @returns {Promise<object>} - Search results
@@ -74,12 +174,49 @@ export async function webSearch(query, options = {}) {
     model = DEFAULT_MODEL,
     maxTokens = 4096,
     context = '',
+    searchProvider = null, // Use specific provider or auto-select
   } = options;
 
-  // For now, we use Claude's knowledge and ask it to provide information
-  // In production, you might integrate with a web search API
-  const searchPrompt = `
-You are a research assistant with access to current web information.
+  // Auto-select best available provider if not specified
+  if (searchProvider) {
+    searchProviders.setActiveProvider(searchProvider);
+  } else {
+    searchProviders.autoSelectProvider();
+  }
+
+  try {
+    // Get search results from provider
+    const searchResults = await searchProviders.search(query);
+
+    // Build prompt with search results
+    const searchPrompt = `
+${searchResults.synthesisPrompt}
+
+${context ? `Additional Context: ${context}` : ''}
+
+Provide your response in a structured format with:
+1. Key findings (bullet points)
+2. Sources (reference the URLs provided if applicable)
+3. Confidence level (high/medium/low)
+4. Any caveats or limitations
+
+Be specific and factual. If you're uncertain about something, say so.
+`;
+
+    const result = await research(searchPrompt, { model, maxTokens, operation: 'web_search' });
+
+    // Include provider info in result
+    return {
+      ...result,
+      searchProvider: searchResults.provider,
+      searchResultCount: searchResults.results.length,
+    };
+  } catch (error) {
+    // If search fails, fall back to Claude's knowledge
+    console.warn(`Search provider failed: ${error.message}. Falling back to Claude's knowledge.`);
+
+    const fallbackPrompt = `
+You are a research assistant with access to comprehensive knowledge.
 Research the following query and provide comprehensive, factual information.
 
 Query: ${query}
@@ -95,7 +232,24 @@ Provide your response in a structured format with:
 Be specific and factual. If you're uncertain about something, say so.
 `;
 
-  return research(searchPrompt, { model, maxTokens });
+    return research(fallbackPrompt, { model, maxTokens, operation: 'web_search' });
+  }
+}
+
+/**
+ * List available search providers
+ * @returns {Array} Provider info
+ */
+export function listSearchProviders() {
+  return searchProviders.listProviders();
+}
+
+/**
+ * Set search provider
+ * @param {string} name - Provider name
+ */
+export function setSearchProvider(name) {
+  searchProviders.setActiveProvider(name);
 }
 
 /**
@@ -126,6 +280,7 @@ export async function generateContent(params) {
     model,
     maxTokens,
     systemPrompt: getContentGenerationSystemPrompt(),
+    operation: `generate_${sectionType}`,
   });
 }
 
@@ -205,4 +360,8 @@ export default {
   research,
   webSearch,
   generateContent,
+  initTracker,
+  getCurrentTracker,
+  listSearchProviders,
+  setSearchProvider,
 };
