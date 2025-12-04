@@ -1,0 +1,67 @@
+# Dependencies
+node_modules/
+vendor/
+package-lock.json
+
+# Build outputs
+dist/
+.next/
+*.js.map
+*.d.ts
+*.pack
+*.pack.old
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+debug.log
+
+# Project artifacts  
+projects/*/wp-content/uploads/
+projects/*/wp-content/cache/
+projects/*/wp-content/plugins/
+projects/*/.env
+projects/*/node_modules/
+
+# WordPress core in projects
+projects/*/wp-admin/
+projects/*/wp-includes/
+
+# Theme build artifacts
+projects/*/wp-content/themes/*/node_modules/
+
+# Default WordPress themes (don't track)
+projects/*/wp-content/themes/twenty*/
+
+# Test artifacts
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Temporary
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Module build artifacts
+modules/*/.next/
+modules/*/node_modules/
+modules/*/*.pack

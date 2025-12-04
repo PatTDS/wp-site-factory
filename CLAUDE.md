@@ -17,6 +17,49 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 <!-- OPENSPEC:END -->
 
+<!-- BRANCH-RULES:START -->
+# ⚠️ CRITICAL: Branch & Git Rules
+
+**These rules are MANDATORY. Violating them can corrupt project history.**
+
+## Protected Branches (NEVER commit directly)
+- `main`, `master`, `develop`, `production`, `staging`
+- If on protected branch → STOP and switch to feature branch first
+
+## Module Branches (require explicit permission)
+WPF uses a **module-per-branch** architecture:
+- `module/webdesign` - Design tokens, components, v1 reference
+- `module/orchestrator` - AI workflows, site generator, LLM integration
+- `module/tools` - CLI framework, templates, Docker
+- `module/platform` - Next.js SaaS dashboard
+- `module/billing` - Stripe integration
+- `module/infrastructure` - Deployment, file storage
+- `module/seo`, `module/security`, `module/testing`, `module/performance`
+
+**Rules:**
+1. **NEVER switch to module/* branch without user explicitly requesting it**
+2. **NEVER create new branches without user saying "create branch X"**
+3. **NEVER merge branches without user approval**
+4. **Always verify current branch before ANY git operation**
+
+## Before ANY Git Operation
+```bash
+# ALWAYS run this first
+git branch --show-current
+
+# If wrong branch, ASK user before switching
+# If on protected branch, STOP and ask user
+```
+
+## Commit Rules
+- Only commit to current branch after verifying it's correct
+- Never use `git checkout -b` without explicit permission
+- Never use `git merge` without explicit permission
+- Never use `--force` on any git command
+
+**If uncertain about branch operations → ASK USER FIRST**
+<!-- BRANCH-RULES:END -->
+
 # WPF - WordPress Site Factory
 
 **Version: 0.1.0-beta**
