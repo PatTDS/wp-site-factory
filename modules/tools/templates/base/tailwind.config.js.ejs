@@ -1,0 +1,67 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './**/*.php',
+    './js/**/*.js',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '<%= branding.primary_color %>10',
+          100: '<%= branding.primary_color %>20',
+          200: '<%= branding.primary_color %>40',
+          300: '<%= branding.primary_color %>60',
+          400: '<%= branding.primary_color %>80',
+          500: '<%= branding.primary_color %>',
+          600: '<%= branding.primary_color %>',
+          700: '<%= branding.secondary_color %>',
+          800: '<%= branding.secondary_color %>',
+          900: '<%= branding.secondary_color %>',
+        },
+        secondary: {
+          500: '<%= branding.secondary_color %>',
+          600: '<%= branding.secondary_color %>',
+          700: '<%= branding.secondary_color %>',
+        },
+        <%_ if (branding.accent_color) { _%>
+        accent: {
+          500: '<%= branding.accent_color %>',
+        },
+        <%_ } _%>
+      },
+      fontFamily: {
+        sans: ['<%= branding.font_family %>', 'system-ui', 'sans-serif'],
+        <%_ if (branding.font_heading) { _%>
+        heading: ['<%= branding.font_heading %>', 'Georgia', 'serif'],
+        <%_ } _%>
+      },
+      spacing: {
+        '18': '4.5rem',
+        '22': '5.5rem',
+      },
+      maxWidth: {
+        '8xl': '88rem',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
+}

@@ -1,0 +1,149 @@
+<?php
+/**
+ * Plugin Name: <%= company.name %> Plugin
+ * Plugin URI: https://<%= project.domain || project.name + '.com' %>
+ * Description: Companion plugin for <%= company.name %> - handles custom functionality, post types, and security.
+ * Version: <%= project.version %>
+ * Author: WPF Site Factory
+ * Author URI: https://github.com/wpf
+ * License: GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: <%= project.name %>
+ * Domain Path: /languages
+ *
+ * @package <%= project.name.replace(/-/g, '_').toUpperCase() %>
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Plugin constants
+define('<%= project.name.replace(/-/g, '_').toUpperCase() %>_VERSION', '<%= project.version %>');
+define('<%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('<%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('<%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_BASENAME', plugin_basename(__FILE__));
+
+/**
+ * Main Plugin Class
+ */
+final class <%= project.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') %>_Plugin {
+
+    /**
+     * Single instance
+     */
+    private static $instance = null;
+
+    /**
+     * Get single instance
+     */
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Constructor
+     */
+    private function __construct() {
+        $this->load_dependencies();
+        $this->init_hooks();
+    }
+
+    /**
+     * Load dependencies
+     */
+    private function load_dependencies() {
+        require_once <%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_DIR . 'includes/class-loader.php';
+        require_once <%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_DIR . 'includes/class-security.php';
+        require_once <%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_DIR . 'includes/class-performance.php';
+
+        if (is_admin()) {
+            require_once <%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_DIR . 'admin/class-admin.php';
+        }
+    }
+
+    /**
+     * Initialize hooks
+     */
+    private function init_hooks() {
+        // Activation/Deactivation hooks
+        register_activation_hook(__FILE__, array($this, 'activate'));
+        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
+
+        // Initialize components
+        add_action('plugins_loaded', array($this, 'init_components'));
+
+        // Load textdomain
+        add_action('init', array($this, 'load_textdomain'));
+    }
+
+    /**
+     * Initialize components
+     */
+    public function init_components() {
+        // Security module
+        <%= project.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') %>_Security::get_instance();
+
+        // Performance module
+        <%= project.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') %>_Performance::get_instance();
+
+        // Admin module
+        if (is_admin()) {
+            <%= project.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') %>_Admin::get_instance();
+        }
+    }
+
+    /**
+     * Load textdomain
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain(
+            '<%= project.name %>',
+            false,
+            dirname(<%= project.name.replace(/-/g, '_').toUpperCase() %>_PLUGIN_BASENAME) . '/languages/'
+        );
+    }
+
+    /**
+     * Plugin activation
+     */
+    public function activate() {
+        // Flush rewrite rules
+        flush_rewrite_rules();
+
+        // Set activation flag
+        update_option('<%= project.name.replace(/-/g, '_') %>_activated', time());
+
+        // Create upload directories if needed
+        $upload_dir = wp_upload_dir();
+        $plugin_upload_dir = $upload_dir['basedir'] . '/<%= project.name %>';
+        if (!file_exists($plugin_upload_dir)) {
+            wp_mkdir_p($plugin_upload_dir);
+        }
+    }
+
+    /**
+     * Plugin deactivation
+     */
+    public function deactivate() {
+        // Flush rewrite rules
+        flush_rewrite_rules();
+
+        // Remove activation flag
+        delete_option('<%= project.name.replace(/-/g, '_') %>_activated');
+    }
+}
+
+/**
+ * Initialize plugin
+ */
+function <%= project.name.replace(/-/g, '_') %>_init() {
+    return <%= project.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') %>_Plugin::get_instance();
+}
+
+// Start the plugin
+<%= project.name.replace(/-/g, '_') %>_init();

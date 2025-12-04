@@ -1,0 +1,220 @@
+# WPF Restaurant Configuration Example
+# Configuration optimized for restaurant/food service businesses
+
+project:
+  name: bella-cucina
+  version: "1.0.0"
+
+company:
+  name: Bella Cucina
+  tagline: Authentic Italian Cuisine Since 1985
+  industry: restaurant
+
+contact:
+  email: reservations@bellacucina.com
+  phone: "+1-555-PASTA"
+  address:
+    street: 42 Olive Garden Lane
+    city: Little Italy
+    state: NY
+    postal_code: "10013"
+    country: US
+  hours: |
+    Mon-Thu: 11:00 AM - 10:00 PM
+    Fri-Sat: 11:00 AM - 11:00 PM
+    Sunday: 12:00 PM - 9:00 PM
+  social:
+    facebook: https://facebook.com/bellacucina
+    instagram: https://instagram.com/bellacucina
+    yelp: https://yelp.com/biz/bella-cucina
+
+branding:
+  primary_color: "#dc2626"    # Red - appetizing color
+  secondary_color: "#991b1b"  # Dark red
+  accent_color: "#059669"     # Green accent (basil)
+  font_family: "Playfair Display"
+  font_heading: Cormorant
+
+pages:
+  # Homepage
+  - slug: home
+    title: Home
+    template: front-page
+    sections:
+      - type: hero-centered
+        title: Welcome to Bella Cucina
+        subtitle: Experience the authentic taste of Italy
+        cta_text: View Our Menu
+        cta_url: /menu
+        background_image: /wp-content/uploads/restaurant-hero.jpg
+
+      - type: features-grid
+        title: Why Dine With Us
+        columns: 3
+        items:
+          - icon: utensils
+            title: Fresh Ingredients
+            description: Locally sourced, daily prepared
+          - icon: wine
+            title: Fine Wine Selection
+            description: Curated Italian wine list
+          - icon: heart
+            title: Family Recipes
+            description: Passed down for generations
+
+      - type: gallery
+        title: Our Ambiance
+        images:
+          - /wp-content/uploads/interior-1.jpg
+          - /wp-content/uploads/interior-2.jpg
+          - /wp-content/uploads/interior-3.jpg
+
+      - type: testimonials
+        title: What Our Guests Say
+        items:
+          - quote: The best Italian food outside of Italy
+            author: Food Critic
+            source: NY Times
+
+      - type: cta-banner
+        title: Make a Reservation
+        subtitle: Join us for an unforgettable dining experience
+        cta_text: Book a Table
+        cta_url: /reservations
+        background: primary
+
+  # Menu page
+  - slug: menu
+    title: Our Menu
+    template: custom
+    sections:
+      - type: menu-section
+        title: Antipasti
+        items:
+          - name: Bruschetta al Pomodoro
+            description: Toasted bread with fresh tomatoes and basil
+            price: "$12"
+          - name: Carpaccio di Manzo
+            description: Thinly sliced raw beef with arugula
+            price: "$18"
+
+      - type: menu-section
+        title: Primi Piatti
+        items:
+          - name: Spaghetti alla Carbonara
+            description: Classic Roman pasta with guanciale
+            price: "$24"
+          - name: Risotto ai Funghi
+            description: Creamy risotto with wild mushrooms
+            price: "$26"
+
+      - type: menu-section
+        title: Secondi Piatti
+        items:
+          - name: Ossobuco alla Milanese
+            description: Braised veal shanks with gremolata
+            price: "$42"
+          - name: Branzino al Forno
+            description: Roasted Mediterranean sea bass
+            price: "$38"
+
+  # About page
+  - slug: about
+    title: Our Story
+    template: about
+    sections:
+      - type: hero-split
+        title: A Family Tradition
+        content: |
+          Bella Cucina was founded in 1985 by the Rossi family,
+          bringing authentic recipes from their hometown of Naples
+          to the heart of New York City.
+
+  # Reservations page
+  - slug: reservations
+    title: Reservations
+    template: contact
+    sections:
+      - type: reservation-form
+        title: Book Your Table
+        fields:
+          - name: name
+            label: Name
+            type: text
+            required: true
+          - name: email
+            label: Email
+            type: email
+            required: true
+          - name: phone
+            label: Phone
+            type: tel
+            required: true
+          - name: date
+            label: Date
+            type: date
+            required: true
+          - name: time
+            label: Time
+            type: select
+            options:
+              - "5:00 PM"
+              - "5:30 PM"
+              - "6:00 PM"
+              - "6:30 PM"
+              - "7:00 PM"
+              - "7:30 PM"
+              - "8:00 PM"
+              - "8:30 PM"
+              - "9:00 PM"
+            required: true
+          - name: guests
+            label: Number of Guests
+            type: number
+            min: 1
+            max: 20
+            required: true
+          - name: special_requests
+            label: Special Requests
+            type: textarea
+            required: false
+
+  # Contact page
+  - slug: contact
+    title: Contact
+    template: contact
+    sections:
+      - type: contact-info
+        show_map: true
+        show_hours: true
+
+menu:
+  primary:
+    - title: Home
+      url: /
+    - title: Menu
+      url: /menu
+    - title: Our Story
+      url: /about
+    - title: Reservations
+      url: /reservations
+    - title: Contact
+      url: /contact
+
+plugins:
+  preset: minimal
+  additional:
+    - flavor # Restaurant menu plugin
+    - booking-calendar
+
+compliance:
+  level: standard
+
+seo:
+  meta_description: "Bella Cucina - Authentic Italian restaurant in New York. Fine dining, family recipes, fresh ingredients. Reserve your table today."
+  schema_type: Restaurant
+  local_business:
+    type: Restaurant
+    price_range: "$$$"
+    serves_cuisine: Italian
+    accepts_reservations: true

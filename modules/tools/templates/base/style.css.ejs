@@ -1,0 +1,252 @@
+/*
+Theme Name: <%= company.name %>
+Theme URI: https://<%= project.domain || project.name + '.com' %>
+Author: WPF Site Factory
+Author URI: https://github.com/wpf
+Description: Custom theme for <%= company.name %> - <%= company.tagline %>
+Version: <%= project.version %>
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: <%= project.name %>
+Tags: custom-logo, custom-menu, featured-images, full-width-template, one-column, two-columns
+
+This theme was built with WPF Site Factory using Tailwind CSS.
+*/
+
+/* Tailwind CSS Base - Compiled from input.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Base Styles */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: '<%= branding.font_family %>', system-ui, sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        <%_ if (branding.font_heading) { _%>
+        font-family: '<%= branding.font_heading %>', serif;
+        <%_ } _%>
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    a {
+        transition: color 0.15s ease-in-out;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Custom Component Styles */
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white transition-all duration-200;
+        background-color: <%= branding.primary_color %>;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center px-6 py-3 border-2 text-base font-medium rounded-md transition-all duration-200;
+        border-color: <%= branding.primary_color %>;
+        color: <%= branding.primary_color %>;
+    }
+
+    .btn-secondary:hover {
+        background-color: <%= branding.primary_color %>;
+        color: white;
+    }
+
+    .section-padding {
+        @apply py-16 md:py-24;
+    }
+
+    .container-custom {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+
+    .heading-1 {
+        @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+    }
+
+    .heading-2 {
+        @apply text-3xl md:text-4xl font-bold;
+    }
+
+    .heading-3 {
+        @apply text-2xl md:text-3xl font-bold;
+    }
+
+    .card {
+        @apply bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300;
+    }
+
+    .card:hover {
+        @apply shadow-xl;
+    }
+}
+
+/* WordPress Core Styles */
+.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wp-caption {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    max-width: 96%;
+    padding: 5px 3px 10px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignright {
+    margin: 5px 0 20px 20px;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption p.wp-caption-text {
+    font-size: 11px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+}
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+    background-color: #eee;
+    clip: auto !important;
+    clip-path: none;
+    color: #444;
+    display: block;
+    font-size: 1em;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000;
+}
+
+/* Navigation Menu Styles */
+.menu-item a {
+    @apply text-gray-700 hover:text-gray-900 font-medium transition-colors;
+}
+
+.menu-item.current-menu-item a {
+    color: <%= branding.primary_color %>;
+}
+
+.sub-menu {
+    @apply absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden;
+}
+
+.menu-item:hover .sub-menu {
+    @apply block;
+}
+
+/* Focus States for Accessibility */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid <%= branding.primary_color %>;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    header,
+    footer,
+    nav,
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+}

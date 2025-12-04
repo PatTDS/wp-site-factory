@@ -1,0 +1,93 @@
+<?php
+/**
+ * Front Page Template
+ *
+ * Renders homepage sections using design-system components.
+ * Supports variant selection via section.variant field.
+ *
+ * @package <%= project.name %>
+ */
+
+get_header();
+?>
+
+<%_ pages.forEach(function(page) { _%>
+<%_ if (page.template === 'front-page' && page.sections) { _%>
+<%_ page.sections.forEach(function(section) { _%>
+<%_
+  // Determine template name: use variant if specified, otherwise use type
+  var templateName = section.type;
+  if (section.variant) {
+    templateName = section.variant;
+  }
+_%>
+<?php get_template_part('template-parts/sections/<%= templateName %>', null, array(
+    <%_ // Basic content fields _%>
+    <%_ if (section.title) { _%>
+    'title' => esc_html__('<%= section.title.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+    <%_ if (section.title_highlight) { _%>
+    'title_highlight' => esc_html__('<%= section.title_highlight.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+    <%_ if (section.subtitle) { _%>
+    'subtitle' => esc_html__('<%= section.subtitle.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+    <%_ if (section.content) { _%>
+    'content' => esc_html__('<%= section.content.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+    <%_ if (section.badge_text) { _%>
+    'badge_text' => esc_html__('<%= section.badge_text.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+
+    <%_ // CTA fields _%>
+    <%_ if (section.cta_text) { _%>
+    'cta_text' => esc_html__('<%= section.cta_text.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+    <%_ if (section.cta_url) { _%>
+    'cta_url' => '<%= section.cta_url %>',
+    <%_ } _%>
+    <%_ if (section.cta_secondary_text) { _%>
+    'cta_secondary_text' => esc_html__('<%= section.cta_secondary_text.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+    <%_ if (section.cta_secondary_url) { _%>
+    'cta_secondary_url' => '<%= section.cta_secondary_url %>',
+    <%_ } _%>
+
+    <%_ // Visual fields _%>
+    <%_ if (section.background) { _%>
+    'background' => '<%= section.background %>',
+    <%_ } _%>
+    <%_ if (section.image_url) { _%>
+    'image_url' => '<%= section.image_url %>',
+    <%_ } _%>
+    <%_ if (section.image_alt) { _%>
+    'image_alt' => esc_html__('<%= section.image_alt.replace(/'/g, "\\'") %>', '<%= project.name %>'),
+    <%_ } _%>
+
+    <%_ // Array fields (items, stats, etc.) _%>
+    <%_ if (section.items) { _%>
+    'items' => json_decode('<%- JSON.stringify(section.items).replace(/'/g, "\\'") %>', true),
+    <%_ } _%>
+    <%_ if (section.stats) { _%>
+    'stats' => json_decode('<%- JSON.stringify(section.stats).replace(/'/g, "\\'") %>', true),
+    <%_ } _%>
+    <%_ if (section.service_cards) { _%>
+    'service_cards' => json_decode('<%- JSON.stringify(section.service_cards).replace(/'/g, "\\'") %>', true),
+    <%_ } _%>
+    <%_ if (section.trust_badges) { _%>
+    'trust_badges' => json_decode('<%- JSON.stringify(section.trust_badges).replace(/'/g, "\\'") %>', true),
+    <%_ } _%>
+    <%_ if (section.trusted_logos) { _%>
+    'trusted_logos' => json_decode('<%- JSON.stringify(section.trusted_logos).replace(/'/g, "\\'") %>', true),
+    <%_ } _%>
+    <%_ if (section.features) { _%>
+    'features' => json_decode('<%- JSON.stringify(section.features).replace(/'/g, "\\'") %>', true),
+    <%_ } _%>
+)); ?>
+
+<%_ }); _%>
+<%_ } _%>
+<%_ }); _%>
+
+<?php
+get_footer();

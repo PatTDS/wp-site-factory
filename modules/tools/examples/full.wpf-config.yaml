@@ -1,0 +1,260 @@
+# WPF Full Configuration Example
+# Complete configuration with all available options
+
+project:
+  name: acme-corp
+  version: "1.0.0"
+
+company:
+  name: ACME Corporation
+  tagline: Innovative Solutions for Tomorrow
+  industry: technology
+
+contact:
+  email: contact@acmecorp.com
+  phone: "+1-555-ACME"
+  address:
+    street: 100 Innovation Drive
+    city: Silicon Valley
+    state: CA
+    postal_code: "94025"
+    country: US
+  hours: "Mon-Fri 9:00 AM - 6:00 PM PST"
+  social:
+    facebook: https://facebook.com/acmecorp
+    twitter: https://twitter.com/acmecorp
+    linkedin: https://linkedin.com/company/acmecorp
+    instagram: https://instagram.com/acmecorp
+
+branding:
+  primary_color: "#0ea5e9"    # Sky blue
+  secondary_color: "#0284c7"  # Darker blue
+  accent_color: "#f59e0b"     # Amber accent
+  font_family: Inter
+  font_heading: Montserrat
+  logo_url: /wp-content/uploads/logo.svg
+  favicon_url: /wp-content/uploads/favicon.png
+
+pages:
+  # Homepage with multiple sections
+  - slug: home
+    title: Home
+    template: front-page
+    sections:
+      - type: hero-centered
+        title: Innovation Starts Here
+        subtitle: We build cutting-edge solutions that transform businesses
+        cta_text: Get Started
+        cta_url: /contact
+        background_image: /wp-content/uploads/hero-bg.jpg
+
+      - type: features-grid
+        title: Why Choose Us
+        subtitle: Our core strengths
+        columns: 3
+        items:
+          - icon: lightbulb
+            title: Innovation
+            description: Pioneering new solutions
+          - icon: shield
+            title: Security
+            description: Enterprise-grade protection
+          - icon: rocket
+            title: Performance
+            description: Lightning-fast delivery
+          - icon: users
+            title: Support
+            description: 24/7 expert assistance
+          - icon: globe
+            title: Global Reach
+            description: Serving clients worldwide
+          - icon: chart
+            title: Growth
+            description: Scalable solutions
+
+      - type: testimonials
+        title: What Our Clients Say
+        items:
+          - quote: ACME transformed our business completely
+            author: John Smith
+            company: Tech Startup Inc
+            image: /wp-content/uploads/testimonial-1.jpg
+          - quote: Best investment we ever made
+            author: Jane Doe
+            company: Enterprise Corp
+            image: /wp-content/uploads/testimonial-2.jpg
+
+      - type: cta-banner
+        title: Ready to Transform Your Business?
+        subtitle: Let's discuss how we can help you achieve your goals
+        cta_text: Schedule a Call
+        cta_url: /contact
+        background: gradient
+
+  # About page
+  - slug: about
+    title: About Us
+    template: about
+    sections:
+      - type: hero-split
+        title: Our Story
+        content: |
+          Founded in 2020, ACME Corporation has been at the forefront
+          of technological innovation. Our team of experts brings
+          decades of combined experience to every project.
+        image: /wp-content/uploads/team.jpg
+
+      - type: team-grid
+        title: Meet Our Team
+        columns: 4
+        items:
+          - name: CEO Name
+            role: Chief Executive Officer
+            image: /wp-content/uploads/team-ceo.jpg
+          - name: CTO Name
+            role: Chief Technology Officer
+            image: /wp-content/uploads/team-cto.jpg
+
+  # Services page
+  - slug: services
+    title: Our Services
+    template: services
+    sections:
+      - type: hero-centered
+        title: What We Offer
+        subtitle: Comprehensive solutions for your business needs
+
+      - type: services-list
+        items:
+          - title: Web Development
+            description: Custom websites and web applications
+            icon: code
+            link: /services/web-development
+          - title: Mobile Apps
+            description: iOS and Android development
+            icon: smartphone
+            link: /services/mobile-apps
+          - title: Cloud Solutions
+            description: AWS, Azure, and GCP expertise
+            icon: cloud
+            link: /services/cloud
+          - title: Consulting
+            description: Strategic technology guidance
+            icon: users
+            link: /services/consulting
+
+  # Products page
+  - slug: products
+    title: Products
+    template: products
+    sections:
+      - type: products-grid
+        columns: 3
+
+  # Blog
+  - slug: blog
+    title: Blog
+    template: blog
+
+  # Contact page
+  - slug: contact
+    title: Contact Us
+    template: contact
+    sections:
+      - type: contact-form
+        title: Get In Touch
+        subtitle: We'd love to hear from you
+        fields:
+          - name: name
+            label: Your Name
+            type: text
+            required: true
+          - name: email
+            label: Email Address
+            type: email
+            required: true
+          - name: phone
+            label: Phone Number
+            type: tel
+            required: false
+          - name: company
+            label: Company
+            type: text
+            required: false
+          - name: message
+            label: Message
+            type: textarea
+            required: true
+
+      - type: map
+        address: "100 Innovation Drive, Silicon Valley, CA 94025"
+        zoom: 15
+
+# Navigation menus
+menu:
+  primary:
+    - title: Home
+      url: /
+    - title: About
+      url: /about
+    - title: Services
+      url: /services
+      children:
+        - title: Web Development
+          url: /services/web-development
+        - title: Mobile Apps
+          url: /services/mobile-apps
+        - title: Cloud Solutions
+          url: /services/cloud
+    - title: Products
+      url: /products
+    - title: Blog
+      url: /blog
+    - title: Contact
+      url: /contact
+
+  footer:
+    - title: Privacy Policy
+      url: /privacy
+    - title: Terms of Service
+      url: /terms
+    - title: Cookie Policy
+      url: /cookies
+
+# Plugin configuration
+plugins:
+  preset: professional  # Options: minimal, standard, professional
+  additional:
+    - wordfence
+    - wp-mail-smtp
+    - wp-super-cache
+  remove:
+    - akismet
+    - hello
+
+# Compliance and security settings
+compliance:
+  level: strict  # Options: minimal, standard, strict
+
+# SEO configuration
+seo:
+  meta_description: "ACME Corporation - Innovative technology solutions for modern businesses"
+  og_image: /wp-content/uploads/og-image.jpg
+  twitter_handle: "@acmecorp"
+  schema_type: Organization
+  local_business:
+    type: TechnologyCompany
+    price_range: "$$$"
+
+# Performance settings
+performance:
+  critical_css: true
+  lazy_load_images: true
+  defer_js: true
+  minify_assets: true
+  cache_duration: 86400
+
+# Analytics (optional)
+analytics:
+  google_analytics: "G-XXXXXXXXXX"
+  google_tag_manager: "GTM-XXXXXXX"

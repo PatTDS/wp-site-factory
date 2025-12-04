@@ -1,0 +1,22 @@
+{
+  "name": "<%= project.name %>-theme",
+  "version": "<%= project.version %>",
+  "description": "WordPress theme for <%= company.name %>",
+  "scripts": {
+    "build": "npx tailwindcss -i ./input.css -o ./style.css --minify",
+    "watch": "npx tailwindcss -i ./input.css -o ./style.css --watch",
+    "dev": "npm run watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/aspect-ratio": "^0.4.2"
+  },
+  "keywords": [
+    "wordpress",
+    "theme",
+    "tailwindcss"
+  ],
+  "license": "GPL-2.0-or-later"
+}

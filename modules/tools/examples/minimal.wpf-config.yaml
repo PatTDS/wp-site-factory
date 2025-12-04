@@ -1,0 +1,29 @@
+# WPF Minimal Configuration Example
+# This is the minimum required configuration to generate a WordPress site
+
+project:
+  name: my-company
+  version: "1.0.0"
+
+company:
+  name: My Company Inc
+  tagline: Building amazing solutions
+  industry: technology  # Options: technology, healthcare, legal, restaurant, retail, education, finance, construction, beauty, real-estate, consulting, other
+
+contact:
+  email: info@mycompany.com
+  phone: "+1-555-0100"
+  address:
+    city: San Francisco
+    state: CA
+    country: US
+
+branding:
+  primary_color: "#16a34a"    # Green
+  secondary_color: "#15803d"  # Dark green
+  font_family: Inter
+
+pages:
+  - slug: home
+    title: Home
+    template: front-page

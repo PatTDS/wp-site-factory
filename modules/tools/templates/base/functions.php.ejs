@@ -1,0 +1,241 @@
+<?php
+/**
+ * <%= project.name %> Theme Functions
+ *
+ * @package <%= project.name %>
+ * @version <%= project.version %>
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Theme Setup
+ */
+function <%= project.name.replace(/-/g, '_') %>_theme_setup() {
+    // Add theme support
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_theme_support('html5', array(
+        'search-form',
+        'comment-form',
+        'comment-list',
+        'gallery',
+        'caption',
+        'style',
+        'script'
+    ));
+    add_theme_support('customize-selective-refresh-widgets');
+
+    // Register menus
+    register_nav_menus(array(
+        'primary' => __('Primary Menu', '<%= project.name %>'),
+        'footer'  => __('Footer Menu', '<%= project.name %>')
+    ));
+
+    // Image sizes
+    add_image_size('hero', 1920, 1080, true);
+    add_image_size('card', 600, 400, true);
+    add_image_size('thumbnail-square', 300, 300, true);
+}
+add_action('after_setup_theme', '<%= project.name.replace(/-/g, '_') %>_theme_setup');
+
+/**
+ * Enqueue Styles and Scripts
+ */
+function <%= project.name.replace(/-/g, '_') %>_enqueue_assets() {
+    // Main stylesheet (compiled Tailwind CSS)
+    wp_enqueue_style(
+        '<%= project.name %>-style',
+        get_stylesheet_uri(),
+        array(),
+        filemtime(get_stylesheet_directory() . '/style.css')
+    );
+
+    // Theme scripts
+    wp_enqueue_script(
+        '<%= project.name %>-main',
+        get_template_directory_uri() . '/js/main.js',
+        array(),
+        filemtime(get_stylesheet_directory() . '/js/main.js'),
+        true
+    );
+
+    // Localize script for AJAX
+    wp_localize_script('<%= project.name %>-main', '<%= project.name.replace(/-/g, '_') %>_ajax', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce'    => wp_create_nonce('<%= project.name %>_nonce')
+    ));
+}
+add_action('wp_enqueue_scripts', '<%= project.name.replace(/-/g, '_') %>_enqueue_assets');
+
+/**
+ * Custom Excerpt Length
+ */
+function <%= project.name.replace(/-/g, '_') %>_excerpt_length($length) {
+    return 25;
+}
+add_filter('excerpt_length', '<%= project.name.replace(/-/g, '_') %>_excerpt_length');
+
+/**
+ * Custom Excerpt More
+ */
+function <%= project.name.replace(/-/g, '_') %>_excerpt_more($more) {
+    return '...';
+}
+add_filter('excerpt_more', '<%= project.name.replace(/-/g, '_') %>_excerpt_more');
+
+/**
+ * Theme Customizer Settings
+ */
+function <%= project.name.replace(/-/g, '_') %>_customize_register($wp_customize) {
+    // Company Info Section
+    $wp_customize->add_section('<%= project.name %>_company', array(
+        'title'    => __('Company Information', '<%= project.name %>'),
+        'priority' => 30
+    ));
+
+    // Company Name
+    $wp_customize->add_setting('<%= project.name %>_company_name', array(
+        'default'           => '<%= company.name %>',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('<%= project.name %>_company_name', array(
+        'label'   => __('Company Name', '<%= project.name %>'),
+        'section' => '<%= project.name %>_company',
+        'type'    => 'text'
+    ));
+
+    // Phone
+    $wp_customize->add_setting('<%= project.name %>_phone', array(
+        'default'           => '<%= contact.phone %>',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('<%= project.name %>_phone', array(
+        'label'   => __('Phone Number', '<%= project.name %>'),
+        'section' => '<%= project.name %>_company',
+        'type'    => 'text'
+    ));
+
+    // Email
+    $wp_customize->add_setting('<%= project.name %>_email', array(
+        'default'           => '<%= contact.email %>',
+        'sanitize_callback' => 'sanitize_email'
+    ));
+    $wp_customize->add_control('<%= project.name %>_email', array(
+        'label'   => __('Email Address', '<%= project.name %>'),
+        'section' => '<%= project.name %>_company',
+        'type'    => 'email'
+    ));
+}
+add_action('customize_register', '<%= project.name.replace(/-/g, '_') %>_customize_register');
+
+/**
+ * Helper: Get Theme Mod with Fallback
+ */
+function <%= project.name.replace(/-/g, '_') %>_get_option($key, $default = '') {
+    return get_theme_mod('<%= project.name %>_' . $key, $default);
+}
+
+/**
+ * Disable Emoji Scripts
+ */
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action('admin_print_scripts', 'print_emoji_detection_script');
+remove_action('admin_print_styles', 'print_emoji_styles');
+
+/**
+ * Remove WordPress Version
+ */
+remove_action('wp_head', 'wp_generator');
+
+/**
+ * Add Schema.org LocalBusiness Markup
+ */
+function <%= project.name.replace(/-/g, '_') %>_schema_markup() {
+    if (is_front_page()) {
+        ?>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "<?php echo esc_js(<%= project.name.replace(/-/g, '_') %>_get_option('company_name', '<%= company.name %>')); ?>",
+            "telephone": "<?php echo esc_js(<%= project.name.replace(/-/g, '_') %>_get_option('phone', '<%= contact.phone %>')); ?>",
+            "email": "<?php echo esc_js(<%= project.name.replace(/-/g, '_') %>_get_option('email', '<%= contact.email %>')); ?>",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "<%= contact.address.street %>",
+                "addressLocality": "<%= contact.address.city %>",
+                "addressRegion": "<%= contact.address.state %>",
+                "postalCode": "<%= contact.address.postal_code %>",
+                "addressCountry": "<%= contact.address.country %>"
+            }
+        }
+        </script>
+        <?php
+    }
+}
+add_action('wp_head', '<%= project.name.replace(/-/g, '_') %>_schema_markup');
+
+/**
+ * Custom Navigation Walker for Tailwind CSS
+ */
+class <%= project.name.replace(/-/g, '_').charAt(0).toUpperCase() + project.name.replace(/-/g, '_').slice(1) %>_Nav_Walker extends Walker_Nav_Menu {
+    /**
+     * Starts the element output.
+     */
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args, $depth));
+
+        $li_classes = 'relative';
+        if ($depth === 0) {
+            $li_classes .= ' group';
+        }
+
+        $output .= '<li class="' . esc_attr($li_classes) . '">';
+
+        $link_classes = 'text-gray-700 hover:text-primary-600 font-medium transition-colors';
+        if ($depth > 0) {
+            $link_classes = 'block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-primary-600';
+        }
+
+        $atts = array();
+        $atts['class'] = $link_classes;
+        $atts['href'] = !empty($item->url) ? $item->url : '';
+
+        $attributes = '';
+        foreach ($atts as $attr => $value) {
+            if (!empty($value)) {
+                $attributes .= ' ' . $attr . '="' . esc_attr($value) . '"';
+            }
+        }
+
+        $output .= '<a' . $attributes . '>';
+        $output .= apply_filters('the_title', $item->title, $item->ID);
+        $output .= '</a>';
+    }
+
+    /**
+     * Ends the element output.
+     */
+    function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= '</li>';
+    }
+
+    /**
+     * Starts the list before the elements are added.
+     */
+    function start_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '<ul class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50">';
+    }
+
+    /**
+     * Ends the list of after the elements are added.
+     */
+    function end_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '</ul>';
+    }
+}

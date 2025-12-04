@@ -1,0 +1,204 @@
+<?php
+/**
+ * Security Module
+ *
+ * Implements WordPress security best practices.
+ *
+ * @package <%= project.name.replace(/-/g, '_').toUpperCase() %>
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Security Class
+ */
+class <%= project.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') %>_Security {
+
+    /**
+     * Single instance
+     */
+    private static $instance = null;
+
+    /**
+     * Get single instance
+     */
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Constructor
+     */
+    private function __construct() {
+        $this->init_hooks();
+    }
+
+    /**
+     * Initialize hooks
+     */
+    private function init_hooks() {
+        // Disable XML-RPC
+        add_filter('xmlrpc_enabled', '__return_false');
+        remove_action('wp_head', 'rsd_link');
+        remove_action('wp_head', 'wlwmanifest_link');
+
+        // Remove WordPress version
+        remove_action('wp_head', 'wp_generator');
+        add_filter('the_generator', '__return_empty_string');
+
+        // Remove version from scripts and styles
+        add_filter('style_loader_src', array($this, 'remove_version_query'), 9999);
+        add_filter('script_loader_src', array($this, 'remove_version_query'), 9999);
+
+        // Add security headers
+        add_action('send_headers', array($this, 'add_security_headers'));
+
+        // Disable REST API for non-authenticated users (optional)
+        // add_filter('rest_authentication_errors', array($this, 'restrict_rest_api'));
+
+        // Prevent username enumeration
+        add_action('rest_authentication_errors', array($this, 'disable_user_enumeration'));
+
+        // Login security
+        add_filter('login_errors', array($this, 'login_error_message'));
+
+        // Disable file editing
+        if (!defined('DISALLOW_FILE_EDIT')) {
+            define('DISALLOW_FILE_EDIT', true);
+        }
+    }
+
+    /**
+     * Remove version query string from assets
+     */
+    public function remove_version_query($src) {
+        if (strpos($src, 'ver=')) {
+            $src = remove_query_arg('ver', $src);
+        }
+        return $src;
+    }
+
+    /**
+     * Add security headers
+     */
+    public function add_security_headers() {
+        if (!is_admin()) {
+            header('X-Content-Type-Options: nosniff');
+            header('X-Frame-Options: SAMEORIGIN');
+            header('X-XSS-Protection: 1; mode=block');
+            header('Referrer-Policy: strict-origin-when-cross-origin');
+            header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
+        }
+    }
+
+    /**
+     * Disable user enumeration through REST API
+     */
+    public function disable_user_enumeration($result) {
+        if (!is_user_logged_in()) {
+            global $wp;
+            if (isset($wp->query_vars['rest_route']) &&
+                preg_match('/users/', $wp->query_vars['rest_route'])) {
+                return new WP_Error(
+                    'rest_disabled',
+                    __('REST API user endpoint restricted.', '<%= project.name %>'),
+                    array('status' => 401)
+                );
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Generic login error message
+     */
+    public function login_error_message() {
+        return __('Incorrect username or password.', '<%= project.name %>');
+    }
+
+    /**
+     * Sanitize text input
+     *
+     * @param string $input Raw input
+     * @return string Sanitized input
+     */
+    public static function sanitize_text($input) {
+        return sanitize_text_field(wp_unslash($input));
+    }
+
+    /**
+     * Sanitize textarea input
+     *
+     * @param string $input Raw input
+     * @return string Sanitized input
+     */
+    public static function sanitize_textarea($input) {
+        return sanitize_textarea_field(wp_unslash($input));
+    }
+
+    /**
+     * Sanitize email
+     *
+     * @param string $input Raw input
+     * @return string Sanitized email
+     */
+    public static function sanitize_email($input) {
+        return sanitize_email(wp_unslash($input));
+    }
+
+    /**
+     * Verify nonce
+     *
+     * @param string $nonce Nonce value
+     * @param string $action Nonce action
+     * @return bool
+     */
+    public static function verify_nonce($nonce, $action) {
+        return wp_verify_nonce($nonce, $action) !== false;
+    }
+
+    /**
+     * Check user capability
+     *
+     * @param string $capability Capability to check
+     * @return bool
+     */
+    public static function can_user($capability) {
+        return current_user_can($capability);
+    }
+
+    /**
+     * Escape output for HTML
+     *
+     * @param string $output Raw output
+     * @return string Escaped output
+     */
+    public static function escape_html($output) {
+        return esc_html($output);
+    }
+
+    /**
+     * Escape output for attributes
+     *
+     * @param string $output Raw output
+     * @return string Escaped output
+     */
+    public static function escape_attr($output) {
+        return esc_attr($output);
+    }
+
+    /**
+     * Escape URL
+     *
+     * @param string $url Raw URL
+     * @return string Escaped URL
+     */
+    public static function escape_url($url) {
+        return esc_url($url);
+    }
+}

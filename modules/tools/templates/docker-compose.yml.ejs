@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress:6.7-php8.2
+    container_name: <%= project.name %>_wp
+    restart: unless-stopped
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_DEBUG: ${WP_DEBUG:-0}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('DISALLOW_FILE_EDIT', true);
+        define('WP_AUTO_UPDATE_CORE', false);
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./theme:/var/www/html/wp-content/themes/<%= project.name %>-theme
+      - ./plugin:/var/www/html/wp-content/plugins/<%= project.name %>-plugin
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - <%= project.name %>_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  db:
+    image: mysql:8.0
+    container_name: <%= project.name %>_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-wordpress}
+      MYSQL_USER: ${DB_USER:-wordpress}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-wordpress}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - <%= project.name %>_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-rootpassword}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: --default-authentication-plugin=mysql_native_password
+
+  wpcli:
+    image: wordpress:cli
+    container_name: <%= project.name %>_cli
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./theme:/var/www/html/wp-content/themes/<%= project.name %>-theme
+      - ./plugin:/var/www/html/wp-content/plugins/<%= project.name %>-plugin
+      - ./scripts:/scripts:ro
+    depends_on:
+      - wordpress
+      - db
+    networks:
+      - <%= project.name %>_network
+    user: "33:33"
+    entrypoint: ["wp", "--allow-root"]
+    command: ["--info"]
+
+volumes:
+  wordpress_data:
+    name: <%= project.name %>_wordpress
+  db_data:
+    name: <%= project.name %>_db
+
+networks:
+  <%= project.name %>_network:
+    name: <%= project.name %>_network
+    driver: bridge

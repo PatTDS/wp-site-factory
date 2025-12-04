@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+/**
+ * WPF v2.0 - WordPress Site Factory CLI
+ *
+ * Config-driven, deterministic WordPress site generation
+ *
+ * Usage: wpf-ts [command] [options]
+ */
+import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const rootDir = dirname(__dirname);
+const distCli = join(rootDir, 'dist', 'cli', 'index.js');
+
+if (existsSync(distCli)) {
+  await import(distCli);
+} else {
+  console.error('Error: CLI not compiled. Run: npm run build');
+  console.log('Or run directly with: npx tsx src/cli/index.ts');
+  process.exit(1);
+}

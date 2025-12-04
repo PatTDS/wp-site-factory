@@ -1,0 +1,218 @@
+{
+  "name": "WPF Component Registry",
+  "version": "1.0.0",
+  "description": "Maps section types to available component variants from design-system",
+
+  "sections": {
+    "hero": {
+      "default": "hero-centered",
+      "variants": {
+        "hero-centered": {
+          "source": "design-system/components/heroes/hero-centered.html",
+          "template": "theme/sections/hero-centered.php.ejs",
+          "bestFor": ["saas", "technology", "startups"],
+          "variables": {
+            "required": ["title", "subtitle", "cta_text", "cta_url"],
+            "optional": ["badge_text", "headline_highlight", "cta_secondary_text", "cta_secondary_url", "trusted_logos"]
+          }
+        },
+        "hero-split-cards": {
+          "source": "design-system/components/heroes/hero-split-cards.html",
+          "template": "theme/sections/hero-split-cards.php.ejs",
+          "bestFor": ["industrial", "professional", "technology"],
+          "variables": {
+            "required": ["title", "subtitle", "cta_text", "cta_url"],
+            "optional": ["badge_text", "headline_highlight", "stats", "service_cards", "trust_badges"]
+          }
+        },
+        "hero-image-bg": {
+          "source": "design-system/components/heroes/hero-image-bg.html",
+          "template": "theme/sections/hero-image-bg.php.ejs",
+          "bestFor": ["hospitality", "realestate", "portfolio"],
+          "variables": {
+            "required": ["title", "subtitle", "cta_text", "cta_url", "image_url"],
+            "optional": ["cta_secondary_text", "cta_secondary_url"]
+          }
+        }
+      }
+    },
+
+    "features": {
+      "default": "features-grid",
+      "variants": {
+        "features-grid": {
+          "source": "design-system/components/features/features-grid.html",
+          "template": "theme/sections/features-grid.php.ejs",
+          "bestFor": ["saas", "technology", "professional"],
+          "variables": {
+            "required": ["title", "items"],
+            "optional": ["subtitle", "badge_text", "columns"]
+          }
+        },
+        "features-alternating": {
+          "source": "design-system/components/features/features-alternating.html",
+          "template": "theme/sections/features-alternating.php.ejs",
+          "bestFor": ["product", "detailed"],
+          "variables": {
+            "required": ["items"],
+            "optional": ["title", "subtitle"]
+          }
+        }
+      }
+    },
+
+    "stats": {
+      "default": "stats-cards",
+      "variants": {
+        "stats-cards": {
+          "source": "design-system/components/stats/stats-cards.html",
+          "template": "theme/sections/stats-cards.php.ejs",
+          "bestFor": ["all"],
+          "variables": {
+            "required": ["items"],
+            "optional": []
+          }
+        },
+        "stats-inline": {
+          "source": "design-system/components/stats/stats-inline.html",
+          "template": "theme/sections/stats-inline.php.ejs",
+          "bestFor": ["technology", "saas"],
+          "variables": {
+            "required": ["items"],
+            "optional": []
+          }
+        }
+      }
+    },
+
+    "cta": {
+      "default": "cta-gradient",
+      "variants": {
+        "cta-gradient": {
+          "source": "design-system/components/cta/cta-gradient.html",
+          "template": "theme/sections/cta-gradient.php.ejs",
+          "bestFor": ["all"],
+          "variables": {
+            "required": ["title", "cta_text", "cta_url"],
+            "optional": ["subtitle", "badge_text", "cta_secondary_text", "cta_secondary_url", "trust_items"]
+          }
+        },
+        "cta-split": {
+          "source": "design-system/components/cta/cta-split.html",
+          "template": "theme/sections/cta-split.php.ejs",
+          "bestFor": ["professional", "industrial", "b2b"],
+          "variables": {
+            "required": ["title", "cta_text", "cta_url"],
+            "optional": ["subtitle", "quote", "features"]
+          }
+        }
+      }
+    },
+
+    "testimonials": {
+      "default": "testimonials-cards",
+      "variants": {
+        "testimonials-cards": {
+          "source": "design-system/components/testimonials/testimonials-cards.html",
+          "template": "theme/sections/testimonials-cards.php.ejs",
+          "bestFor": ["all"],
+          "variables": {
+            "required": ["items"],
+            "optional": ["title", "subtitle"]
+          }
+        },
+        "testimonials-carousel": {
+          "source": "design-system/components/testimonials/testimonials-carousel.html",
+          "template": "theme/sections/testimonials-carousel.php.ejs",
+          "bestFor": ["professional", "premium"],
+          "variables": {
+            "required": ["items"],
+            "optional": ["title"]
+          }
+        }
+      }
+    },
+
+    "services": {
+      "default": "services-cards",
+      "variants": {
+        "services-cards": {
+          "source": "design-system/components/services/services-cards.html",
+          "template": "theme/sections/services-cards.php.ejs",
+          "bestFor": ["all"],
+          "variables": {
+            "required": ["items"],
+            "optional": ["title", "subtitle"]
+          }
+        }
+      }
+    },
+
+    "contact": {
+      "default": "contact-split",
+      "variants": {
+        "contact-split": {
+          "source": "design-system/components/contact/contact-split.html",
+          "template": "theme/sections/contact-split.php.ejs",
+          "bestFor": ["all"],
+          "variables": {
+            "required": ["title"],
+            "optional": ["subtitle", "address", "phone", "email", "hours"]
+          }
+        },
+        "contact-centered": {
+          "source": "design-system/components/contact/contact-centered.html",
+          "template": "theme/sections/contact-centered.php.ejs",
+          "bestFor": ["simple", "landing"],
+          "variables": {
+            "required": ["title"],
+            "optional": ["subtitle"]
+          }
+        }
+      }
+    }
+  },
+
+  "layouts": {
+    "header": {
+      "default": "header-modern",
+      "variants": {
+        "header-modern": {
+          "source": "design-system/components/headers/header-modern.html",
+          "template": "theme/base/header.php.ejs"
+        },
+        "header-transparent": {
+          "source": "design-system/components/headers/header-transparent.html",
+          "template": "theme/base/header-transparent.php.ejs"
+        }
+      }
+    },
+    "footer": {
+      "default": "footer-comprehensive",
+      "variants": {
+        "footer-comprehensive": {
+          "source": "design-system/components/footers/footer-comprehensive.html",
+          "template": "theme/base/footer.php.ejs"
+        },
+        "footer-minimal": {
+          "source": "design-system/components/footers/footer-minimal.html",
+          "template": "theme/base/footer-minimal.php.ejs"
+        }
+      }
+    }
+  },
+
+  "variableMapping": {
+    "mustacheToEjs": {
+      "{{VAR}}": "<%= var %>",
+      "{{{HTML}}}": "<%- html %>",
+      "{{#ARRAY}}...{{/ARRAY}}": "<% array.forEach(item => { %>...<% }); %>",
+      "{{HEADLINE}}": "<%= title %>",
+      "{{SUBHEADLINE}}": "<%= subtitle %>",
+      "{{CTA_PRIMARY_TEXT}}": "<%= cta_text %>",
+      "{{CTA_PRIMARY_URL}}": "<%= cta_url %>",
+      "{{CTA_SECONDARY_TEXT}}": "<%= cta_secondary_text %>",
+      "{{CTA_SECONDARY_URL}}": "<%= cta_secondary_url %>"
+    }
+  }
+}
