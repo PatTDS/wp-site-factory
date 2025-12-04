@@ -31,27 +31,47 @@ Every website project MUST pass through three sequential phases with client appr
    - Output: Production-ready WordPress site
    - Gate: Final delivery and handoff
 
-### II. Hybrid LLM Architecture
+### II. Research-First Methodology (NON-NEGOTIABLE)
 
-- **Phase 1**: Automated via API (GPT-4/Claude API) for research and drafting
+Before building ANYTHING, WPF researches best practices from peer-reviewed and professional sources:
+
+**Two-Layer Research Model:**
+1. **Best Practices Research**: How to write effective hero sections, about us, services, etc.
+2. **Competitor Research**: What leading industry websites do well
+
+**Knowledge Base Growth:**
+- Research findings stored permanently in knowledge base
+- Each project makes WPF smarter
+- Knowledge organized by section type and industry
+- Curation rules: add with sources, update don't delete, flag conflicts
+
+**Implementation:**
+- LLM web search (hybrid approach) over raw scraping
+- Intelligent synthesis across sources
+- Optional deep fetch for exceptional examples
+- Store insights for reuse across projects
+
+### III. Hybrid LLM Architecture
+
+- **Phase 1**: Automated via API (Claude API) for research and drafting
 - **Phase 2-3**: Human-operated Claude Code for quality and creativity
 - **Rationale**: Research is repetitive (automate), design/build needs human oversight
 
-### III. Client-First Design
+### IV. Client-First Design
 
 - All client interaction through **SaaS Dashboard**
 - Clear approval gates with revision workflow
 - Transparent progress tracking per phase
 - Per-site pricing model
 
-### IV. Template-Driven Development
+### V. Template-Driven Development
 
 - Every component comes from the **design system** (module/webdesign)
 - LLMs assemble templates, never generate from scratch
 - Templates are production-tested and WordPress-optimized
 - New templates require validation before addition to library
 
-### V. WordPress Knowledge Base Compliance (NON-NEGOTIABLE)
+### VI. WordPress Knowledge Base Compliance (NON-NEGOTIABLE)
 
 All WordPress development MUST follow `~/wordpress-knowledge-base/`:
 
@@ -61,7 +81,7 @@ All WordPress development MUST follow `~/wordpress-knowledge-base/`:
 - **Plugins**: Only approved plugins (Autoptimize, ShortPixel, etc.)
 - **Testing**: E2E tests, Lighthouse CI before deployment
 
-### VI. Module Separation
+### VII. Module Separation
 
 WPF is organized into independent modules:
 
@@ -78,14 +98,17 @@ WPF is organized into independent modules:
 | testing | E2E, Lighthouse CI, accessibility |
 | infrastructure | Deployment, hosting, CI/CD |
 
-### VII. Quality Gates
+### VIII. Quality Gates
 
 No phase advances without meeting quality criteria:
 
 **Phase 1 → Phase 2:**
-- [ ] Client details complete
+- [ ] Client details complete (intake form submitted)
+- [ ] Best practices research documented in knowledge base
 - [ ] Competitor research documented
-- [ ] Website structure approved by client
+- [ ] Blueprint with content drafts generated
+- [ ] Operator review completed
+- [ ] Client approves Blueprint
 
 **Phase 2 → Phase 3:**
 - [ ] HTML preview matches approved structure
@@ -114,4 +137,4 @@ No phase advances without meeting quality criteria:
 - All development must verify compliance with these principles
 - Use `~/wordpress-knowledge-base/` as the authoritative reference
 
-**Version**: 1.0.0 | **Ratified**: 2024-12-04 | **Last Amended**: 2024-12-04
+**Version**: 1.1.0 | **Ratified**: 2024-12-04 | **Last Amended**: 2024-12-04
