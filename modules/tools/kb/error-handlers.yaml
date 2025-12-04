@@ -1,0 +1,306 @@
+# WPF v2.0 - Error Handlers
+#
+# Automated error recovery rules
+# No LLM needed - deterministic fixes for known issues
+#
+# Severity levels: critical, error, warning, info
+# Actions: wait, command, retry, log, notify
+
+version: "1.0"
+last_updated: "2025-12-03"
+
+handlers:
+  # ============================================
+  # DATABASE ERRORS
+  # ============================================
+  database_connection:
+    pattern: "Error establishing a database connection"
+    severity: critical
+    category: database
+    description: MySQL connection failed
+    actions:
+      - action: wait
+        seconds: 5
+      - action: command
+        cmd: "docker-compose restart db"
+      - action: wait
+        seconds: 15
+      - action: retry
+    max_retries: 3
+    fallback: "Database failed to start. Check: docker-compose logs db"
+
+  database_not_ready:
+    pattern: "mysqli_real_connect.*Connection refused"
+    severity: error
+    category: database
+    description: MySQL not yet ready
+    actions:
+      - action: wait
+        seconds: 10
+      - action: retry
+    max_retries: 6
+    fallback: "MySQL service not responding after 60s"
+
+  # ============================================
+  # PERMISSION ERRORS
+  # ============================================
+  permission_denied:
+    pattern: "Permission denied"
+    severity: warning
+    category: filesystem
+    description: File permission issue
+    actions:
+      - action: command
+        cmd: "docker exec {{container}} chown -R www-data:www-data /var/www/html/wp-content"
+      - action: command
+        cmd: "docker exec {{container}} chmod -R 755 /var/www/html/wp-content"
+      - action: retry
+    max_retries: 2
+    fallback: "Permission fix failed. Check container user permissions."
+
+  uploads_not_writable:
+    pattern: "Unable to create directory.*uploads"
+    severity: error
+    category: filesystem
+    description: Uploads directory not writable
+    actions:
+      - action: command
+        cmd: "docker exec {{container}} mkdir -p /var/www/html/wp-content/uploads"
+      - action: command
+        cmd: "docker exec {{container}} chown -R www-data:www-data /var/www/html/wp-content/uploads"
+      - action: command
+        cmd: "docker exec {{container}} chmod 775 /var/www/html/wp-content/uploads"
+      - action: retry
+    max_retries: 1
+    fallback: "Create uploads directory manually"
+
+  # ============================================
+  # PORT ERRORS
+  # ============================================
+  port_in_use:
+    pattern: "port is already allocated|address already in use"
+    severity: warning
+    category: network
+    description: Port already in use
+    actions:
+      - action: command
+        cmd: "docker stop $(docker ps -q --filter publish={{port}}) 2>/dev/null || true"
+      - action: wait
+        seconds: 2
+      - action: retry
+    max_retries: 2
+    fallback: "Port {{port}} in use. Stop the conflicting service or use a different port."
+
+  # ============================================
+  # PLUGIN ERRORS
+  # ============================================
+  plugin_install_failed:
+    pattern: "Plugin installation failed|Couldn't fetch plugin"
+    severity: warning
+    category: wordpress
+    description: Plugin download failed
+    actions:
+      - action: wait
+        seconds: 5
+      - action: command
+        cmd: "docker exec {{container}} wp plugin install {{plugin}} --force --allow-root"
+      - action: retry
+    max_retries: 2
+    fallback: "Plugin '{{plugin}}' install failed. Check WordPress.org availability."
+
+  plugin_activation_failed:
+    pattern: "Plugin activation failed"
+    severity: warning
+    category: wordpress
+    description: Plugin could not be activated
+    actions:
+      - action: command
+        cmd: "docker exec {{container}} wp plugin deactivate --all --allow-root"
+      - action: command
+        cmd: "docker exec {{container}} wp plugin activate {{plugin}} --allow-root"
+      - action: retry
+    max_retries: 1
+    fallback: "Plugin conflict. Activate plugins one by one to identify."
+
+  # ============================================
+  # NPM ERRORS
+  # ============================================
+  npm_install_failed:
+    pattern: "npm ERR!|ENOENT.*node_modules"
+    severity: warning
+    category: build
+    description: NPM install failed
+    actions:
+      - action: command
+        cmd: "rm -rf node_modules package-lock.json"
+      - action: command
+        cmd: "npm cache clean --force"
+      - action: command
+        cmd: "npm install"
+      - action: retry
+    max_retries: 2
+    fallback: "NPM install failed. Check Node.js version (requires 20+)."
+
+  npm_build_failed:
+    pattern: "npm run build.*ENOENT|tailwindcss.*not found"
+    severity: error
+    category: build
+    description: NPM build failed
+    actions:
+      - action: command
+        cmd: "npm install"
+      - action: command
+        cmd: "npm run build"
+      - action: retry
+    max_retries: 1
+    fallback: "Build failed. Check package.json and tailwind.config.js"
+
+  # ============================================
+  # DOCKER ERRORS
+  # ============================================
+  docker_not_running:
+    pattern: "Cannot connect to the Docker daemon"
+    severity: critical
+    category: docker
+    description: Docker daemon not running
+    actions:
+      - action: log
+        message: "Docker daemon not running"
+      - action: notify
+        type: user
+    max_retries: 0
+    fallback: "Start Docker Desktop or systemctl start docker"
+
+  container_not_found:
+    pattern: "No such container"
+    severity: error
+    category: docker
+    description: Container does not exist
+    actions:
+      - action: command
+        cmd: "docker-compose up -d"
+      - action: wait
+        seconds: 10
+      - action: retry
+    max_retries: 1
+    fallback: "Container not found. Run: docker-compose up -d"
+
+  image_pull_failed:
+    pattern: "error pulling image|manifest unknown"
+    severity: error
+    category: docker
+    description: Docker image pull failed
+    actions:
+      - action: wait
+        seconds: 10
+      - action: command
+        cmd: "docker-compose pull"
+      - action: retry
+    max_retries: 2
+    fallback: "Image pull failed. Check Docker Hub status."
+
+  # ============================================
+  # WORDPRESS CLI ERRORS
+  # ============================================
+  wp_cli_not_installed:
+    pattern: "This does not seem to be a WordPress installation"
+    severity: error
+    category: wordpress
+    description: WordPress not installed
+    actions:
+      - action: command
+        cmd: "docker exec {{container}} wp core install --url={{url}} --title='{{title}}' --admin_user=admin --admin_password=admin123 --admin_email=admin@{{domain}} --allow-root"
+      - action: retry
+    max_retries: 1
+    fallback: "WordPress installation failed. Check database connection."
+
+  theme_not_found:
+    pattern: "The theme '.*' could not be found"
+    severity: error
+    category: wordpress
+    description: Theme not found
+    actions:
+      - action: log
+        message: "Theme not found in wp-content/themes/"
+    max_retries: 0
+    fallback: "Theme files missing. Regenerate theme templates."
+
+  # ============================================
+  # NETWORK ERRORS
+  # ============================================
+  connection_refused:
+    pattern: "Connection refused|ECONNREFUSED"
+    severity: warning
+    category: network
+    description: Service not responding
+    actions:
+      - action: wait
+        seconds: 5
+      - action: retry
+    max_retries: 6
+    fallback: "Service not responding after 30s. Check container logs."
+
+  timeout:
+    pattern: "ETIMEDOUT|Operation timed out"
+    severity: warning
+    category: network
+    description: Network timeout
+    actions:
+      - action: wait
+        seconds: 10
+      - action: retry
+    max_retries: 3
+    fallback: "Network timeout. Check internet connection."
+
+  # ============================================
+  # TEST ERRORS
+  # ============================================
+  playwright_browser_error:
+    pattern: "browserType.launch.*Executable doesn't exist"
+    severity: error
+    category: testing
+    description: Playwright browsers not installed
+    actions:
+      - action: command
+        cmd: "npx playwright install chromium"
+      - action: retry
+    max_retries: 1
+    fallback: "Run: npx playwright install"
+
+  e2e_test_timeout:
+    pattern: "Test timeout of.*exceeded"
+    severity: warning
+    category: testing
+    description: E2E test timeout
+    actions:
+      - action: log
+        message: "Test timed out - site may be slow"
+      - action: retry
+    max_retries: 1
+    fallback: "Increase timeout in playwright.config.ts"
+
+# ============================================
+# ERROR CATEGORIES
+# ============================================
+categories:
+  database:
+    description: MySQL and database errors
+    recovery_priority: 1
+  filesystem:
+    description: File permission and access errors
+    recovery_priority: 2
+  docker:
+    description: Docker and container errors
+    recovery_priority: 1
+  wordpress:
+    description: WordPress and WP-CLI errors
+    recovery_priority: 3
+  build:
+    description: NPM and build tool errors
+    recovery_priority: 4
+  network:
+    description: Network and connectivity errors
+    recovery_priority: 2
+  testing:
+    description: Test runner errors
+    recovery_priority: 5

@@ -1,0 +1,348 @@
+# WPF v2.0 - WordPress Knowledge Base Requirements
+#
+# Codified requirements from wordpress-knowledge-base
+# Each requirement has: id, category, description, check, weight, required
+#
+# Categories: architecture, security, performance, seo, testing
+# Weights: 1-10 (used for compliance scoring)
+
+version: "1.0"
+last_updated: "2025-12-03"
+
+requirements:
+  # ============================================
+  # ARCHITECTURE REQUIREMENTS
+  # ============================================
+  architecture:
+    - id: arch-001
+      name: theme_exists
+      description: Custom theme must exist
+      check:
+        type: file_exists
+        path: "wp-content/themes/{{project}}-theme"
+      weight: 10
+      required: true
+
+    - id: arch-002
+      name: plugin_exists
+      description: Companion plugin must exist
+      check:
+        type: file_exists
+        path: "wp-content/plugins/{{project}}-plugin"
+      weight: 10
+      required: true
+
+    - id: arch-003
+      name: cpts_in_plugin
+      description: Custom Post Types must be in plugin, not theme
+      check:
+        type: grep
+        pattern: "register_post_type"
+        path: "wp-content/themes/{{project}}-theme"
+        expect: not_found
+      weight: 10
+      required: true
+
+    - id: arch-004
+      name: no_functionality_in_theme
+      description: Business logic should be in plugin
+      check:
+        type: grep
+        pattern: "register_taxonomy|add_shortcode"
+        path: "wp-content/themes/{{project}}-theme"
+        expect: not_found
+      weight: 5
+      required: false
+
+    - id: arch-005
+      name: theme_structure
+      description: Theme must have required files
+      check:
+        type: files_exist
+        files:
+          - "style.css"
+          - "functions.php"
+          - "index.php"
+          - "header.php"
+          - "footer.php"
+        path: "wp-content/themes/{{project}}-theme"
+      weight: 8
+      required: true
+
+  # ============================================
+  # SECURITY REQUIREMENTS
+  # ============================================
+  security:
+    - id: sec-001
+      name: disallow_file_edit
+      description: File editing must be disabled
+      check:
+        type: wp_config
+        constant: DISALLOW_FILE_EDIT
+        value: true
+      weight: 10
+      required: true
+
+    - id: sec-002
+      name: xmlrpc_disabled
+      description: XML-RPC should be disabled
+      check:
+        type: command
+        cmd: "wp option get xmlrpc_enabled"
+        expect: "0"
+      weight: 5
+      required: true
+
+    - id: sec-003
+      name: security_headers
+      description: Security headers must be configured
+      check:
+        type: http_headers
+        headers:
+          - X-Content-Type-Options
+          - X-Frame-Options
+          - X-XSS-Protection
+      weight: 10
+      required: true
+
+    - id: sec-004
+      name: input_sanitization
+      description: All user input must be sanitized
+      check:
+        type: grep
+        pattern: "\\$_(GET|POST|REQUEST)\\["
+        path: "wp-content/themes/{{project}}-theme"
+        expect: not_found
+      weight: 10
+      required: true
+
+    - id: sec-005
+      name: output_escaping
+      description: All output must be escaped
+      check:
+        type: grep
+        pattern: "echo \\$"
+        path: "wp-content/themes/{{project}}-theme"
+        expect: not_found
+      weight: 10
+      required: true
+
+    - id: sec-006
+      name: nonces_for_forms
+      description: Forms must use nonces
+      check:
+        type: grep
+        pattern: "wp_nonce_field|wp_verify_nonce"
+        path: "wp-content/plugins/{{project}}-plugin"
+        expect: found_if_forms_exist
+      weight: 8
+      required: true
+
+    - id: sec-007
+      name: no_php_in_uploads
+      description: PHP execution disabled in uploads
+      check:
+        type: file_exists
+        path: "wp-content/uploads/.htaccess"
+      weight: 7
+      required: false
+
+  # ============================================
+  # PERFORMANCE REQUIREMENTS
+  # ============================================
+  performance:
+    - id: perf-001
+      name: lighthouse_score
+      description: Lighthouse performance score >= 70
+      check:
+        type: lighthouse
+        metric: performance
+        threshold: 70
+      weight: 15
+      required: true
+
+    - id: perf-002
+      name: ttfb
+      description: Time to First Byte < 200ms
+      check:
+        type: lighthouse
+        metric: ttfb
+        threshold: 200
+        unit: ms
+      weight: 10
+      required: false
+
+    - id: perf-003
+      name: lcp
+      description: Largest Contentful Paint < 2.5s
+      check:
+        type: lighthouse
+        metric: lcp
+        threshold: 2500
+        unit: ms
+      weight: 10
+      required: true
+
+    - id: perf-004
+      name: css_size
+      description: Compiled CSS size < 20KB
+      check:
+        type: file_size
+        path: "wp-content/themes/{{project}}-theme/style.css"
+        max_size: 20480
+      weight: 5
+      required: true
+
+    - id: perf-005
+      name: critical_css
+      description: Critical CSS must be generated
+      check:
+        type: grep
+        pattern: "critical|above-fold"
+        path: "wp-content/themes/{{project}}-theme"
+        expect: found
+      weight: 5
+      required: false
+
+    - id: perf-006
+      name: image_optimization
+      description: Image optimization plugin active
+      check:
+        type: plugin_active
+        plugin: shortpixel-image-optimiser
+      weight: 8
+      required: true
+
+    - id: perf-007
+      name: caching_enabled
+      description: Caching plugin active
+      check:
+        type: plugin_active
+        plugins:
+          - autoptimize
+          - w3-total-cache
+          - wp-super-cache
+        match: any
+      weight: 8
+      required: true
+
+  # ============================================
+  # SEO REQUIREMENTS
+  # ============================================
+  seo:
+    - id: seo-001
+      name: yoast_installed
+      description: Yoast SEO plugin must be active
+      check:
+        type: plugin_active
+        plugin: wordpress-seo
+      weight: 5
+      required: true
+
+    - id: seo-002
+      name: sitemap_exists
+      description: XML sitemap must exist
+      check:
+        type: url_accessible
+        path: "/sitemap_index.xml"
+      weight: 5
+      required: true
+
+    - id: seo-003
+      name: schema_configured
+      description: Schema markup configured
+      check:
+        type: html_contains
+        pattern: "application/ld\\+json"
+        path: "/"
+      weight: 3
+      required: false
+
+    - id: seo-004
+      name: meta_descriptions
+      description: All pages have meta descriptions
+      check:
+        type: html_contains
+        pattern: 'meta name="description"'
+        pages: all
+      weight: 5
+      required: true
+
+    - id: seo-005
+      name: robots_txt
+      description: robots.txt must exist
+      check:
+        type: url_accessible
+        path: "/robots.txt"
+      weight: 3
+      required: true
+
+    - id: seo-006
+      name: canonical_urls
+      description: Canonical URLs configured
+      check:
+        type: html_contains
+        pattern: 'rel="canonical"'
+        pages: all
+      weight: 4
+      required: true
+
+  # ============================================
+  # TESTING REQUIREMENTS
+  # ============================================
+  testing:
+    - id: test-001
+      name: e2e_tests_exist
+      description: E2E tests must exist
+      check:
+        type: file_exists
+        path: "tests/e2e"
+      weight: 5
+      required: true
+
+    - id: test-002
+      name: e2e_tests_passing
+      description: All E2E tests must pass
+      check:
+        type: command
+        cmd: "npx playwright test"
+        expect: exit_0
+      weight: 10
+      required: true
+
+    - id: test-003
+      name: playwright_config
+      description: Playwright configuration exists
+      check:
+        type: file_exists
+        path: "tests/playwright.config.ts"
+      weight: 3
+      required: true
+
+# ============================================
+# COMPLIANCE LEVELS
+# ============================================
+compliance_levels:
+  minimal:
+    description: Basic WordPress site requirements
+    required_categories:
+      - architecture
+    score_threshold: 50
+
+  standard:
+    description: Professional WordPress site
+    required_categories:
+      - architecture
+      - security
+      - seo
+    score_threshold: 75
+
+  strict:
+    description: Full KB compliance (100%)
+    required_categories:
+      - architecture
+      - security
+      - performance
+      - seo
+      - testing
+    score_threshold: 100
