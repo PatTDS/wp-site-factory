@@ -1,0 +1,44 @@
+<!--
+  Features: Icon Grid
+  Best for: SaaS, Technology, Professional Services
+  Features: 2x3 or 3x2 grid, icon boxes, hover effects
+  Variables: {{FEATURES}} array with icon, title, description
+-->
+
+<section class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-6">
+                {{SECTION_BADGE}}
+            </span>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-6">{{SECTION_TITLE}}</h2>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">{{SECTION_DESCRIPTION}}</p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            {{#FEATURES}}
+            <div class="group relative p-8 rounded-2xl bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-xl transition-all duration-300">
+                <!-- Icon -->
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-{{FEATURE_COLOR}}-500 to-{{FEATURE_COLOR}}-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-{{FEATURE_COLOR}}-500/20">
+                    <div class="w-7 h-7 text-white">
+                        {{{FEATURE_ICON}}}
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{{FEATURE_TITLE}}</h3>
+                <p class="text-gray-600 leading-relaxed">{{FEATURE_DESCRIPTION}}</p>
+
+                <!-- Hover Arrow -->
+                <div class="absolute top-8 right-8 w-8 h-8 rounded-full bg-gray-100 group-hover:bg-primary-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </div>
+            {{/FEATURES}}
+        </div>
+    </div>
+</section>

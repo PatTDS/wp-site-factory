@@ -1,0 +1,23 @@
+<!--
+  Stats: Colored Cards
+  Best for: All industries
+  Features: Gradient backgrounds, hover effects, accent bars
+  Variables: {{STATS}} array with value, label, color
+-->
+
+<section class="py-16 bg-white relative overflow-hidden">
+    <!-- Subtle Background -->
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-transparent"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {{#STATS}}
+            <div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-{{STAT_COLOR}}-50 to-white border border-{{STAT_COLOR}}-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div class="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-{{STAT_COLOR}}-700 to-{{STAT_COLOR}}-500 bg-clip-text text-transparent">{{STAT_VALUE}}</div>
+                <div class="text-gray-600 font-medium mt-2">{{STAT_LABEL}}</div>
+                <div class="w-12 h-1 bg-secondary-400 mx-auto mt-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </div>
+            {{/STATS}}
+        </div>
+    </div>
+</section>

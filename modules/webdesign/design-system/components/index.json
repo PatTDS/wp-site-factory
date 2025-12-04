@@ -1,0 +1,235 @@
+{
+  "name": "WPF Component Library",
+  "version": "1.0.0",
+  "description": "Pre-built, beautiful components for rapid website design",
+
+  "categories": {
+    "heroes": {
+      "name": "Hero Sections",
+      "description": "Above-the-fold hero sections",
+      "components": [
+        {
+          "id": "hero-split-cards",
+          "name": "Split with Floating Cards",
+          "description": "Two-column hero with animated floating stat cards",
+          "bestFor": ["Industrial", "Professional Services", "Tech"],
+          "features": ["Animated background", "Floating stats", "Trust badges", "Service icons"],
+          "file": "heroes/hero-split-cards.html",
+          "preview": "heroes/previews/hero-split-cards.png"
+        },
+        {
+          "id": "hero-centered",
+          "name": "Centered",
+          "description": "Clean centered layout with gradient headline",
+          "bestFor": ["SaaS", "Technology", "Startups"],
+          "features": ["Centered text", "Gradient text", "Trusted by logos"],
+          "file": "heroes/hero-centered.html",
+          "preview": "heroes/previews/hero-centered.png"
+        },
+        {
+          "id": "hero-image-bg",
+          "name": "Full Image Background",
+          "description": "Full-bleed background image with overlay",
+          "bestFor": ["Hospitality", "Real Estate", "Portfolio"],
+          "features": ["Full-bleed image", "Gradient overlay", "Scroll indicator"],
+          "file": "heroes/hero-image-bg.html",
+          "preview": "heroes/previews/hero-image-bg.png"
+        }
+      ]
+    },
+
+    "stats": {
+      "name": "Statistics Sections",
+      "description": "Number highlights and key metrics",
+      "components": [
+        {
+          "id": "stats-cards",
+          "name": "Colored Cards",
+          "description": "Individual cards with colored gradients and hover effects",
+          "bestFor": ["All industries"],
+          "features": ["Gradient backgrounds", "Hover lift", "Accent bars"],
+          "file": "stats/stats-cards.html",
+          "preview": "stats/previews/stats-cards.png"
+        },
+        {
+          "id": "stats-inline",
+          "name": "Inline Row",
+          "description": "Horizontal compact stats with dividers",
+          "bestFor": ["Tech", "SaaS", "Below hero placement"],
+          "features": ["Dark background", "Dividers", "Compact"],
+          "file": "stats/stats-inline.html",
+          "preview": "stats/previews/stats-inline.png"
+        }
+      ]
+    },
+
+    "services": {
+      "name": "Services Sections",
+      "description": "Service offerings and features",
+      "components": [
+        {
+          "id": "services-cards",
+          "name": "Card Grid",
+          "description": "Three-column card grid with icons and feature lists",
+          "bestFor": ["All industries"],
+          "features": ["Icon headers", "Feature lists", "Hover effects", "Gradient backgrounds"],
+          "file": "services/services-cards.html",
+          "preview": "services/previews/services-cards.png"
+        }
+      ]
+    },
+
+    "cta": {
+      "name": "Call to Action",
+      "description": "Conversion-focused sections",
+      "components": [
+        {
+          "id": "cta-gradient",
+          "name": "Gradient Background",
+          "description": "Bold gradient with centered text and dual buttons",
+          "bestFor": ["All industries"],
+          "features": ["Gradient background", "Decorative orbs", "Trust indicators", "Dual CTAs"],
+          "file": "cta/cta-gradient.html",
+          "preview": "cta/previews/cta-gradient.png"
+        },
+        {
+          "id": "cta-split",
+          "name": "Split Layout",
+          "description": "Two-column with image/quote and form",
+          "bestFor": ["Professional Services", "Industrial", "B2B"],
+          "features": ["Two-column layout", "Floating quote card", "Feature list"],
+          "file": "cta/cta-split.html",
+          "preview": "cta/previews/cta-split.png"
+        }
+      ]
+    },
+
+    "testimonials": {
+      "name": "Testimonials",
+      "description": "Social proof and reviews",
+      "components": [
+        {
+          "id": "testimonials-cards",
+          "name": "Card Grid",
+          "description": "Three-column testimonial cards with ratings",
+          "bestFor": ["All industries"],
+          "features": ["Star ratings", "Author info", "Company names", "Hover effects"],
+          "file": "testimonials/testimonials-cards.html",
+          "preview": "testimonials/previews/testimonials-cards.png"
+        },
+        {
+          "id": "testimonials-carousel",
+          "name": "Featured Carousel",
+          "description": "Large featured quote with navigation",
+          "bestFor": ["Professional Services", "Premium brands"],
+          "features": ["Large quote", "Dark background", "Navigation arrows", "Dots indicator"],
+          "file": "testimonials/testimonials-carousel.html",
+          "preview": "testimonials/previews/testimonials-carousel.png"
+        }
+      ]
+    },
+
+    "features": {
+      "name": "Features",
+      "description": "Product/service feature highlights",
+      "components": [
+        {
+          "id": "features-grid",
+          "name": "Icon Grid",
+          "description": "2x3 or 3x2 grid with icon boxes",
+          "bestFor": ["SaaS", "Technology", "Professional Services"],
+          "features": ["Icon boxes", "Hover effects", "Colored icons"],
+          "file": "features/features-grid.html",
+          "preview": "features/previews/features-grid.png"
+        },
+        {
+          "id": "features-alternating",
+          "name": "Alternating Sections",
+          "description": "Image + text alternating layout",
+          "bestFor": ["Product showcases", "Detailed explanations"],
+          "features": ["Alternating layout", "Number badges", "Feature bullets", "Decorative blurs"],
+          "file": "features/features-alternating.html",
+          "preview": "features/previews/features-alternating.png"
+        }
+      ]
+    },
+
+    "headers": {
+      "name": "Navigation Headers",
+      "description": "Site headers and navigation",
+      "components": [
+        {
+          "id": "header-modern",
+          "name": "Modern Sticky",
+          "description": "Glassmorphism header with top bar",
+          "bestFor": ["All industries"],
+          "features": ["Sticky", "Glassmorphism", "Mobile menu", "Top bar", "CTA button"],
+          "file": "headers/header-modern.html",
+          "preview": "headers/previews/header-modern.png"
+        },
+        {
+          "id": "header-transparent",
+          "name": "Transparent Overlay",
+          "description": "Transparent on hero, solid on scroll",
+          "bestFor": ["Hospitality", "Portfolio", "Image-heavy sites"],
+          "features": ["Transparent initially", "Color change on scroll", "Inverted colors"],
+          "file": "headers/header-transparent.html",
+          "preview": "headers/previews/header-transparent.png"
+        }
+      ]
+    },
+
+    "footers": {
+      "name": "Footers",
+      "description": "Site footers",
+      "components": [
+        {
+          "id": "footer-comprehensive",
+          "name": "Comprehensive",
+          "description": "Full-featured 4-column footer with newsletter",
+          "bestFor": ["All industries", "Full-featured sites"],
+          "features": ["4-column layout", "Newsletter signup", "Social links", "Contact info"],
+          "file": "footers/footer-comprehensive.html",
+          "preview": "footers/previews/footer-comprehensive.png"
+        },
+        {
+          "id": "footer-minimal",
+          "name": "Minimal",
+          "description": "Simple centered footer with essentials",
+          "bestFor": ["Simple sites", "Landing pages", "Portfolios"],
+          "features": ["Centered layout", "Social icons", "Essential links only"],
+          "file": "footers/footer-minimal.html",
+          "preview": "footers/previews/footer-minimal.png"
+        }
+      ]
+    },
+
+    "contact": {
+      "name": "Contact Sections",
+      "description": "Contact forms and info",
+      "components": [
+        {
+          "id": "contact-split",
+          "name": "Split Layout",
+          "description": "Form + info side by side with map",
+          "bestFor": ["All industries"],
+          "features": ["Form + info", "Business hours", "Map placeholder", "Contact cards"],
+          "file": "contact/contact-split.html",
+          "preview": "contact/previews/contact-split.png"
+        },
+        {
+          "id": "contact-centered",
+          "name": "Centered Form",
+          "description": "Simple centered contact form",
+          "bestFor": ["Simple sites", "Landing pages"],
+          "features": ["Centered form", "Minimal design", "Quick contact links"],
+          "file": "contact/contact-centered.html",
+          "preview": "contact/previews/contact-centered.png"
+        }
+      ]
+    }
+  },
+
+  "totalComponents": 18,
+  "plannedComponents": 50
+}

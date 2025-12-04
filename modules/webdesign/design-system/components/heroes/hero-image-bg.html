@@ -1,0 +1,53 @@
+<!--
+  Hero: Full Image Background
+  Best for: Hospitality, Real Estate, Portfolio
+  Features: Full-bleed image, overlay gradient, minimal text
+  Variables: {{IMAGE_URL}}, {{HEADLINE}}, {{SUBHEADLINE}}, {{CTA}}
+-->
+
+<section class="relative min-h-screen flex items-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+        <img src="{{IMAGE_URL}}" alt="{{IMAGE_ALT}}" class="w-full h-full object-cover">
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <div class="max-w-2xl">
+            <!-- Accent Line -->
+            <div class="w-20 h-1 bg-secondary-500 mb-8 animate-fade-in"></div>
+
+            <!-- Headline -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white leading-[1.1] mb-6 animate-slide-up">
+                {{HEADLINE}}
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="text-lg md:text-xl text-white/80 mb-10 leading-relaxed max-w-lg animate-slide-up" style="animation-delay: 0.1s;">
+                {{SUBHEADLINE}}
+            </p>
+
+            <!-- CTAs -->
+            <div class="flex flex-col sm:flex-row gap-4 animate-slide-up" style="animation-delay: 0.2s;">
+                <a href="{{CTA_PRIMARY_URL}}" class="group inline-flex items-center justify-center px-8 py-4 bg-secondary-500 hover:bg-secondary-600 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+                    {{CTA_PRIMARY_TEXT}}
+                    <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+                <a href="{{CTA_SECONDARY_URL}}" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white/50 hover:border-white hover:bg-white/10 text-white font-semibold rounded-lg transition-all duration-300">
+                    {{CTA_SECONDARY_TEXT}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <div class="w-8 h-12 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
+            <div class="w-1 h-3 bg-white rounded-full animate-pulse"></div>
+        </div>
+    </div>
+</section>

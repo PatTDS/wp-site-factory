@@ -1,0 +1,83 @@
+<!--
+  CTA: Split Layout
+  Best for: Professional Services, Industrial, B2B
+  Features: Two-column layout, form or image side, testimonial quote
+  Variables: {{HEADLINE}}, {{DESCRIPTION}}, {{IMAGE_URL}}, {{QUOTE}}
+-->
+
+<section class="py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Content Side -->
+            <div>
+                <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-6">
+                    {{CTA_BADGE}}
+                </span>
+
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-6 leading-tight">
+                    {{CTA_HEADLINE}}
+                </h2>
+
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    {{CTA_DESCRIPTION}}
+                </p>
+
+                <!-- Features List -->
+                <ul class="space-y-4 mb-8">
+                    {{#CTA_FEATURES}}
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-secondary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">{{FEATURE_TEXT}}</span>
+                    </li>
+                    {{/CTA_FEATURES}}
+                </ul>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{{CTA_PRIMARY_URL}}" class="inline-flex items-center justify-center px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-primary-600/20">
+                        {{CTA_PRIMARY_TEXT}}
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <a href="{{CTA_SECONDARY_URL}}" class="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-200 transition-all duration-300">
+                        {{CTA_SECONDARY_TEXT}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image/Quote Side -->
+            <div class="relative">
+                <!-- Image -->
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="{{CTA_IMAGE_URL}}" alt="{{CTA_IMAGE_ALT}}" class="w-full h-auto">
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary-900/60 to-transparent"></div>
+                </div>
+
+                <!-- Floating Quote Card -->
+                <div class="absolute -bottom-6 -left-6 right-6 lg:right-12 bg-white rounded-xl shadow-xl p-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-secondary-100 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-secondary-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 italic mb-3">{{CTA_QUOTE_TEXT}}</p>
+                            <div class="flex items-center gap-3">
+                                <div>
+                                    <p class="font-semibold text-gray-900">{{CTA_QUOTE_AUTHOR}}</p>
+                                    <p class="text-sm text-gray-500">{{CTA_QUOTE_ROLE}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

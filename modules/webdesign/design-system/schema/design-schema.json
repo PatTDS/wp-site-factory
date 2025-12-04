@@ -1,0 +1,203 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WPF Design Configuration",
+  "description": "Schema for WPF design.json project files",
+  "type": "object",
+  "required": ["version", "project", "industry", "sections", "content"],
+
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Design schema version",
+      "enum": ["1.0"]
+    },
+
+    "project": {
+      "type": "string",
+      "description": "Project identifier (kebab-case)",
+      "pattern": "^[a-z0-9-]+$"
+    },
+
+    "industry": {
+      "type": "string",
+      "description": "Industry preset for default styling",
+      "enum": ["industrial", "professional-services", "healthcare", "technology", "ecommerce", "hospitality", "custom"]
+    },
+
+    "status": {
+      "type": "string",
+      "description": "Design workflow status",
+      "enum": ["draft", "review", "approved", "implemented"],
+      "default": "draft"
+    },
+
+    "colors": {
+      "type": "object",
+      "description": "Brand color overrides",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "description": "Primary brand color (hex)",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "secondary": {
+          "type": "string",
+          "description": "Secondary/accent color (hex)",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "accent": {
+          "type": "string",
+          "description": "Tertiary accent color (hex)",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      }
+    },
+
+    "typography": {
+      "type": "object",
+      "description": "Font selections",
+      "properties": {
+        "headingFont": {
+          "type": "string",
+          "description": "Font family for headings",
+          "enum": ["Poppins", "Inter", "Montserrat", "Roboto", "Open Sans", "Lato", "Playfair Display", "Merriweather"]
+        },
+        "bodyFont": {
+          "type": "string",
+          "description": "Font family for body text",
+          "enum": ["Inter", "Open Sans", "Roboto", "Lato", "Source Sans Pro", "Nunito"]
+        }
+      }
+    },
+
+    "sections": {
+      "type": "object",
+      "description": "Component selections for each section",
+      "required": ["header", "hero", "footer"],
+      "properties": {
+        "header": {
+          "type": "string",
+          "description": "Header component ID",
+          "enum": ["header-modern", "header-transparent"]
+        },
+        "hero": {
+          "type": "string",
+          "description": "Hero component ID",
+          "enum": ["hero-split-cards", "hero-centered", "hero-image-bg"]
+        },
+        "body": {
+          "type": "array",
+          "description": "Body section components in order",
+          "items": {
+            "type": "string",
+            "enum": [
+              "stats-cards", "stats-inline",
+              "services-cards",
+              "features-grid", "features-alternating",
+              "testimonials-cards", "testimonials-carousel",
+              "cta-gradient", "cta-split",
+              "contact-split", "contact-centered"
+            ]
+          }
+        },
+        "footer": {
+          "type": "string",
+          "description": "Footer component ID",
+          "enum": ["footer-comprehensive", "footer-minimal"]
+        }
+      }
+    },
+
+    "content": {
+      "type": "object",
+      "description": "Project content data",
+      "required": ["company", "contact"],
+      "properties": {
+        "company": {
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "name": { "type": "string", "description": "Company display name" },
+            "tagline": { "type": "string", "description": "Short tagline/slogan" },
+            "description": { "type": "string", "description": "Company description" },
+            "logoInitial": { "type": "string", "description": "Single letter for logo placeholder", "maxLength": 1 }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "phone": { "type": "string", "description": "Primary phone number" },
+            "email": { "type": "string", "format": "email", "description": "Contact email" },
+            "address": { "type": "string", "description": "Street address" },
+            "city": { "type": "string", "description": "City name" },
+            "state": { "type": "string", "description": "State/Province" },
+            "zip": { "type": "string", "description": "Postal code" }
+          }
+        },
+        "social": {
+          "type": "object",
+          "description": "Social media URLs",
+          "properties": {
+            "facebook": { "type": "string", "format": "uri" },
+            "instagram": { "type": "string", "format": "uri" },
+            "linkedin": { "type": "string", "format": "uri" },
+            "twitter": { "type": "string", "format": "uri" },
+            "youtube": { "type": "string", "format": "uri" }
+          }
+        },
+        "businessHours": {
+          "type": "array",
+          "description": "Business hours by day",
+          "items": {
+            "type": "object",
+            "properties": {
+              "day": { "type": "string" },
+              "hours": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "pages": {
+      "type": "array",
+      "description": "Site pages configuration",
+      "items": {
+        "type": "object",
+        "required": ["name", "slug"],
+        "properties": {
+          "name": { "type": "string", "description": "Page display name" },
+          "slug": { "type": "string", "description": "URL path" },
+          "title": { "type": "string", "description": "SEO title" },
+          "description": { "type": "string", "description": "SEO description" },
+          "sections": {
+            "type": "array",
+            "description": "Sections to include on this page",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "seo": {
+      "type": "object",
+      "description": "SEO settings",
+      "properties": {
+        "siteTitle": { "type": "string" },
+        "siteTitleSeparator": { "type": "string", "default": "|" },
+        "defaultDescription": { "type": "string" },
+        "googleAnalyticsId": { "type": "string" }
+      }
+    },
+
+    "approvedAt": {
+      "type": "number",
+      "description": "Unix timestamp when design was approved"
+    },
+
+    "implementedAt": {
+      "type": "number",
+      "description": "Unix timestamp when design was implemented"
+    }
+  }
+}

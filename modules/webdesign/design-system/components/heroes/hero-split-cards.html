@@ -1,0 +1,106 @@
+<!--
+  Hero: Split with Floating Cards
+  Best for: Industrial, Professional Services, Tech
+  Features: Animated background, floating stats, trust badges
+  Variables: {{HEADLINE}}, {{SUBHEADLINE}}, {{CTA_PRIMARY}}, {{CTA_SECONDARY}}, {{STATS}}
+-->
+
+<section class="relative min-h-[90vh] flex items-center bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0">
+        <!-- Gradient Orbs -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-secondary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary-600/10 rounded-full blur-3xl"></div>
+        <!-- Grid Lines -->
+        <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Content -->
+            <div class="space-y-8 animate-fade-in">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-secondary-400 rounded-full animate-pulse"></span>
+                    <span class="text-sm font-medium text-white/90">{{BADGE_TEXT}}</span>
+                </div>
+
+                <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold leading-[1.1] tracking-tight">
+                    {{HEADLINE_LINE1}}<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary-400 via-secondary-300 to-secondary-400">{{HEADLINE_HIGHLIGHT}}</span>
+                </h1>
+
+                <p class="text-lg md:text-xl text-primary-100/90 max-w-xl leading-relaxed">
+                    {{SUBHEADLINE}}
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="{{CTA_PRIMARY_URL}}" class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-secondary-500/25 hover:shadow-xl hover:shadow-secondary-500/30 hover:-translate-y-0.5">
+                        {{CTA_PRIMARY_TEXT}}
+                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <a href="{{CTA_SECONDARY_URL}}" class="group inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 hover:border-white/50 text-white font-semibold rounded-xl transition-all duration-300">
+                        {{CTA_SECONDARY_TEXT}}
+                    </a>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="flex flex-wrap items-center gap-6 pt-6 border-t border-white/10">
+                    {{#TRUST_BADGES}}
+                    <div class="flex items-center gap-2">
+                        <div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                            {{{BADGE_ICON}}}
+                        </div>
+                        <span class="text-sm text-white/80">{{BADGE_LABEL}}</span>
+                    </div>
+                    {{/TRUST_BADGES}}
+                </div>
+            </div>
+
+            <!-- Visual Element - Floating Cards -->
+            <div class="hidden lg:block animate-slide-in-right">
+                <div class="relative">
+                    <!-- Decorative blurs -->
+                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-secondary-500/30 rounded-2xl blur-xl"></div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-primary-500/30 rounded-2xl blur-xl"></div>
+
+                    <!-- Floating Stats -->
+                    <div class="absolute -top-4 -left-4 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 shadow-xl animate-float z-10">
+                        <div class="text-3xl font-bold text-secondary-400">{{STAT_1_VALUE}}</div>
+                        <div class="text-sm text-white/80">{{STAT_1_LABEL}}</div>
+                    </div>
+
+                    <div class="absolute -bottom-4 -right-4 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 shadow-xl animate-float z-10" style="animation-delay: 2s;">
+                        <div class="text-3xl font-bold text-accent-400">{{STAT_2_VALUE}}</div>
+                        <div class="text-sm text-white/80">{{STAT_2_LABEL}}</div>
+                    </div>
+
+                    <!-- Main Visual Card -->
+                    <div class="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl border border-white/20 p-8 shadow-2xl">
+                        <div class="grid grid-cols-2 gap-6">
+                            {{#SERVICE_CARDS}}
+                            <div class="bg-white/10 rounded-2xl p-6 text-center hover:bg-white/20 transition-colors cursor-pointer">
+                                <div class="w-14 h-14 bg-{{CARD_COLOR}}-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                    {{{CARD_ICON}}}
+                                </div>
+                                <div class="text-sm font-medium text-white">{{CARD_LABEL}}</div>
+                            </div>
+                            {{/SERVICE_CARDS}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wave Divider -->
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg class="w-full h-20 md:h-32" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+            <path d="M0,60 C320,120 480,0 720,60 C960,120 1120,0 1440,60 L1440,120 L0,120 Z" fill="white"/>
+        </svg>
+    </div>
+</section>

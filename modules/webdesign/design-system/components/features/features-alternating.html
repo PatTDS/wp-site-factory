@@ -1,0 +1,69 @@
+<!--
+  Features: Alternating Sections
+  Best for: Product showcases, Detailed explanations
+  Features: Image + text alternating layout, feature list
+  Variables: {{FEATURES}} array with image, title, description, bullets
+-->
+
+<section class="py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-20">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-6">
+                {{SECTION_BADGE}}
+            </span>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-6">{{SECTION_TITLE}}</h2>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">{{SECTION_DESCRIPTION}}</p>
+        </div>
+
+        <!-- Features -->
+        <div class="space-y-24">
+            {{#FEATURES}}
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center {{#IS_REVERSED}}lg:flex-row-reverse{{/IS_REVERSED}}">
+                <!-- Image Side -->
+                <div class="relative {{#IS_REVERSED}}lg:order-2{{/IS_REVERSED}}">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="{{FEATURE_IMAGE}}" alt="{{FEATURE_TITLE}}" class="w-full h-auto">
+                    </div>
+                    <!-- Decorative Elements -->
+                    <div class="absolute -z-10 -top-4 -right-4 w-72 h-72 bg-{{FEATURE_COLOR}}-100 rounded-full blur-3xl opacity-60"></div>
+                    <div class="absolute -z-10 -bottom-4 -left-4 w-48 h-48 bg-secondary-100 rounded-full blur-2xl opacity-60"></div>
+                </div>
+
+                <!-- Content Side -->
+                <div class="{{#IS_REVERSED}}lg:order-1{{/IS_REVERSED}}">
+                    <!-- Number Badge -->
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-{{FEATURE_COLOR}}-100 text-{{FEATURE_COLOR}}-600 font-bold text-lg mb-6">
+                        {{FEATURE_NUMBER}}
+                    </div>
+
+                    <h3 class="text-2xl md:text-3xl font-heading font-bold text-gray-900 mb-4">{{FEATURE_TITLE}}</h3>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">{{FEATURE_DESCRIPTION}}</p>
+
+                    <!-- Feature Bullets -->
+                    <ul class="space-y-4 mb-8">
+                        {{#FEATURE_BULLETS}}
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-secondary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-4 h-4 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700">{{BULLET_TEXT}}</span>
+                        </li>
+                        {{/FEATURE_BULLETS}}
+                    </ul>
+
+                    <!-- CTA Link -->
+                    <a href="{{FEATURE_URL}}" class="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group">
+                        {{FEATURE_CTA_TEXT}}
+                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {{/FEATURES}}
+        </div>
+    </div>
+</section>
