@@ -9,11 +9,13 @@ export * from './design-tokens.js';
 export * from './template-selector.js';
 export * from './content-injector.js';
 export * from './theme-assembler.js';
+export * from './html-preview-generator.js';
 
 // Convenience re-exports
 import { assembleTheme, previewThemeAssembly, generateComparisonAssembly } from './theme-assembler.js';
 import { selectBestPreset, generateTemplateComparison } from './template-selector.js';
 import { extractTokensFromBlueprint, generateAllTokens } from './design-tokens.js';
+import { generateHtmlPreview } from './html-preview-generator.js';
 
 export default {
   // Main workflow functions
@@ -28,4 +30,7 @@ export default {
   // Design tokens
   extractTokensFromBlueprint,
   generateAllTokens,
+
+  // HTML Preview
+  generateHtmlPreview,
 };

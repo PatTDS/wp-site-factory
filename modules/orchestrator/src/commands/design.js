@@ -20,6 +20,7 @@ import { fileURLToPath } from 'url';
 import { assembleTheme, previewThemeAssembly, generateComparisonAssembly } from '../lib/phase2/theme-assembler.js';
 import { listIndustries, listTemplatePresets, listPatterns } from '../lib/phase2/pattern-loader.js';
 import { extractTokensFromBlueprint, generateAllTokens } from '../lib/phase2/design-tokens.js';
+import { generateHtmlPreview } from '../lib/phase2/html-preview-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -334,6 +335,76 @@ async function commandTokens(args) {
 }
 
 /**
+ * Command: preview-html
+ * Generate standalone HTML preview for fast iteration
+ */
+async function commandPreviewHtml(args) {
+  const blueprintPath = args[0];
+  const outputPath = args.includes('--output')
+    ? args[args.indexOf('--output') + 1]
+    : path.join(process.cwd(), 'output', 'preview');
+
+  if (!blueprintPath) {
+    throw new Error('Blueprint path required. Usage: design.js preview-html <blueprint.json>');
+  }
+
+  logHeader('Phase 2: HTML Preview Generation');
+
+  // Load blueprint
+  logSection('Loading blueprint');
+  const blueprint = await loadBlueprint(blueprintPath);
+  const companyName = blueprint.client_profile?.company?.name ||
+                      blueprint.company?.name ||
+                      'Theme Preview';
+  log(`  Company: ${companyName}`, 'dim');
+
+  // Generate theme assembly (dry run - no files)
+  logSection('Assembling theme data');
+  const result = await previewThemeAssembly(blueprint);
+
+  if (!result.success) {
+    log('\n❌ Theme assembly failed:', 'red');
+    result.errors.forEach(err => log(`   ${err}`, 'red'));
+    process.exit(1);
+  }
+
+  log(`  Preset: ${result.preset.name}`, 'green');
+  log(`  Score: ${Math.round(result.presetScore * 100)}%`, 'dim');
+
+  // Generate HTML preview
+  logSection('Generating HTML preview');
+  const htmlContent = generateHtmlPreview(result, {
+    title: `${companyName} - Website Preview`,
+    includeNavigation: true,
+    includePlaceholderImages: true,
+  });
+
+  // Write files
+  await fs.mkdir(outputPath, { recursive: true });
+  const previewPath = path.join(outputPath, 'index.html');
+  await fs.writeFile(previewPath, htmlContent);
+
+  // Display results
+  logSection('Patterns included');
+  for (const [section, data] of Object.entries(result.patterns)) {
+    const completeness = data.summary.completeness;
+    const color = completeness === 100 ? 'green' : completeness >= 70 ? 'yellow' : 'red';
+    log(`  ${section}: ${data.manifest.name} (${completeness}% complete)`, color);
+  }
+
+  if (result.warnings.length > 0) {
+    logSection('Warnings');
+    result.warnings.forEach(w => log(`  ⚠ ${w}`, 'yellow'));
+  }
+
+  logSection('Output');
+  log(`  ${previewPath}`, 'green');
+
+  log('\n✅ HTML preview generated!', 'green');
+  log(`\nOpen in browser: file://${previewPath}`, 'cyan');
+}
+
+/**
  * Display help
  */
 function showHelp() {
@@ -348,6 +419,10 @@ Commands:
 
   preview <blueprint.json>
       Preview theme assembly without writing files
+
+  preview-html <blueprint.json> [--output <dir>]
+      Generate standalone HTML preview for fast iteration
+      (No WordPress needed - uses Tailwind CDN)
 
   compare <blueprint.json>
       Show A/B/C template comparison with recommendations
@@ -367,6 +442,7 @@ Commands:
 Examples:
   design.js generate ./blueprints/anywhere-solutions.json --output ./output/theme
   design.js preview ./blueprints/anywhere-solutions.json
+  design.js preview-html ./blueprints/anywhere-solutions.json --output ./output/preview
   design.js compare ./blueprints/anywhere-solutions.json
   design.js list-presets --industry construction
 `);
@@ -387,6 +463,10 @@ async function main() {
 
       case 'preview':
         await commandPreview(args.slice(1));
+        break;
+
+      case 'preview-html':
+        await commandPreviewHtml(args.slice(1));
         break;
 
       case 'compare':

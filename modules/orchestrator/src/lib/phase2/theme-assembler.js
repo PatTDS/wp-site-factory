@@ -10,6 +10,7 @@ import { loadPresetPatterns, loadPatternTemplate } from './pattern-loader.js';
 import { selectBestPreset, getPatternConfigRecommendations, generateTemplateComparison } from './template-selector.js';
 import { injectContentWithMapping, validateContent, generateContentSummary } from './content-injector.js';
 import { extractTokensFromBlueprint, generateThemeJson, generateTailwindConfig, generateCssVariables } from './design-tokens.js';
+import { generateHtmlPreview } from './html-preview-generator.js';
 
 /**
  * Assemble complete theme data from blueprint
@@ -115,7 +116,7 @@ export async function assembleTheme(blueprint, options = {}) {
     // Step 5: Write files if outputDir specified
     if (outputDir && !dryRun) {
       console.log('📁 Writing theme files...');
-      result.files = await writeThemeFiles(result, outputDir);
+      result.files = await writeThemeFiles(result, outputDir, blueprint);
     }
 
     result.success = true;
@@ -132,7 +133,7 @@ export async function assembleTheme(blueprint, options = {}) {
 /**
  * Write assembled theme files to disk
  */
-export async function writeThemeFiles(assemblyResult, outputDir) {
+export async function writeThemeFiles(assemblyResult, outputDir, blueprint = {}) {
   const files = [];
 
   // Ensure output directory exists
@@ -202,6 +203,27 @@ export async function writeThemeFiles(assemblyResult, outputDir) {
     generatedAt: new Date().toISOString(),
   }, null, 2));
   files.push(reportPath);
+
+  // Generate HTML preview
+  console.log('🌐 Generating HTML preview...');
+  const previewDir = path.join(outputDir, 'preview');
+  await fs.mkdir(previewDir, { recursive: true });
+
+  const companyName = blueprint.client_profile?.company?.name ||
+                      blueprint.company?.name ||
+                      'Theme Preview';
+
+  const htmlPreview = generateHtmlPreview(assemblyResult, {
+    title: `${companyName} - Website Preview`,
+    includeNavigation: true,
+    includePlaceholderImages: true,
+  });
+
+  const previewPath = path.join(previewDir, 'index.html');
+  await fs.writeFile(previewPath, htmlPreview);
+  files.push(previewPath);
+
+  console.log(`   Preview: ${previewPath}`);
 
   return files;
 }
