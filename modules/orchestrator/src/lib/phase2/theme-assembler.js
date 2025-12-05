@@ -31,6 +31,7 @@ export async function assembleTheme(blueprint, options = {}) {
     files: [],
     warnings: [],
     errors: [],
+    blueprint, // Include blueprint for downstream use (e.g., stats section)
   };
 
   try {

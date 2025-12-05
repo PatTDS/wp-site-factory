@@ -218,9 +218,151 @@
           "name": { "type": "string" },
           "description": { "type": "string" },
           "is_primary": { "type": "boolean", "default": false },
-          "price_range": { "type": "string" }
+          "price_range": { "type": "string" },
+          "image_keywords": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Keywords for stock photo search (e.g., 'crane', 'concrete panels')"
+          }
         }
       }
+    },
+    "partners": {
+      "type": "array",
+      "description": "Notable partners/customers for testimonial generation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Partner company name (alternative to company_name)"
+          },
+          "company_name": {
+            "type": "string",
+            "description": "Partner company name"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Partner's industry"
+          },
+          "services_provided": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Services provided to this partner"
+          },
+          "project_keywords": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Keywords describing projects (warehouse, residential, etc.)"
+          },
+          "project_types": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Types of projects (alternative to project_keywords)"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": ["one-time", "recurring", "ongoing", "ongoing-client", "supplier-partner", "strategic-partner"],
+            "description": "Nature of business relationship"
+          },
+          "projects_together": {
+            "type": "integer",
+            "description": "Number of projects completed together"
+          },
+          "contact_name": {
+            "type": "string",
+            "description": "Contact person name for testimonials"
+          },
+          "contact_role": {
+            "type": "string",
+            "description": "Contact person's job title"
+          },
+          "can_use_as_reference": {
+            "type": "boolean",
+            "default": true,
+            "description": "Permission to use in testimonials"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the partner"
+          }
+        },
+        "anyOf": [
+          { "required": ["name"] },
+          { "required": ["company_name"] }
+        ]
+      }
+    },
+    "stats": {
+      "type": "object",
+      "description": "Company statistics for website display",
+      "properties": {
+        "projects_completed": {
+          "type": "integer",
+          "description": "Number of projects completed"
+        },
+        "customer_satisfaction": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Customer satisfaction percentage"
+        },
+        "team_size": {
+          "type": "integer",
+          "description": "Number of team members"
+        },
+        "team_members": {
+          "type": "integer",
+          "description": "Number of team members (alternative to team_size)"
+        },
+        "clients_served": {
+          "type": "integer",
+          "description": "Number of clients served"
+        },
+        "years_experience": {
+          "type": "integer",
+          "description": "Years of experience"
+        },
+        "service_area_coverage": {
+          "type": "string",
+          "description": "Geographic coverage description"
+        },
+        "certifications_count": {
+          "type": "integer",
+          "description": "Number of certifications/licenses"
+        },
+        "response_time": {
+          "type": "string",
+          "description": "Average response time (e.g., '24 hours', 'Same day')"
+        },
+        "custom": {
+          "type": "array",
+          "description": "Custom stats (e.g., '24/7' - 'Emergency Support')",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" },
+              "is_estimated": { "type": "boolean", "default": false }
+            }
+          }
+        },
+        "custom_stats": {
+          "type": "array",
+          "description": "Custom stats (alternative to custom)",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" },
+              "is_estimated": { "type": "boolean", "default": false }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
     },
     "website_goals": {
       "type": "object",

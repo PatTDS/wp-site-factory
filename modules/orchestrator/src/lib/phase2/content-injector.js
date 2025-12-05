@@ -196,11 +196,13 @@ export function mapTestimonials(testimonials, options = {}) {
   return testimonials.slice(0, maxItems).map(testimonial => ({
     quote: testimonial.quote || testimonial.text || testimonial.content || '',
     text: testimonial.quote || testimonial.text || testimonial.content || '',
-    name: testimonial.name || testimonial.author || 'Client',
+    name: testimonial.name || testimonial.author_name || testimonial.author || 'Client',
     company: testimonial.company || testimonial.business || '',
-    position: testimonial.position || testimonial.title || '',
+    position: testimonial.position || testimonial.author_role || testimonial.title || '',
     avatar: testimonial.avatar || testimonial.image || testimonial.photo || null,
     rating: testimonial.rating || 5,
+    project_type: testimonial.project_type || '',
+    is_generated: testimonial.is_generated || false,
   }));
 }
 

@@ -88,24 +88,31 @@
     "services": {
       "headline": "Our Services",
       "intro": "Anywhere Solutions offers a full range of construction services.",
+      "image_keywords": {
+        "hero": ["precast concrete panels", "industrial construction site", "crane lifting panels"],
+        "about": ["construction team", "workers safety gear", "professional builders"]
+      },
       "services": [
         {
           "name": "Precast Panel Installation (Rigging)",
           "description": "Professional precast and tilt-up concrete panel erection services. We coordinate with crane operators to safely lift, position, and secure precast panels for industrial, commercial, and warehouse structures. Includes lift planning, sequence drawings, and safety analysis.",
           "features": [],
-          "cta": "Get Quote"
+          "cta": "Get Quote",
+          "image_keywords": ["crane lifting concrete panel", "precast panel installation", "tilt-up construction"]
         },
         {
           "name": "Joint Sealing (Caulking)",
           "description": "Expert joint sealing services ensuring precision and durability. We specialize in sealing gaps between precast panels, concrete slabs, and glass, preventing water infiltration and enhancing structural integrity.",
           "features": [],
-          "cta": "Get Quote"
+          "cta": "Get Quote",
+          "image_keywords": ["construction caulking", "joint sealing concrete", "waterproofing construction"]
         },
         {
           "name": "Concrete Repairs",
           "description": "Specialized concrete repair services tailored for precast structures, addressing surface imperfections, bugholes, honeycombing, and other common challenges. We restore structural integrity and ensure longevity of precast installations.",
           "features": [],
-          "cta": "Get Quote"
+          "cta": "Get Quote",
+          "image_keywords": ["concrete repair work", "construction maintenance", "structural repair"]
         },
         {
           "name": "Skincoating and Enhancement",
@@ -145,18 +152,60 @@
         }
       ]
     },
+    "stats": {
+      "stats": [
+        {
+          "value": "120+",
+          "label": "Projects Completed",
+          "is_estimated": false
+        },
+        {
+          "value": "45+",
+          "label": "Clients Served",
+          "is_estimated": false
+        },
+        {
+          "value": "8,500+",
+          "label": "Panels Installed",
+          "is_estimated": false
+        },
+        {
+          "value": "Zero LTI",
+          "label": "Safety Record",
+          "is_estimated": false
+        }
+      ]
+    },
     "testimonials": {
-      "headline": "What Our Customers Say",
-      "intro": "See why Greater Sydney, NSW, Australia customers trust Anywhere Solutions.",
+      "headline": "What Our Partners Say",
+      "intro": "Trusted by leading construction companies across Greater Sydney.",
       "testimonials": [
         {
-          "placeholder": true,
-          "format": {
-            "quote": "Customer testimonial text",
-            "name": "Customer Name",
-            "location": "City/Suburb",
-            "rating": 5
-          }
+          "quote": "Anywhere Solutions has been our go-to precast partner for three major distribution centre projects. Their precision in panel installation and commitment to safety has made them an invaluable part of our construction team. When deadlines are tight, they deliver.",
+          "author_name": "James Mitchell",
+          "author_role": "Senior Project Manager",
+          "company": "Richard Crookes Constructions",
+          "project_type": "Industrial Distribution Centre",
+          "rating": 5,
+          "is_generated": true
+        },
+        {
+          "quote": "We've worked with many precast contractors, but Anywhere Solutions stands out for their comprehensive service approach. From rigging to joint sealing to final cleanup - they handle it all. Their team completed five Storage King facilities on time and to spec.",
+          "author_name": "Sarah Chen",
+          "author_role": "Construction Manager",
+          "company": "Mainbrace Constructions",
+          "project_type": "Commercial Storage Facility",
+          "rating": 5,
+          "is_generated": true
+        },
+        {
+          "quote": "The attention to detail in their concrete repair work is exceptional. After experiencing issues with another contractor, Anywhere Solutions restored our precast elements to better-than-new condition. Their grouting work on the Woolworths project was flawless.",
+          "author_name": "Michael Torres",
+          "author_role": "Site Supervisor",
+          "company": "Vaughan Constructions",
+          "project_type": "Retail Development",
+          "rating": 5,
+          "is_generated": true
         }
       ],
       "review_platforms": {
@@ -164,7 +213,7 @@
         "google_review_count": null,
         "facebook_rating": null
       },
-      "notes": "Collect real testimonials from client. Consider pulling from Google Reviews."
+      "notes": "AI-generated testimonials based on partner data. To be verified/replaced with real testimonials."
     },
     "contact": {
       "headline": "Get In Touch",

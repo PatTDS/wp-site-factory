@@ -146,6 +146,63 @@
       "phone": "0414 771 926"
     }
   ],
+  "partners": [
+    {
+      "company_name": "Richard Crookes Constructions",
+      "relationship": "ongoing-client",
+      "projects_together": 3,
+      "project_types": ["Industrial Distribution Centres", "Warehouse Facilities"],
+      "contact_name": "James Mitchell",
+      "contact_role": "Senior Project Manager",
+      "notes": "Tier 1 builder, major industrial projects, strong safety focus"
+    },
+    {
+      "company_name": "Mainbrace Constructions",
+      "relationship": "ongoing-client",
+      "projects_together": 5,
+      "project_types": ["Commercial Storage", "Self-Storage Facilities"],
+      "contact_name": "Sarah Chen",
+      "contact_role": "Construction Manager",
+      "notes": "Specializes in self-storage and commercial, repeat business"
+    },
+    {
+      "company_name": "Vaughan Constructions",
+      "relationship": "ongoing-client",
+      "projects_together": 4,
+      "project_types": ["Retail", "Commercial", "Industrial"],
+      "contact_name": "Michael Torres",
+      "contact_role": "Site Supervisor",
+      "notes": "National builder, diverse project portfolio"
+    },
+    {
+      "company_name": "Adbri Masonry",
+      "relationship": "supplier-partner",
+      "projects_together": null,
+      "project_types": null,
+      "contact_name": null,
+      "contact_role": null,
+      "notes": "Major precast panel supplier in NSW"
+    }
+  ],
+  "stats": {
+    "clients_served": 45,
+    "projects_completed": 120,
+    "years_experience": 5,
+    "team_members": 12,
+    "panels_installed": 8500,
+    "custom_stats": [
+      {
+        "label": "Panels Installed",
+        "value": "8,500+",
+        "is_estimated": false
+      },
+      {
+        "label": "Safety Record",
+        "value": "Zero LTI",
+        "is_estimated": false
+      }
+    ]
+  },
   "portfolio": [
     {
       "name": "GARMIN Distribution Centre",

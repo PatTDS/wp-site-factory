@@ -344,8 +344,12 @@ async function commandPreviewHtml(args) {
     ? args[args.indexOf('--output') + 1]
     : path.join(process.cwd(), 'output', 'preview');
 
+  // New options for stock photos and placeholder badges
+  const fetchStockPhotos = args.includes('--stock-photos');
+  const showPlaceholderBadges = args.includes('--show-badges');
+
   if (!blueprintPath) {
-    throw new Error('Blueprint path required. Usage: design.js preview-html <blueprint.json>');
+    throw new Error('Blueprint path required. Usage: design.js preview-html <blueprint.json> [--stock-photos] [--show-badges]');
   }
 
   logHeader('Phase 2: HTML Preview Generation');
@@ -373,10 +377,19 @@ async function commandPreviewHtml(args) {
 
   // Generate HTML preview
   logSection('Generating HTML preview');
-  const htmlContent = generateHtmlPreview(result, {
+  if (fetchStockPhotos) {
+    log(`  Fetching stock photos from Unsplash/Pexels...`, 'cyan');
+  }
+  if (showPlaceholderBadges) {
+    log(`  Placeholder badges enabled`, 'yellow');
+  }
+
+  const htmlContent = await generateHtmlPreview(result, {
     title: `${companyName} - Website Preview`,
     includeNavigation: true,
     includePlaceholderImages: true,
+    fetchStockPhotos,
+    showPlaceholderBadges,
   });
 
   // Write files
@@ -420,9 +433,11 @@ Commands:
   preview <blueprint.json>
       Preview theme assembly without writing files
 
-  preview-html <blueprint.json> [--output <dir>]
+  preview-html <blueprint.json> [--output <dir>] [--stock-photos] [--show-badges]
       Generate standalone HTML preview for fast iteration
       (No WordPress needed - uses Tailwind CDN)
+      --stock-photos: Fetch real images from Unsplash/Pexels
+      --show-badges: Show [SAMPLE] badges on placeholder content
 
   compare <blueprint.json>
       Show A/B/C template comparison with recommendations

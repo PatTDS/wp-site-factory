@@ -69,3 +69,13 @@ modules/*/*.pack
 # Orchestrator sensitive files
 modules/orchestrator/.env
 modules/orchestrator/examples/research-log-*.json
+
+# Orchestrator generated output
+modules/orchestrator/output/
+
+# Media cache (stock photos)
+modules/orchestrator/templates/media-cache/
+modules/orchestrator/templates/*/media/
+
+# Projects folder (generated sites)
+projects/

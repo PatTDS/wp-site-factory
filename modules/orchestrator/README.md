@@ -1,8 +1,8 @@
 # WPF Orchestrator Module
 
-**Branch:** `feature/phase2-design-draft`
-**Version:** 0.2.0
-**Status:** Phase 2 Design Draft - Complete MVP
+**Branch:** `002-phase2-design-draft`
+**Version:** 0.3.0
+**Status:** Phase 2 Design Draft - HTML Preview MVP
 
 ## Overview
 
@@ -23,6 +23,8 @@ The Orchestrator module powers WPF (WordPress Site Factory), providing a complet
 - **Template Selection** - AI-powered template recommendation based on blueprint analysis
 - **Content Injection** - Maps blueprint data to pattern content slots
 - **Theme Assembly** - Generates complete WordPress hybrid theme files
+- **HTML Preview** - Standalone HTML preview with Tailwind CDN for fast iteration
+- **Stock Photos** - Unsplash/Pexels integration for realistic previews (in progress)
 
 ## Quick Start
 
@@ -48,7 +50,11 @@ node src/cli/blueprint.js view examples/blueprint-v1.0.json
 node src/cli/blueprint.js export examples/blueprint-v1.0.json markdown
 
 # Phase 2: Generate theme from blueprint
-node src/commands/design.js generate examples/blueprint-anywhere-solutions.json output/
+node src/commands/design.js examples/blueprint-anywhere-solutions.json
+
+# Output includes:
+# - WordPress theme files (patterns/*.php, theme.json, etc.)
+# - HTML preview (index.html) - open directly in browser
 
 # Preview template selection without generating
 node src/commands/design.js preview examples/blueprint-anywhere-solutions.json
@@ -117,6 +123,7 @@ node src/commands/design.js list-patterns
 
 ### Generated Files
 
+- `index.html` - **Standalone HTML preview** (open in browser, no WordPress needed)
 - `theme.json` - WordPress block editor configuration
 - `tailwind.config.js` - Tailwind CSS configuration
 - `css/variables.css` - CSS custom properties
@@ -434,13 +441,28 @@ npm test -- validator       # Run specific test
 - [x] Construction industry patterns (5 sections)
 - [x] Industrial-modern preset
 - [x] CLI interface (design.js)
+- [x] HTML preview generation (Tailwind CDN)
+- [ ] Stock photo integration (Unsplash/Pexels)
+- [ ] AI-generated testimonials from partner data
+- [ ] Responsive image srcset generation
+- [ ] Placeholder toggle for sample content
 
-## Next Steps (Phase 3)
+## Next Steps (Phase 2B - Realistic Preview)
+
+See `docs/SPEC-realistic-preview-content.md` for full specification.
+
+**Priority Tasks:**
+1. Stock photo integration (Unsplash API)
+2. AI-generated testimonials from partner data
+3. Stats generation (client input or AI estimates)
+4. Responsive srcset generation
+5. Placeholder toggle UI
+
+## Phase 3 (Future)
 
 - [ ] Additional industries (healthcare, retail, professional services)
 - [ ] Additional presets per industry
 - [ ] WordPress theme refinement (functions.php, style.css)
-- [ ] Visual preview generation
 - [ ] SaaS API endpoints
 
 ## Related Modules

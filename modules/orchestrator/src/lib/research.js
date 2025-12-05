@@ -112,13 +112,126 @@ export async function researchCompetitors(industry, location = '', options = {})
 }
 
 /**
+ * Research partner companies for testimonial generation
+ * @param {Array} partners - Array of partner objects from client intake
+ * @param {string} clientIndustry - Client's industry for context
+ * @param {object} options - Additional options
+ * @returns {Promise<object>} - Partner research results
+ */
+export async function researchPartners(partners, clientIndustry, options = {}) {
+  if (!partners || partners.length === 0) {
+    return {
+      success: true,
+      source: 'none',
+      data: [],
+      message: 'No partners provided for research',
+    };
+  }
+
+  const { maxPartners = 5 } = options;
+
+  // Normalize partner data (intake may use company_name or name)
+  const normalizedPartners = partners.map(p => ({
+    ...p,
+    name: p.company_name || p.name,
+  }));
+
+  const partnersToResearch = normalizedPartners.slice(0, maxPartners);
+
+  console.log(`\nResearching ${partnersToResearch.length} partner companies...`);
+
+  const researchPromises = partnersToResearch.map(async (partner) => {
+    if (!partner.can_use_as_reference && partner.can_use_as_reference !== undefined) {
+      console.log(`  Skipping ${partner.name} (not authorized for reference)`);
+      return { partner: partner.name, data: null, skipped: true };
+    }
+
+    console.log(`  Researching: ${partner.name}...`);
+
+    const prompt = buildPartnerResearchPrompt(partner, clientIndustry);
+    const result = await claude.webSearch(prompt, {
+      context: `Partner research for testimonial generation`,
+    });
+
+    if (!result.success) {
+      console.log(`  Failed to research ${partner.name}`);
+      return { partner: partner.name, data: null, error: result.error };
+    }
+
+    return {
+      partner: partner.name,
+      data: parsePartnerResearchResults(result.content, partner),
+    };
+  });
+
+  const results = await Promise.all(researchPromises);
+
+  return {
+    success: true,
+    source: 'research',
+    data: results.filter((r) => r.data !== null),
+    skipped: results.filter((r) => r.skipped).map((r) => r.partner),
+  };
+}
+
+/**
+ * Research image keywords for services
+ * @param {Array} services - Array of service objects
+ * @param {string} industry - Industry category
+ * @returns {Promise<object>} - Service image keyword suggestions
+ */
+export async function researchServiceImageKeywords(services, industry) {
+  if (!services || services.length === 0) {
+    return { success: true, data: [] };
+  }
+
+  console.log(`\nGenerating image keywords for ${services.length} services...`);
+
+  const prompt = buildImageKeywordsPrompt(services, industry);
+  const result = await claude.research(prompt, {
+    maxTokens: 2000,
+  });
+
+  if (!result.success) {
+    return result;
+  }
+
+  // Parse JSON response
+  try {
+    const parsed = JSON.parse(result.content);
+    return {
+      success: true,
+      data: parsed,
+    };
+  } catch (e) {
+    // Try to extract JSON from the response
+    const jsonMatch = result.content.match(/\[[\s\S]*\]/);
+    if (jsonMatch) {
+      try {
+        const parsed = JSON.parse(jsonMatch[0]);
+        return { success: true, data: parsed };
+      } catch (e2) {
+        return {
+          success: false,
+          error: 'Failed to parse image keywords response',
+        };
+      }
+    }
+    return {
+      success: false,
+      error: 'Failed to parse image keywords response',
+    };
+  }
+}
+
+/**
  * Run full discovery research for a client
  * @param {object} clientData - Client intake data
  * @param {object} options - Options including project name and parallel mode
  * @returns {Promise<object>} - Complete research results
  */
 export async function runDiscoveryResearch(clientData, options = {}) {
-  const { industry, services, company } = clientData;
+  const { industry, services, company, partners } = clientData;
   const industryCategory = industry.category;
   const parallel = options.parallel !== false; // Default to parallel
 
@@ -129,6 +242,8 @@ export async function runDiscoveryResearch(clientData, options = {}) {
   const results = {
     bestPractices: {},
     competitors: null,
+    partners: null,
+    serviceImageKeywords: null,
     timestamp: new Date().toISOString(),
     project: projectName,
   };
@@ -170,6 +285,23 @@ export async function runDiscoveryResearch(clientData, options = {}) {
   const serviceArea = industry.service_area || '';
   const competitorResearch = await researchCompetitors(industryCategory, serviceArea);
   results.competitors = competitorResearch.data;
+
+  // Research partners for testimonial generation (if provided)
+  if (partners && partners.length > 0) {
+    console.log(`\nResearching ${partners.length} partner companies for testimonials...`);
+    const partnerResearch = await researchPartners(partners, industryCategory);
+    results.partners = partnerResearch.data;
+  }
+
+  // Generate image keywords for services (if services have no keywords)
+  const servicesNeedingKeywords = services?.filter((s) => !s.image_keywords || s.image_keywords.length === 0);
+  if (servicesNeedingKeywords && servicesNeedingKeywords.length > 0) {
+    console.log(`\nGenerating image keywords for ${servicesNeedingKeywords.length} services...`);
+    const keywordsResult = await researchServiceImageKeywords(servicesNeedingKeywords, industryCategory);
+    if (keywordsResult.success) {
+      results.serviceImageKeywords = keywordsResult.data;
+    }
+  }
 
   // Attach token usage summary
   results.tokenUsage = tracker.getTotals();
@@ -242,6 +374,107 @@ Also provide:
 
 Focus on actionable insights that can inform website content creation.
 `;
+}
+
+/**
+ * Build prompt for partner company research
+ */
+function buildPartnerResearchPrompt(partner, clientIndustry) {
+  const servicesContext = partner.services_provided
+    ? `Services provided: ${partner.services_provided.join(', ')}`
+    : '';
+  const projectContext = partner.project_keywords
+    ? `Project types: ${partner.project_keywords.join(', ')}`
+    : '';
+
+  return `
+Research the company "${partner.name}"${partner.industry ? ` in the ${partner.industry} industry` : ''}.
+
+Context: This company is a client/partner of a ${clientIndustry} business.
+${servicesContext}
+${projectContext}
+
+I need to understand this company to generate realistic testimonial content. Provide:
+
+1. **Company Overview**
+   - What type of company is this?
+   - Approximate size (employees, revenue range if public)
+   - Primary business focus
+
+2. **Industry Context**
+   - What industry sector?
+   - Common challenges in their industry
+   - What services they typically need from ${clientIndustry} providers
+
+3. **Project Context** (if applicable)
+   - Types of projects they typically undertake
+   - Scale of operations
+   - Geographic focus
+
+4. **Professional Language**
+   - Job titles used in this company/industry
+   - Industry-specific terminology
+   - Professional communication style
+
+5. **Credibility Signals**
+   - Any notable projects or achievements
+   - Industry reputation
+   - Certifications or memberships
+
+Focus on factual, verifiable information that will make testimonial content believable and specific.
+`;
+}
+
+/**
+ * Build prompt for service image keywords
+ */
+function buildImageKeywordsPrompt(services, industry) {
+  const serviceList = services.map((s) => `- ${s.name}${s.description ? `: ${s.description}` : ''}`).join('\n');
+
+  return `
+Generate stock photo search keywords for these ${industry} services:
+
+${serviceList}
+
+For each service, provide 3-5 specific image search keywords that would find relevant, professional stock photos.
+
+Requirements:
+- Keywords should find REAL photos (not illustrations or clipart)
+- Include action/process keywords (e.g., "workers installing", "team working")
+- Include equipment/subject keywords (e.g., "construction crane", "concrete panels")
+- Be specific to the ${industry} industry
+- Avoid generic terms like "business" or "professional" alone
+
+Return as JSON array:
+[
+  {
+    "service_name": "Service Name",
+    "primary_keywords": ["keyword1", "keyword2", "keyword3"],
+    "secondary_keywords": ["fallback1", "fallback2"],
+    "mood": "professional|dramatic|warm|clean"
+  }
+]
+
+Return ONLY the JSON array, no other text.
+`;
+}
+
+/**
+ * Parse partner research results
+ */
+function parsePartnerResearchResults(content, partner) {
+  return {
+    partner_name: partner.name,
+    partner_industry: partner.industry,
+    services_provided: partner.services_provided || [],
+    project_keywords: partner.project_keywords || [],
+    relationship: partner.relationship || 'one-time',
+    research_content: content,
+    metadata: {
+      researched_at: new Date().toISOString(),
+      confidence: 'medium',
+    },
+  };
 }
 
 /**
@@ -469,6 +702,8 @@ function capitalizeFirst(str) {
 export default {
   researchBestPractices,
   researchCompetitors,
+  researchPartners,
+  researchServiceImageKeywords,
   runDiscoveryResearch,
   getResearchTracker,
 };

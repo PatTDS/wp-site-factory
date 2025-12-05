@@ -8,25 +8,45 @@
  * - Design approval workflow
  */
 
+import stockPhotos from './stock-photos.js';
+
 /**
  * Generate complete HTML preview page
+ * @param {object} assemblyResult - Theme assembly result
+ * @param {object} options - Generation options
+ * @returns {Promise<string>} - HTML content
  */
-export function generateHtmlPreview(assemblyResult, options = {}) {
+export async function generateHtmlPreview(assemblyResult, options = {}) {
   const {
     title = 'Theme Preview',
     includeNavigation = true,
     includePlaceholderImages = true,
+    fetchStockPhotos = false,
+    showPlaceholderBadges = false,
   } = options;
 
-  const { designTokens, patterns, preset } = assemblyResult;
+  const { designTokens, patterns, preset, blueprint } = assemblyResult;
   const colors = designTokens.input.colors;
   const typography = designTokens.input.typography;
+  const industry = blueprint?.client_profile?.industry?.category || 'construction';
 
-  // Generate sections in order
-  const sections = ['hero', 'services', 'about', 'testimonials', 'contact'];
+  // Fetch stock photos if enabled
+  let stockImages = {};
+  if (fetchStockPhotos && includePlaceholderImages) {
+    console.log('\nFetching stock photos for preview...');
+    stockImages = await fetchStockPhotosForSections(patterns, industry, blueprint);
+  }
+
+  // Generate sections in order (including stats)
+  const sections = ['hero', 'stats', 'services', 'about', 'testimonials', 'contact'];
   const renderedSections = sections
-    .filter(section => patterns[section])
-    .map(section => renderSection(section, patterns[section], colors, includePlaceholderImages))
+    .filter(section => patterns[section] || (section === 'stats' && blueprint?.content_drafts?.stats))
+    .map(section => {
+      if (section === 'stats') {
+        return renderStatsSection(blueprint?.content_drafts?.stats, colors);
+      }
+      return renderSection(section, patterns[section], colors, includePlaceholderImages, stockImages, showPlaceholderBadges);
+    })
     .join('\n\n');
 
   return `<!DOCTYPE html>
@@ -94,6 +114,85 @@ export function generateHtmlPreview(assemblyResult, options = {}) {
             font-size: 12px;
             z-index: 1000;
         }
+
+        /* Placeholder image badges */
+        .placeholder-container {
+            position: relative;
+        }
+        .placeholder-badge {
+            display: ${showPlaceholderBadges ? 'block' : 'none'};
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+        body.show-placeholders .placeholder-badge {
+            display: block;
+        }
+
+        /* Photo attribution */
+        .photo-attribution {
+            font-size: 10px;
+            color: rgba(255,255,255,0.7);
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .photo-attribution a {
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Placeholder toggle button */
+        .placeholder-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #3b82f6;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1001;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .placeholder-toggle:hover {
+            background: #2563eb;
+        }
+
+        /* Stats section styles */
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .stat-estimated {
+            font-size: 0.625rem;
+            opacity: 0.6;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body class="font-body text-gray-900 bg-white">
@@ -104,10 +203,17 @@ ${renderedSections}
 
 ${generateFooter(patterns, colors)}
 
+<!-- Placeholder Toggle Button -->
+<button class="placeholder-toggle" onclick="document.body.classList.toggle('show-placeholders'); this.textContent = document.body.classList.contains('show-placeholders') ? 'Hide Sample Badges' : 'Show Sample Badges';">
+    Show Sample Badges
+</button>
+
 <!-- Preview Metadata -->
 <div class="preview-meta">
     <strong>WPF Preview</strong><br>
     Preset: ${preset?.name || 'Custom'}<br>
+    Industry: ${escapeHtml(industry)}<br>
+    Stock Photos: ${fetchStockPhotos ? 'Enabled' : 'Placeholder'}<br>
     Generated: ${new Date().toLocaleString()}
 </div>
 
@@ -175,18 +281,19 @@ function generateNavigation(patterns, colors) {
 /**
  * Render a section based on pattern type
  */
-function renderSection(sectionType, patternData, colors, includePlaceholderImages) {
+function renderSection(sectionType, patternData, colors, includePlaceholderImages, stockImages = {}, showPlaceholderBadges = false) {
   const { content, config, manifest } = patternData;
+  const sectionStockImage = stockImages[sectionType];
 
   switch (sectionType) {
     case 'hero':
-      return renderHeroSection(content, config, colors, includePlaceholderImages);
+      return renderHeroSection(content, config, colors, includePlaceholderImages, sectionStockImage, showPlaceholderBadges);
     case 'services':
-      return renderServicesSection(content, config, colors);
+      return renderServicesSection(content, config, colors, stockImages.services, showPlaceholderBadges);
     case 'about':
-      return renderAboutSection(content, config, colors, includePlaceholderImages);
+      return renderAboutSection(content, config, colors, includePlaceholderImages, sectionStockImage, showPlaceholderBadges);
     case 'testimonials':
-      return renderTestimonialsSection(content, config, colors);
+      return renderTestimonialsSection(content, config, colors, showPlaceholderBadges);
     case 'contact':
       return renderContactSection(content, config, colors);
     default:
@@ -197,15 +304,23 @@ function renderSection(sectionType, patternData, colors, includePlaceholderImage
 /**
  * Hero Section HTML
  */
-function renderHeroSection(content, config, colors, includePlaceholderImages) {
+function renderHeroSection(content, config, colors, includePlaceholderImages, stockImage = null, showPlaceholderBadges = false) {
   const variant = config?.variant || 'image-right';
   const showTagline = config?.show_tagline !== false;
   const showSecondaryCta = config?.show_secondary_cta !== false;
   const imageOrder = variant === 'image-left' ? 'lg:order-first' : 'lg:order-last';
 
-  const placeholderImage = includePlaceholderImages
+  // Use stock image if available, otherwise fallback
+  const imageData = stockImage?.photo || null;
+  // Stock image takes priority over placeholder paths (those starting with /wp-content)
+  const hasRealImage = content.background_image && !content.background_image.startsWith('/wp-content');
+  const imageSrc = imageData?.url?.large || (hasRealImage ? content.background_image : (includePlaceholderImages
     ? `https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop`
-    : '';
+    : ''));
+  const isPlaceholder = !hasRealImage && !imageData;
+
+  // Generate responsive srcset if stock image available
+  const srcset = imageData ? stockPhotos.generateSrcset(imageData) : '';
 
   return `
 <!-- HERO SECTION -->
@@ -248,11 +363,23 @@ function renderHeroSection(content, config, colors, includePlaceholderImages) {
 
             <!-- Image Side -->
             <div class="${imageOrder}">
-                <div class="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                    ${content.background_image || placeholderImage ? `
-                    <img src="${escapeHtml(content.background_image || placeholderImage)}"
-                         alt="${escapeHtml(content.headline || 'Hero image')}"
-                         class="absolute inset-0 w-full h-full object-cover" />
+                <div class="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden shadow-2xl placeholder-container">
+                    ${imageSrc ? `
+                    <img src="${escapeHtml(imageSrc)}"
+                         ${srcset ? `srcset="${srcset}"` : ''}
+                         sizes="(max-width: 768px) 100vw, 50vw"
+                         alt="${escapeHtml(imageData?.alt || content.headline || 'Hero image')}"
+                         class="absolute inset-0 w-full h-full object-cover${isPlaceholder ? ' placeholder-image' : ''}"
+                         ${isPlaceholder ? 'data-placeholder="true"' : ''}
+                         loading="eager"
+                         fetchpriority="high" />
+                    ${isPlaceholder ? '<span class="placeholder-badge">Sample Image</span>' : ''}
+                    ${imageData && imageData.photographer ? `
+                    <span class="photo-attribution">
+                        Photo by <a href="${escapeHtml(imageData.photographer_url || '#')}" target="_blank" rel="noopener">${escapeHtml(imageData.photographer)}</a>
+                        on <a href="${escapeHtml(imageData.source_url || '#')}" target="_blank" rel="noopener">${imageData.source === 'unsplash' ? 'Unsplash' : 'Pexels'}</a>
+                    </span>
+                    ` : ''}
                     ` : `
                     <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary"></div>
                     `}
@@ -364,16 +491,21 @@ function renderServicesSection(content, config, colors) {
 /**
  * About Section HTML
  */
-function renderAboutSection(content, config, colors, includePlaceholderImages) {
+function renderAboutSection(content, config, colors, includePlaceholderImages, stockImage = null, showPlaceholderBadges = false) {
   const variant = config?.variant || 'image-left';
   const showStats = config?.show_stats !== false;
   const showFeatures = config?.show_features !== false;
   const showCta = config?.show_cta !== false;
   const imageOrder = variant === 'image-right' ? 'lg:order-last' : '';
 
-  const placeholderImage = includePlaceholderImages
+  // Use stock image if available
+  const imageData = stockImage?.photo || null;
+  const hasRealImage = content.image && !content.image.startsWith('/wp-content');
+  const imageSrc = imageData?.url?.large || (hasRealImage ? content.image : (includePlaceholderImages
     ? 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=800&fit=crop'
-    : '';
+    : ''));
+  const isPlaceholder = !hasRealImage && !imageData;
+  const srcset = imageData ? stockPhotos.generateSrcset(imageData) : '';
 
   const stats = content.stats || [];
   const features = content.features || content.values || [];
@@ -387,11 +519,19 @@ function renderAboutSection(content, config, colors, includePlaceholderImages) {
             <!-- Image Side -->
             <div class="${imageOrder}">
                 <div class="relative">
-                    <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
-                        ${content.image || placeholderImage ? `
-                        <img src="${escapeHtml(content.image || placeholderImage)}"
-                             alt="About us"
-                             class="w-full h-full object-cover" />
+                    <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl placeholder-container">
+                        ${imageSrc ? `
+                        <img src="${escapeHtml(imageSrc)}"
+                             ${srcset ? `srcset="${srcset}"` : ''}
+                             sizes="(max-width: 768px) 100vw, 50vw"
+                             alt="${escapeHtml(imageData?.alt || 'About us')}"
+                             class="w-full h-full object-cover${isPlaceholder ? ' placeholder-image' : ''}" />
+                        ${isPlaceholder && showPlaceholderBadges ? '<span class="placeholder-badge">Sample Image</span>' : ''}
+                        ${imageData && imageData.photographer ? `
+                        <span class="photo-attribution">
+                            Photo by <a href="${escapeHtml(imageData.photographer_url || '#')}" target="_blank" rel="noopener">${escapeHtml(imageData.photographer)}</a>
+                        </span>
+                        ` : ''}
                         ` : `
                         <div class="w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10"></div>
                         `}
@@ -761,6 +901,95 @@ function darkenColor(hex, amount) {
   const g = Math.max(0, Math.floor(((num >> 8) & 0x00FF) * (1 - amount)));
   const b = Math.max(0, Math.floor((num & 0x0000FF) * (1 - amount)));
   return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+
+/**
+ * Fetch stock photos for all sections
+ * @param {object} patterns - Section patterns
+ * @param {string} industry - Industry category
+ * @param {object} blueprint - Blueprint data
+ * @returns {Promise<object>} - Stock images by section
+ */
+async function fetchStockPhotosForSections(patterns, industry, blueprint) {
+  const stockImages = {};
+
+  // Get image keywords from blueprint if available
+  const heroKeywords = blueprint?.content_drafts?.hero?.image_keywords || [];
+  const aboutKeywords = blueprint?.content_drafts?.about_us?.image_keywords || [];
+
+  // Fetch hero image
+  if (patterns.hero) {
+    console.log('  Fetching hero image...');
+    const keywords = heroKeywords.length > 0
+      ? heroKeywords
+      : [industry, 'professional', 'business'];
+    stockImages.hero = await stockPhotos.findImageWithCache(keywords, industry, 'hero');
+  }
+
+  // Fetch about image
+  if (patterns.about) {
+    console.log('  Fetching about image...');
+    const keywords = aboutKeywords.length > 0
+      ? aboutKeywords
+      : [industry, 'team', 'workplace'];
+    stockImages.about = await stockPhotos.findImageWithCache(keywords, industry, 'about');
+  }
+
+  // Fetch service images (if services have image_keywords)
+  if (patterns.services?.content?.services) {
+    console.log('  Fetching service images...');
+    stockImages.services = {};
+
+    const services = patterns.services.content.services;
+    for (let i = 0; i < Math.min(services.length, 4); i++) {
+      const service = services[i];
+      const keywords = service.image_keywords || [service.name, industry];
+      const result = await stockPhotos.findImageWithCache(keywords, industry, `service-${i}`);
+      stockImages.services[service.name] = result;
+    }
+  }
+
+  return stockImages;
+}
+
+/**
+ * Stats Section HTML
+ */
+function renderStatsSection(statsData, colors) {
+  if (!statsData || !statsData.stats || statsData.stats.length === 0) {
+    return '';
+  }
+
+  const stats = statsData.stats;
+  const gridCols = {
+    2: 'md:grid-cols-2',
+    3: 'md:grid-cols-3',
+    4: 'md:grid-cols-2 lg:grid-cols-4',
+    5: 'md:grid-cols-3 lg:grid-cols-5',
+    6: 'md:grid-cols-3 lg:grid-cols-6',
+  }[stats.length] || 'md:grid-cols-4';
+
+  return `
+<!-- STATS SECTION -->
+<section id="stats" class="py-12 lg:py-16 bg-primary text-white">
+    <div class="container mx-auto px-4">
+        <div class="grid ${gridCols} gap-8">
+            ${stats.map(stat => `
+            <div class="stat-item">
+                <div class="stat-value">${escapeHtml(stat.value)}</div>
+                <div class="stat-label">${escapeHtml(stat.label)}</div>
+                ${stat.is_estimated ? '<div class="stat-estimated">(Estimated)</div>' : ''}
+            </div>
+            `).join('')}
+        </div>
+        ${statsData.has_estimated ? `
+        <p class="text-center text-xs mt-6 opacity-60">
+            * Some statistics are estimated. Please verify with the business owner.
+        </p>
+        ` : ''}
+    </div>
+</section>
+`;
 }
 
 export default {

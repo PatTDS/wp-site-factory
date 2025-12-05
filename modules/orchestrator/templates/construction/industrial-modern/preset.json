@@ -32,6 +32,20 @@
     "headings": "Inter",
     "body": "Inter"
   },
+  "media_style": {
+    "mood": "professional",
+    "lighting": "dramatic",
+    "color_tone": "cool",
+    "subjects": ["machinery", "workers", "structures", "cranes", "construction site"],
+    "avoid": ["cartoon", "clipart", "overly-staged", "low-quality"],
+    "unsplash_collections": ["construction", "industrial", "architecture"],
+    "pexels_collections": ["construction", "industrial"],
+    "preferred_orientation": "landscape",
+    "avatar_style": "professional-headshot",
+    "hero_keywords": ["construction site", "industrial building", "crane", "workers safety"],
+    "about_keywords": ["construction team", "professional workers", "workplace safety"],
+    "service_keywords": ["construction work", "building", "equipment"]
+  },
   "suitability": {
     "b2b": 0.95,
     "b2c": 0.4,

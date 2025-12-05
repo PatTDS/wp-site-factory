@@ -49,12 +49,23 @@ export async function generateBlueprint(clientData, researchData = null) {
     clientData,
     researchData.bestPractices.hero
   );
+  // Add image keywords for hero
+  blueprint.content_drafts.hero.image_keywords = generateImageKeywords(
+    'hero',
+    clientData.industry.category,
+    clientData.services
+  );
 
   // About Us section
   console.log('  - About Us section...');
   blueprint.content_drafts.about_us = await generateAboutContent(
     clientData,
     researchData.bestPractices['about-us']
+  );
+  blueprint.content_drafts.about_us.image_keywords = generateImageKeywords(
+    'about',
+    clientData.industry.category,
+    clientData.services
   );
 
   // Services section
@@ -63,16 +74,37 @@ export async function generateBlueprint(clientData, researchData = null) {
     clientData,
     researchData.bestPractices.services
   );
+  // Enhance services with image keywords (from research or generated)
+  if (researchData.serviceImageKeywords) {
+    blueprint.content_drafts.services.services = enhanceServicesWithKeywords(
+      blueprint.content_drafts.services.services,
+      researchData.serviceImageKeywords,
+      clientData.services
+    );
+  }
 
-  // Testimonials section
+  // Testimonials section (AI-generated from partners)
   console.log('  - Testimonials section...');
-  blueprint.content_drafts.testimonials = generateTestimonialsPlaceholder(clientData);
+  blueprint.content_drafts.testimonials = await generateTestimonialsContent(
+    clientData,
+    researchData.partners,
+    researchData.bestPractices.testimonials
+  );
+
+  // Stats section
+  console.log('  - Stats section...');
+  blueprint.content_drafts.stats = await generateStatsContent(clientData);
 
   // Contact section
   console.log('  - Contact section...');
   blueprint.content_drafts.contact = await generateContactContent(
     clientData,
     researchData.bestPractices.contact
+  );
+  blueprint.content_drafts.contact.image_keywords = generateImageKeywords(
+    'contact',
+    clientData.industry.category,
+    clientData.services
   );
 
   // Generate structure recommendation
@@ -82,6 +114,94 @@ export async function generateBlueprint(clientData, researchData = null) {
   console.log('\nBlueprint generation complete!\n');
 
   return blueprint;
+}
+
+/**
+ * Generate image keywords for a section
+ * @param {string} sectionType - Type of section
+ * @param {string} industry - Industry category
+ * @param {Array} services - Services list
+ * @returns {Array} - Image search keywords
+ */
+function generateImageKeywords(sectionType, industry, services) {
+  const industryKeywords = {
+    construction: ['construction site', 'building', 'crane', 'workers', 'industrial'],
+    roofing: ['roof installation', 'roofing workers', 'shingles', 'roof repair'],
+    plumbing: ['plumber working', 'pipes', 'bathroom fixtures', 'plumbing repair'],
+    electrical: ['electrician', 'electrical panel', 'wiring', 'electrical work'],
+    hvac: ['hvac technician', 'air conditioning', 'heating system', 'hvac unit'],
+    landscaping: ['landscaping', 'garden', 'lawn care', 'outdoor design'],
+    automotive: ['auto repair', 'mechanic', 'car service', 'garage'],
+    healthcare: ['medical office', 'healthcare professional', 'clinic', 'patient care'],
+    hospitality: ['hotel', 'restaurant', 'hospitality service', 'guest service'],
+    retail: ['retail store', 'shopping', 'customer service', 'storefront'],
+    'professional-services': ['office', 'business meeting', 'professional team', 'consultation'],
+    technology: ['technology', 'computer', 'software development', 'tech office'],
+    'food-beverage': ['restaurant', 'food preparation', 'chef', 'dining'],
+    fitness: ['gym', 'fitness training', 'workout', 'exercise'],
+    beauty: ['salon', 'beauty treatment', 'spa', 'skincare'],
+    'real-estate': ['property', 'real estate', 'house', 'building exterior'],
+  };
+
+  const sectionKeywordModifiers = {
+    hero: ['professional', 'dramatic lighting', 'wide shot'],
+    about: ['team photo', 'workplace', 'company culture'],
+    services: ['in action', 'working', 'detail shot'],
+    contact: ['office exterior', 'reception', 'customer service'],
+  };
+
+  const baseKeywords = industryKeywords[industry] || ['professional', 'business', 'service'];
+  const modifiers = sectionKeywordModifiers[sectionType] || [];
+
+  // Combine base keywords with modifiers
+  const keywords = [
+    ...baseKeywords.slice(0, 3),
+    ...modifiers.slice(0, 2),
+  ];
+
+  // Add service-specific keywords for hero
+  if (sectionType === 'hero' && services && services.length > 0) {
+    const primaryService = services.find(s => s.is_primary) || services[0];
+    if (primaryService.image_keywords) {
+      keywords.push(...primaryService.image_keywords.slice(0, 2));
+    }
+  }
+
+  return keywords;
+}
+
+/**
+ * Enhance services with image keywords from research
+ */
+function enhanceServicesWithKeywords(blueprintServices, researchKeywords, intakeServices) {
+  return blueprintServices.map(service => {
+    // Check if intake service has keywords
+    const intakeService = intakeServices?.find(s => s.name === service.name);
+    if (intakeService?.image_keywords && intakeService.image_keywords.length > 0) {
+      return { ...service, image_keywords: intakeService.image_keywords };
+    }
+
+    // Check research keywords
+    const research = researchKeywords?.find(r => r.service_name === service.name);
+    if (research) {
+      return {
+        ...service,
+        image_keywords: research.primary_keywords,
+        image_keywords_fallback: research.secondary_keywords,
+        image_mood: research.mood,
+      };
+    }
+
+    // Generate basic keywords from service name
+    return {
+      ...service,
+      image_keywords: [
+        service.name.toLowerCase(),
+        'professional service',
+        'quality work',
+      ],
+    };
+  });
 }
 
 /**
@@ -118,8 +238,10 @@ function extractClientProfile(clientData) {
  */
 function summarizeResearch(researchData) {
   return {
-    best_practices_researched: Object.keys(researchData.bestPractices),
+    best_practices_researched: Object.keys(researchData.bestPractices || {}),
     competitors_analyzed: researchData.competitors ? true : false,
+    partners_researched: researchData.partners?.length || 0,
+    service_keywords_generated: researchData.serviceImageKeywords?.length || 0,
     research_date: researchData.timestamp,
   };
 }
@@ -379,29 +501,320 @@ Include ALL services from the list above.
 }
 
 /**
- * Generate Testimonials placeholder
+ * Generate AI-powered testimonials based on partner data
+ * @param {object} clientData - Client intake data
+ * @param {object} partnerResearch - Research data about partners
+ * @param {object} bestPractices - Testimonial best practices
+ * @returns {Promise<object>} - Testimonials section content
  */
-function generateTestimonialsPlaceholder(clientData) {
+async function generateTestimonialsContent(clientData, partnerResearch, bestPractices) {
+  // Normalize partner data (intake may use company_name or name)
+  const rawPartners = clientData.partners || [];
+  const partners = rawPartners.map(p => ({
+    name: p.company_name || p.name,
+    industry: p.industry || null,
+    services_provided: p.services_provided || p.project_types || [],
+    project_keywords: p.project_keywords || p.project_types || [],
+    relationship: p.relationship || 'one-time',
+    can_use_as_reference: p.can_use_as_reference !== false,
+    contact_name: p.contact_name || null,
+    contact_role: p.contact_role || null,
+    notes: p.notes || null,
+  }));
+
+  const companyName = clientData.company.name;
+  const industry = clientData.industry.category;
+  const serviceArea = clientData.industry.service_area || 'local';
+  const services = clientData.services || [];
+
+  // If no partners, return placeholder
+  if (partners.length === 0) {
+    return {
+      headline: 'What Our Customers Say',
+      intro: `See why ${serviceArea} customers trust ${companyName}.`,
+      testimonials: [],
+      is_placeholder: true,
+      notes: 'No partner data provided. Add partners to client intake for AI-generated testimonials.',
+    };
+  }
+
+  // Filter to usable partners
+  const usablePartners = partners.filter(p =>
+    p.can_use_as_reference !== false
+  ).slice(0, 5);
+
+  if (usablePartners.length === 0) {
+    return {
+      headline: 'What Our Customers Say',
+      intro: `See why ${serviceArea} customers trust ${companyName}.`,
+      testimonials: [],
+      is_placeholder: true,
+      notes: 'No partners authorized for reference. Update can_use_as_reference in client intake.',
+    };
+  }
+
+  // Build context from partner research
+  const partnerContext = (partnerResearch || []).map(pr => {
+    return `Partner: ${pr.partner}\nResearch: ${pr.data?.research_content || 'No research available'}`;
+  }).join('\n\n');
+
+  // Generate testimonials via LLM
+  const prompt = `
+Generate ${usablePartners.length} realistic testimonials for ${companyName}, a ${industry} company in ${serviceArea}.
+
+Company Services:
+${services.map(s => `- ${s.name}: ${s.description || ''}`).join('\n')}
+
+Partners/Clients to generate testimonials for:
+${usablePartners.map(p => `
+- Company: ${p.name}
+  Contact Person: ${p.contact_name || 'Not specified'} (${p.contact_role || 'Project Manager'})
+  Industry: ${p.industry || 'Not specified'}
+  Services received: ${p.services_provided?.join(', ') || 'General services'}
+  Project types: ${p.project_keywords?.join(', ') || 'Various projects'}
+  Relationship: ${p.relationship || 'one-time'}
+  Notes: ${p.notes || 'None'}
+`).join('')}
+
+Partner Research Context:
+${partnerContext || 'No additional research available.'}
+
+REQUIREMENTS for each testimonial:
+1. Reference SPECIFIC services from the list above
+2. Include believable project details (e.g., "45-panel installation", "3-day turnaround")
+3. Use industry-appropriate language
+4. Follow Problem → Solution → Result structure when possible
+5. Vary the openings (don't all start with "We...")
+6. Vary focus: quality, communication, timeliness, value, professionalism
+7. Include location references where appropriate (${serviceArea})
+8. Rating should be 4-5 (not all perfect 5s for authenticity)
+
+Generate ONLY a JSON array (no markdown, no explanation):
+[
+  {
+    "quote": "The testimonial text (2-4 sentences)",
+    "author_name": "First Last or First L.",
+    "author_role": "Job Title",
+    "company": "Partner Company Name",
+    "project_type": "Type of project (optional)",
+    "rating": 5,
+    "is_placeholder": true,
+    "generated_from": "partner_data"
+  }
+]
+`;
+
+  const result = await claude.research(prompt, {
+    systemPrompt: 'You are a marketing copywriter specializing in authentic testimonials. Return ONLY valid JSON array.',
+    maxTokens: 3000,
+  });
+
+  if (result.success) {
+    try {
+      const jsonMatch = result.content.match(/\[[\s\S]*\]/);
+      if (jsonMatch) {
+        const testimonials = JSON.parse(jsonMatch[0]);
+        return {
+          headline: 'What Our Partners Say',
+          intro: `Trusted by leading companies across ${serviceArea}.`,
+          testimonials: testimonials.map(t => ({
+            ...t,
+            is_placeholder: true,
+            generated_from: 'partner_data',
+          })),
+          is_placeholder: true,
+          notes: 'AI-generated from partner data. Review and refine before final use.',
+        };
+      }
+    } catch (e) {
+      console.warn('  Warning: Could not parse testimonials, using fallback');
+    }
+  }
+
+  // Fallback - generate basic testimonials
   return {
-    headline: 'What Our Customers Say',
-    intro: `See why ${clientData.industry.service_area || 'local'} customers trust ${clientData.company.name}.`,
-    testimonials: [
-      {
-        placeholder: true,
-        format: {
-          quote: 'Customer testimonial text',
-          name: 'Customer Name',
-          location: 'City/Suburb',
-          rating: 5,
-        },
-      },
-    ],
-    review_platforms: {
-      google_rating: null,
-      google_review_count: null,
-      facebook_rating: null,
-    },
-    notes: 'Collect real testimonials from client. Consider pulling from Google Reviews.',
+    headline: 'What Our Partners Say',
+    intro: `Trusted by leading companies across ${serviceArea}.`,
+    testimonials: usablePartners.map((partner, i) => ({
+      quote: `${companyName} delivered exceptional ${services[0]?.name || industry} services for our project. Professional team, on-time delivery, and quality results.`,
+      author_name: partner.contact_name || `${partner.name} Representative`,
+      author_role: partner.contact_role || 'Project Manager',
+      company: partner.name,
+      project_type: partner.project_keywords?.[0] || null,
+      rating: i === 0 ? 5 : 4 + Math.round(Math.random()),
+      is_placeholder: true,
+      generated_from: 'fallback',
+    })),
+    is_placeholder: true,
+    notes: 'Fallback testimonials generated. Consider re-running with partner research.',
+  };
+}
+
+/**
+ * Generate stats section content
+ * @param {object} clientData - Client intake data
+ * @returns {Promise<object>} - Stats section content
+ */
+async function generateStatsContent(clientData) {
+  const providedStats = clientData.stats || {};
+  const company = clientData.company;
+  const industry = clientData.industry;
+
+  const stats = [];
+  const estimatedStats = [];
+
+  // Use provided stats first
+  if (providedStats.projects_completed) {
+    stats.push({
+      value: `${providedStats.projects_completed}+`,
+      label: 'Projects Completed',
+      is_estimated: false,
+      source: 'intake.stats.projects_completed',
+    });
+  }
+
+  if (providedStats.customer_satisfaction) {
+    stats.push({
+      value: `${providedStats.customer_satisfaction}%`,
+      label: 'Customer Satisfaction',
+      is_estimated: false,
+      source: 'intake.stats.customer_satisfaction',
+    });
+  }
+
+  if (providedStats.team_size) {
+    stats.push({
+      value: `${providedStats.team_size}`,
+      label: 'Team Members',
+      is_estimated: false,
+      source: 'intake.stats.team_size',
+    });
+  }
+
+  if (company.years_in_business) {
+    stats.push({
+      value: `${company.years_in_business}`,
+      label: 'Years Experience',
+      is_estimated: false,
+      source: 'intake.company.years_in_business',
+    });
+  }
+
+  if (providedStats.service_area_coverage) {
+    stats.push({
+      value: providedStats.service_area_coverage,
+      label: 'Service Coverage',
+      is_estimated: false,
+      source: 'intake.stats.service_area_coverage',
+    });
+  }
+
+  if (providedStats.certifications_count) {
+    stats.push({
+      value: `${providedStats.certifications_count}`,
+      label: 'Certifications',
+      is_estimated: false,
+      source: 'intake.stats.certifications_count',
+    });
+  }
+
+  if (providedStats.response_time) {
+    stats.push({
+      value: providedStats.response_time,
+      label: 'Response Time',
+      is_estimated: false,
+      source: 'intake.stats.response_time',
+    });
+  }
+
+  // Add custom stats (supports both 'custom' and 'custom_stats' field names)
+  const customStats = providedStats.custom || providedStats.custom_stats || [];
+  if (Array.isArray(customStats)) {
+    customStats.forEach(customStat => {
+      stats.push({
+        value: customStat.value,
+        label: customStat.label,
+        is_estimated: customStat.is_estimated || false,
+        source: 'intake.stats.custom',
+      });
+    });
+  }
+
+  // Also handle additional intake stats fields
+  if (providedStats.clients_served) {
+    stats.push({
+      value: `${providedStats.clients_served}+`,
+      label: 'Clients Served',
+      is_estimated: false,
+      source: 'intake.stats.clients_served',
+    });
+  }
+
+  if (providedStats.team_members) {
+    stats.push({
+      value: `${providedStats.team_members}`,
+      label: 'Team Members',
+      is_estimated: false,
+      source: 'intake.stats.team_members',
+    });
+  }
+
+  if (providedStats.years_experience) {
+    stats.push({
+      value: `${providedStats.years_experience}`,
+      label: 'Years Experience',
+      is_estimated: false,
+      source: 'intake.stats.years_experience',
+    });
+  }
+
+  // If we have fewer than 4 stats, estimate some based on industry and years
+  if (stats.length < 4) {
+    const yearsInBusiness = company.years_in_business || 5;
+
+    // Estimate projects completed if not provided
+    if (!providedStats.projects_completed) {
+      // Rough estimate: 50-100 projects per year depending on industry
+      const projectsPerYear = industry.category === 'construction' ? 30 : 50;
+      const estimatedProjects = Math.round(yearsInBusiness * projectsPerYear / 10) * 10;
+      estimatedStats.push({
+        value: `${estimatedProjects}+`,
+        label: 'Projects Completed',
+        is_estimated: true,
+        estimation_basis: `${projectsPerYear} projects/year × ${yearsInBusiness} years`,
+      });
+    }
+
+    // Estimate customer satisfaction if not provided
+    if (!providedStats.customer_satisfaction) {
+      estimatedStats.push({
+        value: '98%',
+        label: 'Customer Satisfaction',
+        is_estimated: true,
+        estimation_basis: 'Industry standard for established businesses',
+      });
+    }
+
+    // Add years if not already present
+    if (!company.years_in_business && stats.every(s => s.label !== 'Years Experience')) {
+      estimatedStats.push({
+        value: '5+',
+        label: 'Years Experience',
+        is_estimated: true,
+        estimation_basis: 'Default estimate',
+      });
+    }
+  }
+
+  // Combine stats, preferring provided over estimated, limit to 4-6
+  const allStats = [...stats, ...estimatedStats].slice(0, 6);
+
+  return {
+    stats: allStats,
+    has_estimated: estimatedStats.length > 0,
+    notes: estimatedStats.length > 0
+      ? 'Some stats are AI-estimated. Verify with client before final use.'
+      : 'All stats from client intake.',
   };
 }
 
