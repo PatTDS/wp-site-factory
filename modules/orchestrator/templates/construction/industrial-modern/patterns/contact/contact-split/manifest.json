@@ -1,0 +1,111 @@
+{
+  "id": "contact-split",
+  "name": "Contact Split Layout",
+  "description": "Two-column contact section with form and company info. Ideal for B2B businesses.",
+  "category": "contact",
+  "variants": ["form-left", "form-right"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["form-left", "form-right"],
+      "default": "form-right",
+      "description": "Form position"
+    },
+    "show_map": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show embedded map"
+    },
+    "show_hours": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show business hours"
+    },
+    "show_social": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show social media links"
+    },
+    "background": {
+      "type": "enum",
+      "options": ["white", "gray", "dark"],
+      "default": "dark",
+      "description": "Section background"
+    },
+    "form_style": {
+      "type": "enum",
+      "options": ["minimal", "bordered", "filled"],
+      "default": "filled",
+      "description": "Form input style"
+    }
+  },
+  "content_slots": {
+    "tagline": {
+      "required": false,
+      "source": "content_drafts.contact.tagline"
+    },
+    "title": {
+      "required": true,
+      "source": "content_drafts.contact.headline",
+      "fallback": "Get In Touch"
+    },
+    "description": {
+      "required": false,
+      "source": "content_drafts.contact.intro"
+    },
+    "phone": {
+      "required": false,
+      "source": "content_drafts.contact.phone.number"
+    },
+    "email": {
+      "required": false,
+      "source": "content_drafts.contact.email"
+    },
+    "address": {
+      "required": false,
+      "source": "content_drafts.contact.address"
+    },
+    "hours": {
+      "required": false,
+      "source": "content_drafts.contact.hours"
+    },
+    "social_links": {
+      "required": false,
+      "source": "client_profile.company.social_links",
+      "fallback": []
+    },
+    "form_shortcode": {
+      "required": false,
+      "source": "technical.form_shortcode",
+      "fallback": "[contact-form-7 id=\"\" title=\"Contact Form\"]"
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-16 lg:py-24",
+    "container": "container mx-auto px-4",
+    "grid": "grid lg:grid-cols-2 gap-8 lg:gap-16",
+    "info_side": "space-y-8",
+    "tagline": "text-sm font-semibold uppercase tracking-wider",
+    "title": "text-3xl lg:text-4xl font-bold",
+    "description": "text-lg",
+    "contact_list": "space-y-4",
+    "contact_item": "flex items-start gap-4",
+    "contact_icon": "w-6 h-6 flex-shrink-0",
+    "contact_text": "text-base",
+    "form_side": "bg-white rounded-2xl p-6 lg:p-8 shadow-xl",
+    "form_title": "text-xl font-bold text-primary mb-6",
+    "social_list": "flex gap-4",
+    "social_icon": "w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+  },
+  "suitability": {
+    "industries": ["construction", "professional-services", "home-services"],
+    "styles": ["modern", "corporate", "professional"],
+    "score_factors": {
+      "has_physical_address": 0.2,
+      "has_phone": 0.2,
+      "b2b_focus": 0.3,
+      "service_area_business": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

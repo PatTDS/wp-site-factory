@@ -1,0 +1,83 @@
+{
+  "id": "services-grid",
+  "name": "Services Grid",
+  "description": "Responsive grid of service cards with icons. Ideal for showcasing 3-6 core services.",
+  "category": "services",
+  "variants": ["3-column", "4-column"],
+  "configuration": {
+    "columns": {
+      "type": "enum",
+      "options": ["2", "3", "4"],
+      "default": "3",
+      "description": "Number of columns on desktop"
+    },
+    "show_icons": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show service icons"
+    },
+    "show_descriptions": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show service descriptions"
+    },
+    "card_style": {
+      "type": "enum",
+      "options": ["flat", "bordered", "elevated"],
+      "default": "elevated",
+      "description": "Card visual style"
+    },
+    "show_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show 'Learn More' links on cards"
+    }
+  },
+  "content_slots": {
+    "section_tagline": {
+      "required": false,
+      "source": "content_drafts.services.tagline"
+    },
+    "section_title": {
+      "required": true,
+      "source": "content_drafts.services.headline",
+      "fallback": "Our Services"
+    },
+    "section_description": {
+      "required": false,
+      "source": "content_drafts.services.intro"
+    },
+    "services": {
+      "required": true,
+      "source": "content_drafts.services.services",
+      "fallback": []
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-16 lg:py-24 bg-gray-50",
+    "container": "container mx-auto px-4",
+    "header": "text-center max-w-3xl mx-auto mb-12 lg:mb-16",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary mb-4",
+    "title": "text-3xl lg:text-4xl font-bold text-primary mb-4",
+    "description": "text-lg text-gray-600",
+    "grid": "grid gap-6 lg:gap-8",
+    "card_flat": "p-6 lg:p-8 bg-white rounded-xl",
+    "card_bordered": "p-6 lg:p-8 bg-white rounded-xl border-2 border-gray-200",
+    "card_elevated": "p-6 lg:p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow",
+    "icon": "w-12 h-12 text-secondary mb-4",
+    "service_title": "text-xl font-bold text-primary mb-2",
+    "service_description": "text-gray-600 mb-4",
+    "cta_link": "text-secondary font-semibold hover:text-secondary/80 inline-flex items-center gap-2"
+  },
+  "suitability": {
+    "industries": ["construction", "manufacturing", "professional-services", "home-services"],
+    "styles": ["modern", "corporate", "clean"],
+    "score_factors": {
+      "services_count_3_6": 0.3,
+      "has_service_descriptions": 0.2,
+      "b2b_focus": 0.2,
+      "prefers_grid_layout": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

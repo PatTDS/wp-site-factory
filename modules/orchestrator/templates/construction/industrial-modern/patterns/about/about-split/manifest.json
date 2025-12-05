@@ -1,0 +1,107 @@
+{
+  "id": "about-split",
+  "name": "About Split Layout",
+  "description": "Two-column layout with image and content. Perfect for company story and values.",
+  "category": "about",
+  "variants": ["image-left", "image-right"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["image-left", "image-right"],
+      "default": "image-left",
+      "description": "Image position"
+    },
+    "show_stats": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show company statistics"
+    },
+    "show_features": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show feature list/values"
+    },
+    "show_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show call-to-action button"
+    },
+    "background": {
+      "type": "enum",
+      "options": ["white", "gray", "primary"],
+      "default": "white",
+      "description": "Section background color"
+    }
+  },
+  "content_slots": {
+    "tagline": {
+      "required": false,
+      "source": "content_drafts.about_us.tagline"
+    },
+    "title": {
+      "required": true,
+      "source": "content_drafts.about_us.headline",
+      "fallback": "About Our Company"
+    },
+    "description": {
+      "required": true,
+      "source": "content_drafts.about_us.story"
+    },
+    "features": {
+      "required": false,
+      "source": "content_drafts.about_us.values",
+      "fallback": []
+    },
+    "stats": {
+      "required": false,
+      "source": "content_drafts.about_us.stats",
+      "fallback": []
+    },
+    "cta_text": {
+      "required": false,
+      "source": "content_drafts.about_us.cta.text",
+      "fallback": "Learn More About Us"
+    },
+    "cta_url": {
+      "required": false,
+      "source": "content_drafts.about_us.cta.url",
+      "fallback": "#contact"
+    },
+    "image": {
+      "required": false,
+      "source": "assets.about_image",
+      "fallback": "/wp-content/themes/theme-name/assets/images/about-placeholder.jpg"
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-16 lg:py-24",
+    "container": "container mx-auto px-4",
+    "grid": "grid lg:grid-cols-2 gap-8 lg:gap-16 items-center",
+    "content": "space-y-6",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary",
+    "title": "text-3xl lg:text-4xl font-bold text-primary",
+    "description": "text-lg text-gray-600",
+    "features_list": "space-y-3",
+    "feature_item": "flex items-start gap-3",
+    "feature_icon": "w-5 h-5 text-secondary mt-1 flex-shrink-0",
+    "feature_text": "text-gray-700",
+    "stats_grid": "grid grid-cols-2 lg:grid-cols-4 gap-6 mt-8",
+    "stat_item": "text-center",
+    "stat_number": "text-3xl lg:text-4xl font-bold text-primary",
+    "stat_label": "text-sm text-gray-600",
+    "cta_button": "inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors",
+    "image_container": "relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl"
+  },
+  "suitability": {
+    "industries": ["construction", "manufacturing", "professional-services"],
+    "styles": ["modern", "corporate", "trustworthy"],
+    "score_factors": {
+      "has_company_history": 0.2,
+      "has_team_info": 0.1,
+      "has_stats": 0.2,
+      "b2b_focus": 0.2,
+      "established_business": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

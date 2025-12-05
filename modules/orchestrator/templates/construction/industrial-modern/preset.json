@@ -1,0 +1,42 @@
+{
+  "id": "industrial-modern",
+  "name": "Industrial Modern",
+  "description": "Bold, dark theme for industrial and construction companies. Features strong typography, dark backgrounds with accent colors, and professional imagery.",
+  "industry": "construction",
+  "style": "modern",
+  "patterns": {
+    "hero": "hero-split",
+    "services": "services-grid",
+    "about": "about-split",
+    "testimonials": "testimonials-cards",
+    "contact": "contact-split"
+  },
+  "configuration_overrides": {
+    "hero": {
+      "overlay_opacity": 0.7,
+      "height": "tall"
+    },
+    "services": {
+      "columns": 3,
+      "show_icons": true
+    }
+  },
+  "colors": {
+    "primary": "#0F2942",
+    "secondary": "#4DA6FF",
+    "accent": "#F59E0B",
+    "background": "#FFFFFF",
+    "text": "#1F2937"
+  },
+  "typography": {
+    "headings": "Inter",
+    "body": "Inter"
+  },
+  "suitability": {
+    "b2b": 0.95,
+    "b2c": 0.4,
+    "premium": 0.85,
+    "budget": 0.3
+  },
+  "preview": "preview.png"
+}

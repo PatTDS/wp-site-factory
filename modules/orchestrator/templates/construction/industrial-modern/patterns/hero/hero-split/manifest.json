@@ -1,0 +1,101 @@
+{
+  "id": "hero-split",
+  "name": "Hero Split Layout",
+  "description": "Split hero with content on one side, image on the other. Great for B2B with strong messaging.",
+  "category": "hero",
+  "variants": ["image-right", "image-left"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["image-right", "image-left"],
+      "default": "image-right",
+      "description": "Image position"
+    },
+    "show_tagline": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show company tagline above headline"
+    },
+    "show_secondary_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show secondary CTA button"
+    },
+    "overlay_opacity": {
+      "type": "number",
+      "min": 0,
+      "max": 1,
+      "default": 0.5,
+      "description": "Image overlay darkness"
+    },
+    "height": {
+      "type": "enum",
+      "options": ["short", "medium", "tall"],
+      "default": "medium",
+      "description": "Hero section height"
+    }
+  },
+  "content_slots": {
+    "tagline": {
+      "required": false,
+      "source": "client_profile.company.tagline"
+    },
+    "headline": {
+      "required": true,
+      "source": "content_drafts.hero.headline"
+    },
+    "subheadline": {
+      "required": false,
+      "source": "content_drafts.hero.subheadline"
+    },
+    "cta_primary_text": {
+      "required": true,
+      "source": "content_drafts.hero.cta_primary.text",
+      "fallback": "Get a Quote"
+    },
+    "cta_primary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_primary.url",
+      "fallback": "#contact"
+    },
+    "cta_secondary_text": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.text",
+      "fallback": "Learn More"
+    },
+    "cta_secondary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.url",
+      "fallback": "#services"
+    },
+    "background_image": {
+      "required": false,
+      "source": "assets.hero_image",
+      "fallback": "/wp-content/themes/theme-name/assets/images/hero-placeholder.jpg"
+    }
+  },
+  "tailwind_classes": {
+    "section": "relative min-h-[60vh] lg:min-h-[80vh]",
+    "container": "container mx-auto px-4 py-16 lg:py-24",
+    "grid": "grid lg:grid-cols-2 gap-8 lg:gap-12 items-center",
+    "content": "space-y-6",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary",
+    "headline": "text-4xl lg:text-5xl xl:text-6xl font-bold text-primary leading-tight",
+    "subheadline": "text-lg lg:text-xl text-gray-600 max-w-xl",
+    "cta_container": "flex flex-col sm:flex-row gap-4",
+    "cta_primary": "inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors",
+    "cta_secondary": "inline-flex items-center justify-center px-6 py-3 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-colors",
+    "image_container": "relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden shadow-2xl"
+  },
+  "suitability": {
+    "industries": ["construction", "manufacturing", "professional-services"],
+    "styles": ["modern", "corporate", "bold"],
+    "score_factors": {
+      "has_tagline": 0.1,
+      "has_hero_image": 0.2,
+      "b2b_focus": 0.3,
+      "services_count_high": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

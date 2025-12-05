@@ -1,0 +1,97 @@
+{
+  "id": "testimonials-cards",
+  "name": "Testimonials Cards",
+  "description": "Grid of testimonial cards with client quotes. Builds trust and social proof.",
+  "category": "testimonials",
+  "variants": ["grid", "slider"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["grid", "slider"],
+      "default": "grid",
+      "description": "Display mode"
+    },
+    "columns": {
+      "type": "enum",
+      "options": ["2", "3"],
+      "default": "3",
+      "description": "Number of columns (grid mode)"
+    },
+    "show_avatar": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show client photo/avatar"
+    },
+    "show_company": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show client company name"
+    },
+    "show_rating": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show star rating"
+    },
+    "card_style": {
+      "type": "enum",
+      "options": ["simple", "quoted", "bordered"],
+      "default": "quoted",
+      "description": "Card visual style"
+    },
+    "background": {
+      "type": "enum",
+      "options": ["white", "gray", "primary"],
+      "default": "gray",
+      "description": "Section background"
+    }
+  },
+  "content_slots": {
+    "tagline": {
+      "required": false,
+      "source": "content_drafts.testimonials.tagline"
+    },
+    "title": {
+      "required": true,
+      "source": "content_drafts.testimonials.headline",
+      "fallback": "What Our Clients Say"
+    },
+    "description": {
+      "required": false,
+      "source": "content_drafts.testimonials.intro"
+    },
+    "testimonials": {
+      "required": true,
+      "source": "content_drafts.testimonials.testimonials",
+      "fallback": []
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-16 lg:py-24",
+    "container": "container mx-auto px-4",
+    "header": "text-center max-w-3xl mx-auto mb-12 lg:mb-16",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary mb-4",
+    "title": "text-3xl lg:text-4xl font-bold text-primary mb-4",
+    "description": "text-lg text-gray-600",
+    "grid": "grid gap-6 lg:gap-8",
+    "card_simple": "p-6 lg:p-8 bg-white rounded-xl shadow-lg",
+    "card_quoted": "p-6 lg:p-8 bg-white rounded-xl shadow-lg relative",
+    "card_bordered": "p-6 lg:p-8 bg-white rounded-xl border-2 border-gray-200",
+    "quote_icon": "absolute -top-4 left-6 w-8 h-8 text-secondary",
+    "quote_text": "text-gray-700 italic mb-6",
+    "avatar": "w-12 h-12 rounded-full object-cover",
+    "client_name": "font-semibold text-primary",
+    "client_company": "text-sm text-gray-500",
+    "rating": "flex gap-1 text-yellow-400"
+  },
+  "suitability": {
+    "industries": ["construction", "professional-services", "home-services"],
+    "styles": ["modern", "trustworthy", "professional"],
+    "score_factors": {
+      "has_testimonials": 0.4,
+      "testimonials_count_3_plus": 0.2,
+      "b2b_focus": 0.2,
+      "service_business": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

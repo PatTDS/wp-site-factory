@@ -508,3 +508,4 @@ Status: Modular architecture implemented
 
 *This framework is designed for rapid WordPress development with AI assistance.*
 *Version 0.1.0-beta - Being refined through real-world usage.*
+- always use tmux orchestrator when tasks can safely and effectivally be done in parallel

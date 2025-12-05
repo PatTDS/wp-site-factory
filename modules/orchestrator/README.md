@@ -1,15 +1,14 @@
 # WPF Orchestrator Module
 
-**Branch:** `feature/phase1-mvp`
-**Version:** 0.1.0
-**Status:** Phase 1 Discovery - Complete MVP
+**Branch:** `feature/phase2-design-draft`
+**Version:** 0.2.0
+**Status:** Phase 2 Design Draft - Complete MVP
 
 ## Overview
 
-The Orchestrator module powers the AI-driven Discovery Phase of WPF (WordPress Site Factory). It provides a complete end-to-end pipeline from client intake to production-ready blueprint.
+The Orchestrator module powers WPF (WordPress Site Factory), providing a complete end-to-end pipeline from client intake to production-ready WordPress themes.
 
-### Features
-
+### Phase 1: Discovery (Complete)
 - **Intake Validation** - Zod schema validation with detailed error messages
 - **Industry Research** - Best practices for website sections (cached knowledge base)
 - **Competitor Analysis** - Research competitor websites and patterns
@@ -17,6 +16,13 @@ The Orchestrator module powers the AI-driven Discovery Phase of WPF (WordPress S
 - **Operator Review** - Automated quality checks with scoring
 - **Token Tracking** - Monitor LLM API usage and costs per operation
 - **Export Formats** - JSON (machine) and Markdown (client review)
+
+### Phase 2: Design Draft (Complete)
+- **Pattern Library** - Pre-built WordPress Block Patterns per industry
+- **Design Tokens** - Auto-generated theme.json and tailwind.config.js
+- **Template Selection** - AI-powered template recommendation based on blueprint analysis
+- **Content Injection** - Maps blueprint data to pattern content slots
+- **Theme Assembly** - Generates complete WordPress hybrid theme files
 
 ## Quick Start
 
@@ -40,6 +46,19 @@ node src/cli/blueprint.js view examples/blueprint-v1.0.json
 
 # Export for client
 node src/cli/blueprint.js export examples/blueprint-v1.0.json markdown
+
+# Phase 2: Generate theme from blueprint
+node src/commands/design.js generate examples/blueprint-anywhere-solutions.json output/
+
+# Preview template selection without generating
+node src/commands/design.js preview examples/blueprint-anywhere-solutions.json
+
+# Generate design tokens only
+node src/commands/design.js tokens examples/blueprint-anywhere-solutions.json
+
+# List available presets and patterns
+node src/commands/design.js list-presets
+node src/commands/design.js list-patterns
 ```
 
 ## Phase 1 Pipeline
@@ -68,6 +87,41 @@ node src/cli/blueprint.js export examples/blueprint-v1.0.json markdown
 | Export | Blueprint | `blueprint-v1.0.md` | $0 |
 
 **Total Cost:** ~$0.03/project with Claude Opus 4.5
+
+## Phase 2 Pipeline
+
+```
+┌───────────┐    ┌──────────┐    ┌─────────┐    ┌─────────┐    ┌──────────┐
+│ Blueprint │───►│ Template │───►│ Content │───►│  Theme  │───►│  Output  │
+│  (JSON)   │    │ Selector │    │Injector │    │Assembler│    │ (Files)  │
+└───────────┘    └──────────┘    └─────────┘    └─────────┘    └──────────┘
+                      │                                              │
+                      ▼                                              ▼
+                ┌──────────┐                                  ┌───────────┐
+                │  Design  │                                  │ theme.json│
+                │  Tokens  │                                  │tailwind.js│
+                └──────────┘                                  │patterns/*.│
+                                                              └───────────┘
+```
+
+### Phase 2 Stages
+
+| Stage | Input | Output | Cost |
+|-------|-------|--------|------|
+| Template Selection | Blueprint | Preset + patterns | $0 |
+| Design Tokens | Blueprint colors/fonts | theme.json, tailwind.config | $0 |
+| Content Injection | Blueprint + patterns | Populated patterns | $0 |
+| Theme Assembly | All above | Complete theme folder | $0 |
+
+**Phase 2 Cost:** $0 (no LLM calls, template-based)
+
+### Generated Files
+
+- `theme.json` - WordPress block editor configuration
+- `tailwind.config.js` - Tailwind CSS configuration
+- `css/variables.css` - CSS custom properties
+- `patterns/*.php` - WordPress Block Patterns
+- `assembly-report.json` - Generation metadata
 
 ## CLI Commands
 
@@ -110,6 +164,25 @@ node src/cli/research.js <intake> [options]
 Options:
   --output <file>                  Output file path
   --force                          Force fresh research (ignore cache)
+```
+
+### Design Command (Phase 2)
+
+```bash
+node src/commands/design.js <command> [options]
+
+Commands:
+  generate <blueprint> [output-dir]  Generate complete WordPress theme
+  preview <blueprint>                Preview template selection without generating
+  compare <blueprint>                Compare A/B/C template options
+  tokens <blueprint>                 Generate design tokens only
+  list-presets                       List available template presets
+  list-patterns                      List all available patterns
+
+Options:
+  --preset <id>                      Force specific preset (skip AI selection)
+  --output <dir>                     Output directory (default: output/)
+  --help, -h                         Show help
 ```
 
 ## File Formats
@@ -192,26 +265,48 @@ Complete schema at `src/lib/validator.js`. Required fields:
 ```
 modules/orchestrator/
 ├── src/
-│   ├── cli/
-│   │   ├── blueprint.js      # Blueprint generation CLI
-│   │   ├── research.js       # Research CLI
-│   │   └── review.js         # Operator review CLI
+│   ├── cli/                        # Phase 1 CLI commands
+│   │   ├── blueprint.js            # Blueprint generation CLI
+│   │   ├── research.js             # Research CLI
+│   │   └── review.js               # Operator review CLI
+│   ├── commands/                   # Phase 2 CLI commands
+│   │   └── design.js               # Design/theme generation CLI
 │   ├── lib/
-│   │   ├── blueprint.js      # Blueprint generator
-│   │   ├── claude.js         # Anthropic API client
-│   │   ├── research.js       # Research engine
-│   │   ├── validator.js      # Zod schema validation
-│   │   ├── operator-review.js # Review logic
-│   │   ├── token-tracker.js  # Cost tracking
-│   │   ├── logger.js         # Logging utility
-│   │   ├── spinner.js        # CLI spinners
-│   │   └── search-providers.js # Web search abstraction
-│   └── index.js              # Module exports
+│   │   ├── blueprint.js            # Blueprint generator
+│   │   ├── claude.js               # Anthropic API client
+│   │   ├── research.js             # Research engine
+│   │   ├── validator.js            # Zod schema validation
+│   │   ├── operator-review.js      # Review logic
+│   │   ├── token-tracker.js        # Cost tracking
+│   │   ├── logger.js               # Logging utility
+│   │   ├── spinner.js              # CLI spinners
+│   │   ├── search-providers.js     # Web search abstraction
+│   │   └── phase2/                 # Phase 2 modules
+│   │       ├── pattern-schema.js   # Zod schemas for patterns
+│   │       ├── pattern-loader.js   # Load manifests & templates
+│   │       ├── design-tokens.js    # Generate theme.json/tailwind
+│   │       ├── template-selector.js # AI template recommendation
+│   │       ├── content-injector.js # Map blueprint to patterns
+│   │       ├── theme-assembler.js  # Full theme generation
+│   │       └── index.js            # Phase 2 exports
+│   └── index.js                    # Module exports
+├── templates/                      # Pattern templates
+│   └── construction/               # Industry: Construction
+│       └── industrial-modern/      # Preset: Industrial Modern
+│           ├── preset.json         # Preset configuration
+│           └── patterns/           # Pattern definitions
+│               ├── hero/hero-split/
+│               ├── services/services-grid/
+│               ├── about/about-split/
+│               ├── contact/contact-split/
+│               └── testimonials/testimonials-cards/
 ├── examples/
 │   ├── client-intake-anywhere-solutions.json
+│   ├── blueprint-anywhere-solutions.json  # Phase 1 output
 │   ├── blueprint-v1.0.json
 │   ├── blueprint-v1.0.md
 │   └── research-summary.json
+├── output/                         # Generated themes (gitignored)
 ├── tests/
 │   └── validator.test.js
 ├── .env.example
@@ -328,11 +423,24 @@ npm test -- validator       # Run specific test
 - [x] Markdown export
 - [x] CLI interface
 
-## Next Steps (Phase 2)
+## Phase 2 Checklist
 
-- [ ] Design Draft module
-- [ ] Component selection from blueprint
-- [ ] WordPress theme generation
+- [x] Pattern manifest schema (Zod)
+- [x] Pattern loader (manifests + templates)
+- [x] Design token generator (theme.json, tailwind.config)
+- [x] Template selector (AI recommendation)
+- [x] Content injector (blueprint → patterns)
+- [x] Theme assembler (full pipeline)
+- [x] Construction industry patterns (5 sections)
+- [x] Industrial-modern preset
+- [x] CLI interface (design.js)
+
+## Next Steps (Phase 3)
+
+- [ ] Additional industries (healthcare, retail, professional services)
+- [ ] Additional presets per industry
+- [ ] WordPress theme refinement (functions.php, style.css)
+- [ ] Visual preview generation
 - [ ] SaaS API endpoints
 
 ## Related Modules
