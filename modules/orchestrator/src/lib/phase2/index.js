@@ -13,6 +13,7 @@ export * from './html-preview-generator.js';
 export * from './stock-photos.js';
 export * from './anti-pattern-validator.js';
 export * from './theme-exporter.js';
+export * from './content-generator.js';
 
 // Convenience re-exports
 import { assembleTheme, previewThemeAssembly, generateComparisonAssembly } from './theme-assembler.js';

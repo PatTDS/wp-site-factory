@@ -11,6 +11,7 @@ import { selectBestPreset, getPatternConfigRecommendations, generateTemplateComp
 import { injectContentWithMapping, validateContent, generateContentSummary } from './content-injector.js';
 import { extractTokensFromBlueprint, generateThemeJson, generateTailwindConfig, generateCssVariables } from './design-tokens.js';
 import { generateHtmlPreview } from './html-preview-generator.js';
+import { generateBlueprintContent } from './content-generator.js';
 
 /**
  * Assemble complete theme data from blueprint
@@ -28,6 +29,7 @@ export async function assembleTheme(blueprint, options = {}) {
     preset: null,
     patterns: {},
     designTokens: null,
+    images: null, // Generated stock photos
     files: [],
     warnings: [],
     errors: [],
@@ -85,6 +87,54 @@ export async function assembleTheme(blueprint, options = {}) {
       };
 
       console.log(`   ${section}: ${summary.completeness}% complete`);
+    }
+
+    // Step 3.5: Generate stock photos (if enabled)
+    if (options.generateImages !== false) {
+      console.log('🖼️  Generating stock photos...');
+
+      try {
+        const industry = blueprint.client_profile?.company?.industry ||
+                        blueprint.industry ||
+                        'professional';
+
+        const patternCategories = Object.keys(result.patterns)
+          .filter(section => ['hero', 'about', 'services', 'testimonials', 'team', 'gallery'].includes(section));
+
+        if (patternCategories.length > 0) {
+          const contentResult = await generateBlueprintContent(blueprint, {
+            includeImages: true,
+            imagePatterns: patternCategories
+          });
+
+          result.images = contentResult.images;
+
+          // Add image URLs to pattern content
+          for (const [category, photos] of Object.entries(result.images)) {
+            if (result.patterns[category] && photos.length > 0) {
+              result.patterns[category].content.images = photos.map(photo => ({
+                url: photo.downloads.regular?.url || photo.downloads.small?.url,
+                path: photo.downloads.regular?.path || photo.downloads.small?.path,
+                description: photo.description,
+                attribution: photo.attribution
+              }));
+
+              // Set primary image for patterns that use one main image
+              if (['hero', 'about'].includes(category)) {
+                result.patterns[category].content.image_url = photos[0].downloads.regular?.url;
+                result.patterns[category].content.image_path = photos[0].downloads.regular?.path;
+              }
+            }
+          }
+
+          console.log(`   ✅ Generated photos for ${Object.keys(result.images).length} pattern(s)`);
+        } else {
+          console.log('   ⚠️  No compatible patterns found for image generation');
+        }
+      } catch (error) {
+        result.warnings.push(`Stock photo generation failed: ${error.message}`);
+        console.log(`   ⚠️  Stock photo generation failed: ${error.message}`);
+      }
     }
 
     // Step 4: Generate design tokens
@@ -196,9 +246,24 @@ export async function writeThemeFiles(assemblyResult, outputDir, blueprint = {})
           id: data.manifest.id,
           completeness: data.summary.completeness,
           config: data.config,
+          images: data.content.images?.length || 0,
         },
       ])
     ),
+    images: assemblyResult.images ? {
+      categories: Object.keys(assemblyResult.images),
+      totalPhotos: Object.values(assemblyResult.images).reduce((sum, photos) => sum + photos.length, 0),
+      details: Object.fromEntries(
+        Object.entries(assemblyResult.images).map(([category, photos]) => [
+          category,
+          photos.map(photo => ({
+            id: photo.id,
+            description: photo.description,
+            attribution: photo.attribution.text
+          }))
+        ])
+      )
+    } : null,
     designTokens: assemblyResult.designTokens.input,
     warnings: assemblyResult.warnings,
     generatedAt: new Date().toISOString(),
