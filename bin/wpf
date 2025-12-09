@@ -67,7 +67,12 @@ print_menu() {
     echo " 12. Run AI research"
     echo " 13. Manage blueprints"
     echo " 14. Review blueprint"
-    echo " 15. Help"
+    echo -e "${YELLOW}--- Phase 2: Design ---${NC}"
+    echo " 15. Generate theme from blueprint"
+    echo " 16. Generate HTML preview"
+    echo " 17. Compare templates"
+    echo " 18. List available presets"
+    echo " 19. Help"
     echo "  0. Exit"
     echo ""
 }
@@ -228,6 +233,56 @@ handle_selection() {
             esac
             ;;
         15)
+            # Phase 2: Generate Theme
+            echo ""
+            echo -e "${GREEN}Phase 2: Generate WordPress Theme${NC}"
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            read -p "Enter blueprint JSON path [examples/blueprint-anywhere-solutions.json]: " blueprint_path
+            blueprint_path=${blueprint_path:-examples/blueprint-anywhere-solutions.json}
+            read -p "Output directory [output/theme]: " output_dir
+            output_dir=${output_dir:-output/theme}
+            cd "$ORCHESTRATOR_DIR" && node src/commands/design.js generate "$blueprint_path" --output "$output_dir"
+            ;;
+        16)
+            # Phase 2: HTML Preview
+            echo ""
+            echo -e "${GREEN}Phase 2: Generate HTML Preview${NC}"
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            read -p "Enter blueprint JSON path [examples/blueprint-anywhere-solutions.json]: " blueprint_path
+            blueprint_path=${blueprint_path:-examples/blueprint-anywhere-solutions.json}
+            read -p "Output directory [output/preview]: " output_dir
+            output_dir=${output_dir:-output/preview}
+            read -p "Fetch stock photos? (y/n) [n]: " stock_photos
+            read -p "Show placeholder badges? (y/n) [n]: " show_badges
+
+            extra_args=""
+            [[ "$stock_photos" == "y" ]] && extra_args="$extra_args --stock-photos"
+            [[ "$show_badges" == "y" ]] && extra_args="$extra_args --show-badges"
+
+            cd "$ORCHESTRATOR_DIR" && node src/commands/design.js preview-html "$blueprint_path" --output "$output_dir" $extra_args
+            ;;
+        17)
+            # Phase 2: Compare Templates
+            echo ""
+            echo -e "${GREEN}Phase 2: Compare Templates${NC}"
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            read -p "Enter blueprint JSON path [examples/blueprint-anywhere-solutions.json]: " blueprint_path
+            blueprint_path=${blueprint_path:-examples/blueprint-anywhere-solutions.json}
+            cd "$ORCHESTRATOR_DIR" && node src/commands/design.js compare "$blueprint_path"
+            ;;
+        18)
+            # Phase 2: List Presets
+            echo ""
+            echo -e "${GREEN}Phase 2: Available Template Presets${NC}"
+            ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+            read -p "Filter by industry (press Enter for all): " industry
+            if [ -n "$industry" ]; then
+                cd "$ORCHESTRATOR_DIR" && node src/commands/design.js list-presets --industry "$industry"
+            else
+                cd "$ORCHESTRATOR_DIR" && node src/commands/design.js list-presets
+            fi
+            ;;
+        19)
             echo ""
             echo -e "${GREEN}WPF - WordPress Site Factory v0.2.0-beta${NC}"
             echo ""
@@ -262,7 +317,7 @@ handle_selection() {
             exit 0
             ;;
         *)
-            echo -e "${RED}Invalid option. Please select 0-15.${NC}"
+            echo -e "${RED}Invalid option. Please select 0-19.${NC}"
             ;;
     esac
 }
@@ -273,7 +328,7 @@ main_interactive() {
 
     while true; do
         print_menu
-        read -p "Select option (0-15): " choice
+        read -p "Select option (0-19): " choice
         handle_selection "$choice"
 
         if [ "$choice" != "0" ]; then
@@ -458,6 +513,42 @@ main() {
                     cd "$ORCHESTRATOR_DIR" && node src/cli/review.js "$@"
                 fi
                 ;;
+            design)
+                # Phase 2: Design command
+                ORCHESTRATOR_DIR="$WPF_ROOT/modules/orchestrator"
+                if [ ! -d "$ORCHESTRATOR_DIR" ]; then
+                    echo -e "${RED}Error: Orchestrator module not found${NC}"
+                    exit 1
+                fi
+                if [ -z "$1" ]; then
+                    echo -e "${GREEN}WPF Design - Phase 2 theme generation${NC}"
+                    echo ""
+                    echo "Usage: wpf design <command> [options]"
+                    echo ""
+                    echo "Commands:"
+                    echo "  generate <blueprint>         Generate WordPress theme from blueprint"
+                    echo "  preview <blueprint>          Preview theme assembly (dry run)"
+                    echo "  preview-html <blueprint>     Generate standalone HTML preview"
+                    echo "  compare <blueprint>          Compare A/B/C template options"
+                    echo "  tokens <blueprint>           Generate design tokens only"
+                    echo "  list-presets                 List available template presets"
+                    echo "  list-patterns <ind> <preset> List patterns in a preset"
+                    echo ""
+                    echo "Options:"
+                    echo "  --output <dir>          Output directory"
+                    echo "  --stock-photos          Fetch real images (preview-html)"
+                    echo "  --show-badges           Show [SAMPLE] badges (preview-html)"
+                    echo "  --industry <name>       Filter presets by industry"
+                    echo ""
+                    echo "Examples:"
+                    echo "  wpf design generate ./blueprint.json --output ./output/theme"
+                    echo "  wpf design preview-html ./blueprint.json --stock-photos"
+                    echo "  wpf design compare ./blueprint.json"
+                    echo "  wpf design list-presets --industry construction"
+                else
+                    cd "$ORCHESTRATOR_DIR" && node src/commands/design.js "$@"
+                fi
+                ;;
             help|-h|--help)
                 print_banner
                 echo -e "${GREEN}Usage:${NC} wpf [command] [options]"
@@ -502,6 +593,13 @@ main() {
                 echo "  research <type>      Run AI-powered research (best-practices|competitors|full)"
                 echo "  blueprint <cmd>      Generate/manage blueprints (generate|view|export)"
                 echo "  review <cmd>         Operator quality review (auto|start|status|report)"
+                echo ""
+                echo -e "${GREEN}Phase 2: Design Commands:${NC}"
+                echo "  design <cmd>         Theme generation (generate|preview|preview-html|compare)"
+                echo "                       generate: Full WordPress theme"
+                echo "                       preview-html: Standalone HTML preview (fastest)"
+                echo "                       compare: A/B/C template comparison"
+                echo "                       list-presets: Available templates"
                 echo ""
                 echo -e "${GREEN}Other:${NC}"
                 echo "  help                 Show this help message"
