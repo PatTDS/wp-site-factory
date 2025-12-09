@@ -6,9 +6,107 @@
  * - Fast iteration without WordPress
  * - Easy client sharing
  * - Design approval workflow
+ *
+ * Research-based Design Philosophy:
+ * - Avoid generic AI aesthetics (Inter, Roboto, purple gradients)
+ * - Use distinctive, characterful fonts per industry
+ * - Bold aesthetic directions with intentionality
+ * - CSS-first animations for high-impact moments
+ * - Staggered reveals create perceived quality
  */
 
 import stockPhotos from './stock-photos.js';
+
+/**
+ * Industry-specific font pairings
+ * Research: "Choose beautiful, unique, interesting fonts. AVOID generic fonts like Inter, Roboto."
+ * Each pairing has: display (headings) + body fonts with Google Fonts URL
+ */
+const INDUSTRY_FONTS = {
+  construction: {
+    display: 'DM Sans',
+    body: 'Source Sans 3',
+    weights: '400;500;600;700',
+    aesthetic: 'industrial',
+    url: 'family=DM+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600',
+  },
+  professional: {
+    display: 'Playfair Display',
+    body: 'Lato',
+    weights: '400;500;600;700',
+    aesthetic: 'editorial',
+    url: 'family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@400;500;600',
+  },
+  restaurant: {
+    display: 'Cormorant Garamond',
+    body: 'Nunito',
+    weights: '400;500;600;700',
+    aesthetic: 'elegant',
+    url: 'family=Cormorant+Garamond:wght@400;500;600;700&family=Nunito:wght@400;500;600',
+  },
+  healthcare: {
+    display: 'Poppins',
+    body: 'Open Sans',
+    weights: '400;500;600;700',
+    aesthetic: 'clean',
+    url: 'family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600',
+  },
+  technology: {
+    display: 'Space Grotesk',
+    body: 'IBM Plex Sans',
+    weights: '400;500;600;700',
+    aesthetic: 'modern',
+    url: 'family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600',
+  },
+  retail: {
+    display: 'Outfit',
+    body: 'Work Sans',
+    weights: '400;500;600;700',
+    aesthetic: 'contemporary',
+    url: 'family=Outfit:wght@400;500;600;700&family=Work+Sans:wght@400;500;600',
+  },
+  creative: {
+    display: 'Sora',
+    body: 'Plus Jakarta Sans',
+    weights: '400;500;600;700',
+    aesthetic: 'bold',
+    url: 'family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600',
+  },
+  // Default fallback - still distinctive, not Inter
+  default: {
+    display: 'Bricolage Grotesque',
+    body: 'Instrument Sans',
+    weights: '400;500;600;700',
+    aesthetic: 'distinctive',
+    url: 'family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600',
+  },
+};
+
+/**
+ * Get font pairing for industry
+ * Falls back to default if industry not found
+ */
+function getFontPairing(industry, customTypography = null) {
+  // If blueprint specifies fonts and they're not Inter/Roboto, use them
+  if (customTypography?.headings && customTypography?.body) {
+    const genericFonts = ['inter', 'roboto', 'arial', 'helvetica', 'system-ui', 'sans-serif'];
+    const isGenericHeading = genericFonts.some(f => customTypography.headings.toLowerCase().includes(f));
+    const isGenericBody = genericFonts.some(f => customTypography.body.toLowerCase().includes(f));
+
+    if (!isGenericHeading && !isGenericBody) {
+      return {
+        display: customTypography.headings,
+        body: customTypography.body,
+        url: `family=${encodeURIComponent(customTypography.headings)}:wght@400;500;600;700&family=${encodeURIComponent(customTypography.body)}:wght@400;500;600`,
+        aesthetic: 'custom',
+      };
+    }
+  }
+
+  // Map industry to font pairing
+  const normalizedIndustry = (industry || '').toLowerCase().trim();
+  return INDUSTRY_FONTS[normalizedIndustry] || INDUSTRY_FONTS.default;
+}
 
 /**
  * Generate complete HTML preview page
@@ -29,6 +127,9 @@ export async function generateHtmlPreview(assemblyResult, options = {}) {
   const colors = designTokens.input.colors;
   const typography = designTokens.input.typography;
   const industry = blueprint?.client_profile?.industry?.category || 'construction';
+
+  // Get distinctive font pairing based on industry (research: avoid Inter, Roboto)
+  const fonts = getFontPairing(industry, typography);
 
   // Fetch stock photos if enabled
   let stockImages = {};
@@ -56,10 +157,10 @@ export async function generateHtmlPreview(assemblyResult, options = {}) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title)}</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Industry-specific distinctive pairing (avoiding Inter/Roboto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=${encodeURIComponent(typography.headings)}:wght@400;500;600;700&family=${encodeURIComponent(typography.body)}:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?${fonts.url}&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -86,8 +187,14 @@ export async function generateHtmlPreview(assemblyResult, options = {}) {
                         },
                     },
                     fontFamily: {
-                        headings: ['${typography.headings}', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        body: ['${typography.body}', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        headings: ['${fonts.display}', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        body: ['${fonts.body}', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'slide-in-left': 'slideInLeft 0.6s ease-out forwards',
+                        'slide-in-right': 'slideInRight 0.6s ease-out forwards',
                     },
                 }
             }
@@ -95,11 +202,80 @@ export async function generateHtmlPreview(assemblyResult, options = {}) {
     </script>
 
     <style>
+        /* Research-based typography: distinctive fonts, not generic AI aesthetics */
         body {
-            font-family: '${typography.body}', ui-sans-serif, system-ui, sans-serif;
+            font-family: '${fonts.body}', ui-sans-serif, system-ui, sans-serif;
         }
         h1, h2, h3, h4, h5, h6 {
-            font-family: '${typography.headings}', ui-sans-serif, system-ui, sans-serif;
+            font-family: '${fonts.display}', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        /* Animation keyframes - CSS-first approach for high-impact moments */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Staggered reveal utilities - one well-orchestrated page load creates more delight */
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+
+        /* Background treatments - create atmosphere and depth */
+        .gradient-overlay {
+            position: relative;
+        }
+        .gradient-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%);
+            z-index: 1;
+        }
+        .gradient-overlay > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Subtle grain texture for depth */
+        .grain-texture::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Card hover effects - micro-interactions */
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
         /* Preview metadata overlay */
@@ -197,11 +373,11 @@ export async function generateHtmlPreview(assemblyResult, options = {}) {
 </head>
 <body class="font-body text-gray-900 bg-white">
 
-${includeNavigation ? generateNavigation(patterns, colors) : ''}
+${includeNavigation ? generateNavigation(patterns, colors, blueprint) : ''}
 
 ${renderedSections}
 
-${generateFooter(patterns, colors)}
+${generateFooter(patterns, colors, blueprint)}
 
 <!-- Placeholder Toggle Button -->
 <button class="placeholder-toggle" onclick="document.body.classList.toggle('show-placeholders'); this.textContent = document.body.classList.contains('show-placeholders') ? 'Hide Sample Badges' : 'Show Sample Badges';">
@@ -224,9 +400,14 @@ ${generateFooter(patterns, colors)}
 /**
  * Generate navigation header
  */
-function generateNavigation(patterns, colors) {
+function generateNavigation(patterns, colors, blueprint = {}) {
   const heroContent = patterns.hero?.content || {};
   const contactContent = patterns.contact?.content || {};
+
+  // Get company name from multiple possible sources
+  const companyName = blueprint?.client_profile?.company?.name ||
+                      heroContent.company_name ||
+                      'Company Name';
 
   return `
 <!-- Navigation -->
@@ -235,7 +416,7 @@ function generateNavigation(patterns, colors) {
         <div class="flex items-center justify-between h-16 lg:h-20">
             <!-- Logo -->
             <a href="#" class="text-xl lg:text-2xl font-bold text-primary">
-                ${escapeHtml(heroContent.company_name || 'Company Name')}
+                ${escapeHtml(companyName)}
             </a>
 
             <!-- Navigation Links -->
@@ -323,47 +504,50 @@ function renderHeroSection(content, config, colors, includePlaceholderImages, st
   const srcset = imageData ? stockPhotos.generateSrcset(imageData) : '';
 
   return `
-<!-- HERO SECTION -->
-<section id="hero" class="min-h-[70vh] flex items-center bg-gradient-to-br from-gray-50 to-white">
-    <div class="container mx-auto px-4 py-16 lg:py-24">
+<!-- HERO SECTION - Research: bold aesthetic direction with staggered reveals -->
+<section id="hero" class="min-h-[70vh] flex items-center bg-gradient-to-br from-gray-50 via-white to-primary-50/30 relative overflow-hidden">
+    <!-- Subtle background pattern for depth -->
+    <div class="absolute inset-0 opacity-[0.02]" style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0); background-size: 40px 40px;"></div>
+
+    <div class="container mx-auto px-4 py-16 lg:py-24 relative">
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
-            <!-- Content Side -->
+            <!-- Content Side - Staggered reveal animation -->
             <div class="space-y-6 lg:space-y-8">
                 ${showTagline && content.tagline ? `
-                <p class="text-sm font-semibold uppercase tracking-wider text-secondary">
+                <p class="text-sm font-semibold uppercase tracking-wider text-secondary animate-on-scroll delay-100">
                     ${escapeHtml(content.tagline)}
                 </p>
                 ` : ''}
 
-                <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold text-primary leading-tight">
+                <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold text-primary leading-tight animate-on-scroll delay-200">
                     ${escapeHtml(content.headline || 'Your Compelling Headline Here')}
                 </h1>
 
                 ${content.subheadline ? `
-                <p class="text-lg lg:text-xl text-gray-600 max-w-xl">
+                <p class="text-lg lg:text-xl text-gray-600 max-w-xl animate-on-scroll delay-300">
                     ${escapeHtml(content.subheadline)}
                 </p>
                 ` : ''}
 
-                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row gap-4 pt-4 animate-on-scroll delay-400">
                     <a href="${escapeHtml(content.cta_primary_url || '#contact')}"
-                       class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors text-center shadow-lg shadow-primary/25">
+                       class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 transition-all duration-300 text-center shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5">
                         ${escapeHtml(content.cta_primary_text || 'Get Started')}
                     </a>
 
                     ${showSecondaryCta && content.cta_secondary_text ? `
                     <a href="${escapeHtml(content.cta_secondary_url || '#services')}"
-                       class="inline-flex items-center justify-center px-8 py-4 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-colors text-center">
+                       class="inline-flex items-center justify-center px-8 py-4 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300 text-center hover:-translate-y-0.5">
                         ${escapeHtml(content.cta_secondary_text)}
                     </a>
                     ` : ''}
                 </div>
             </div>
 
-            <!-- Image Side -->
-            <div class="${imageOrder}">
-                <div class="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden shadow-2xl placeholder-container">
+            <!-- Image Side - with enhanced shadow and animation -->
+            <div class="${imageOrder} animate-on-scroll delay-300">
+                <div class="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden shadow-2xl placeholder-container ring-1 ring-black/5">
                     ${imageSrc ? `
                     <img src="${escapeHtml(imageSrc)}"
                          ${srcset ? `srcset="${srcset}"` : ''}
@@ -409,9 +593,10 @@ function renderServicesSection(content, config, colors) {
     '4': 'md:grid-cols-2 lg:grid-cols-4',
   }[columns] || 'md:grid-cols-3';
 
+  // Enhanced card classes with hover effects and animations
   const cardClasses = cardStyle === 'elevated'
-    ? 'bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 lg:p-8'
-    : 'bg-gray-50 rounded-xl p-6 lg:p-8 hover:bg-gray-100 transition-colors';
+    ? 'bg-white rounded-xl shadow-lg p-6 lg:p-8 card-hover'
+    : 'bg-gray-50 rounded-xl p-6 lg:p-8 hover:bg-gray-100 transition-all duration-300 card-hover';
 
   // Service icons (simple SVG placeholders)
   const icons = [
@@ -422,26 +607,26 @@ function renderServicesSection(content, config, colors) {
   ];
 
   return `
-<!-- SERVICES SECTION -->
-<section id="services" class="py-16 lg:py-24 bg-gray-50">
+<!-- SERVICES SECTION - Research: staggered reveals for visual interest -->
+<section id="services" class="py-16 lg:py-24 bg-gradient-to-b from-gray-50 to-white relative">
     <div class="container mx-auto px-4">
 
-        <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+        <!-- Section Header with animation -->
+        <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16 animate-on-scroll">
             <h2 class="text-3xl lg:text-4xl font-bold text-primary mb-4">
-                ${escapeHtml(content.headline || 'Our Services')}
+                ${escapeHtml(content.section_title || content.headline || 'Our Services')}
             </h2>
-            ${content.intro ? `
+            ${(content.section_description || content.intro) ? `
             <p class="text-lg text-gray-600">
-                ${escapeHtml(content.intro)}
+                ${escapeHtml(content.section_description || content.intro)}
             </p>
             ` : ''}
         </div>
 
-        <!-- Services Grid -->
+        <!-- Services Grid with staggered card animations -->
         <div class="grid ${gridCols} gap-6 lg:gap-8">
             ${services.map((service, index) => `
-            <div class="${cardClasses}">
+            <div class="${cardClasses} animate-on-scroll delay-${Math.min((index + 1) * 100, 800)}">
                 ${showIcons ? `
                 <div class="text-primary mb-4">
                     ${icons[index % icons.length]}
@@ -511,13 +696,15 @@ function renderAboutSection(content, config, colors, includePlaceholderImages, s
   const features = content.features || content.values || [];
 
   return `
-<!-- ABOUT SECTION -->
-<section id="about" class="py-16 lg:py-24 bg-white">
-    <div class="container mx-auto px-4">
+<!-- ABOUT SECTION - Research: asymmetric layouts with staggered reveals -->
+<section id="about" class="py-16 lg:py-24 bg-gradient-to-br from-white via-gray-50/50 to-white relative overflow-hidden">
+    <!-- Subtle decorative element for depth -->
+    <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/[0.02] to-transparent"></div>
+    <div class="container mx-auto px-4 relative">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-            <!-- Image Side -->
-            <div class="${imageOrder}">
+            <!-- Image Side with slide-in animation -->
+            <div class="${imageOrder} animate-on-scroll ${imageOrder ? 'delay-200' : 'delay-100'}" style="animation-name: ${imageOrder ? 'slideInRight' : 'slideInLeft'};">
                 <div class="relative">
                     <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl placeholder-container">
                         ${imageSrc ? `
@@ -547,22 +734,22 @@ function renderAboutSection(content, config, colors, includePlaceholderImages, s
                 </div>
             </div>
 
-            <!-- Content Side -->
+            <!-- Content Side with staggered animations -->
             <div class="space-y-6">
-                <h2 class="text-3xl lg:text-4xl font-bold text-primary">
+                <h2 class="text-3xl lg:text-4xl font-bold text-primary animate-on-scroll delay-200">
                     ${escapeHtml(content.headline || 'About Our Company')}
                 </h2>
 
                 ${content.story ? `
-                <div class="prose prose-lg text-gray-600">
+                <div class="prose prose-lg text-gray-600 animate-on-scroll delay-300">
                     ${content.story.split('\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
                 </div>
                 ` : ''}
 
                 ${showFeatures && features.length > 0 ? `
-                <div class="grid sm:grid-cols-2 gap-4 pt-4">
-                    ${features.slice(0, 4).map(feature => `
-                    <div class="flex items-start space-x-3">
+                <div class="grid sm:grid-cols-2 gap-4 pt-4 animate-on-scroll delay-400">
+                    ${features.slice(0, 4).map((feature, idx) => `
+                    <div class="flex items-start space-x-3 transition-transform duration-300 hover:translate-x-1">
                         <div class="flex-shrink-0 w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center">
                             <svg class="w-4 h-4 text-secondary" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
@@ -575,8 +762,8 @@ function renderAboutSection(content, config, colors, includePlaceholderImages, s
                 ` : ''}
 
                 ${showCta ? `
-                <div class="pt-4">
-                    <a href="#contact" class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors">
+                <div class="pt-4 animate-on-scroll delay-500">
+                    <a href="#contact" class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 transform hover:-translate-y-0.5">
                         ${escapeHtml(content.cta_text || 'Learn More About Us')}
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -615,12 +802,17 @@ function renderTestimonialsSection(content, config, colors) {
   };
 
   return `
-<!-- TESTIMONIALS SECTION -->
-<section id="testimonials" class="py-16 lg:py-24 bg-gray-50">
-    <div class="container mx-auto px-4">
+<!-- TESTIMONIALS SECTION - Research: social proof with visual hierarchy -->
+<section id="testimonials" class="py-16 lg:py-24 bg-gradient-to-b from-gray-50 via-gray-100/50 to-gray-50 relative">
+    <!-- Decorative quote marks background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-10 left-10 text-[200px] font-serif text-primary/[0.03] leading-none">"</div>
+        <div class="absolute bottom-10 right-10 text-[200px] font-serif text-primary/[0.03] leading-none rotate-180">"</div>
+    </div>
+    <div class="container mx-auto px-4 relative">
 
-        <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+        <!-- Section Header with animation -->
+        <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16 animate-on-scroll">
             <h2 class="text-3xl lg:text-4xl font-bold text-primary mb-4">
                 ${escapeHtml(content.headline || 'What Our Clients Say')}
             </h2>
@@ -631,10 +823,10 @@ function renderTestimonialsSection(content, config, colors) {
             ` : ''}
         </div>
 
-        <!-- Testimonials Grid -->
+        <!-- Testimonials Grid with staggered card animations -->
         <div class="grid ${gridCols} gap-6 lg:gap-8">
             ${testimonials.map((testimonial, index) => `
-            <div class="bg-white rounded-xl shadow-lg p-6 lg:p-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 lg:p-8 card-hover animate-on-scroll delay-${Math.min((index + 1) * 100, 600)}">
                 ${showRating ? `
                 <div class="flex items-center mb-4">
                     ${Array(5).fill(0).map((_, i) => `
@@ -693,12 +885,19 @@ function renderContactSection(content, config, colors) {
   const socialLinks = content.social_links || [];
 
   return `
-<!-- CONTACT SECTION -->
-<section id="contact" class="py-16 lg:py-24 ${bgClass}">
-    <div class="container mx-auto px-4">
+<!-- CONTACT SECTION - Research: clear call-to-action with visual hierarchy -->
+<section id="contact" class="py-16 lg:py-24 ${bgClass} relative overflow-hidden">
+    <!-- Decorative background elements -->
+    ${background !== 'dark' ? `
+    <div class="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-primary/[0.02] to-transparent"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-secondary/[0.03] rounded-full blur-3xl"></div>
+    ` : `
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/[0.03] rounded-full blur-3xl"></div>
+    `}
+    <div class="container mx-auto px-4 relative">
 
-        <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+        <!-- Section Header with animation -->
+        <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16 animate-on-scroll">
             <h2 class="text-3xl lg:text-4xl font-bold ${headingClass} mb-4">
                 ${escapeHtml(content.headline || 'Get In Touch')}
             </h2>
@@ -711,8 +910,8 @@ function renderContactSection(content, config, colors) {
 
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
 
-            <!-- Contact Info -->
-            <div class="space-y-8">
+            <!-- Contact Info with slide-in animation -->
+            <div class="space-y-8 animate-on-scroll delay-100" style="animation-name: slideInLeft;">
                 <div>
                     <h3 class="text-xl font-bold ${headingClass} mb-4">Contact Information</h3>
                     <div class="space-y-4">
@@ -784,8 +983,8 @@ function renderContactSection(content, config, colors) {
                 ` : ''}
             </div>
 
-            <!-- Contact Form -->
-            <div class="${background === 'dark' ? 'bg-white rounded-2xl p-8' : 'bg-gray-50 rounded-2xl p-8'}">
+            <!-- Contact Form with slide-in animation -->
+            <div class="${background === 'dark' ? 'bg-white rounded-2xl p-8' : 'bg-gray-50 rounded-2xl p-8'} animate-on-scroll delay-200 card-hover" style="animation-name: slideInRight;">
                 <h3 class="text-xl font-bold text-primary mb-6">Send Us a Message</h3>
                 <form class="space-y-4">
                     <div class="grid md:grid-cols-2 gap-4">
@@ -811,7 +1010,7 @@ function renderContactSection(content, config, colors) {
                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
                     </div>
                     <button type="submit"
-                            class="w-full px-6 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors">
+                            class="w-full px-6 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-600 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
                         Send Message
                     </button>
                 </form>
@@ -826,19 +1025,29 @@ function renderContactSection(content, config, colors) {
 /**
  * Generate footer
  */
-function generateFooter(patterns, colors) {
+function generateFooter(patterns, colors, blueprint = {}) {
   const heroContent = patterns.hero?.content || {};
   const contactContent = patterns.contact?.content || {};
 
+  // Get company name from multiple sources
+  const companyName = blueprint?.client_profile?.company?.name ||
+                      heroContent.company_name ||
+                      'Company Name';
+  const tagline = blueprint?.client_profile?.company?.tagline ||
+                  heroContent.subheadline ||
+                  'Your trusted partner for quality services.';
+
   return `
-<!-- FOOTER -->
-<footer class="bg-gray-900 text-white py-12">
-    <div class="container mx-auto px-4">
+<!-- FOOTER - Research: clean, professional close with subtle branding -->
+<footer class="bg-gradient-to-b from-gray-900 to-gray-950 text-white py-12 relative overflow-hidden">
+    <!-- Subtle decorative element -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="container mx-auto px-4 relative">
         <div class="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-                <h3 class="text-xl font-bold mb-4">${escapeHtml(heroContent.company_name || 'Company Name')}</h3>
+                <h3 class="text-xl font-bold mb-4">${escapeHtml(companyName)}</h3>
                 <p class="text-gray-400">
-                    ${escapeHtml(heroContent.subheadline || 'Your trusted partner for quality services.')}
+                    ${escapeHtml(tagline)}
                 </p>
             </div>
             <div>
@@ -860,7 +1069,7 @@ function generateFooter(patterns, colors) {
             </div>
         </div>
         <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
-            <p>&copy; ${new Date().getFullYear()} ${escapeHtml(heroContent.company_name || 'Company')}. All rights reserved.</p>
+            <p>&copy; ${new Date().getFullYear()} ${escapeHtml(companyName)}. All rights reserved.</p>
             <p class="text-sm mt-2">Preview generated by WPF Site Factory</p>
         </div>
     </div>
@@ -941,7 +1150,7 @@ async function fetchStockPhotosForSections(patterns, industry, blueprint) {
     stockImages.services = {};
 
     const services = patterns.services.content.services;
-    for (let i = 0; i < Math.min(services.length, 4); i++) {
+    for (let i = 0; i < Math.min(services.length, 12); i++) {
       const service = services[i];
       const keywords = service.image_keywords || [service.name, industry];
       const result = await stockPhotos.findImageWithCache(keywords, industry, `service-${i}`);

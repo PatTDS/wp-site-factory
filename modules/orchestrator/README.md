@@ -24,7 +24,8 @@ The Orchestrator module powers WPF (WordPress Site Factory), providing a complet
 - **Content Injection** - Maps blueprint data to pattern content slots
 - **Theme Assembly** - Generates complete WordPress hybrid theme files
 - **HTML Preview** - Standalone HTML preview with Tailwind CDN for fast iteration
-- **Stock Photos** - Unsplash/Pexels integration for realistic previews (in progress)
+- **Stock Photos** - Unsplash/Pexels integration for realistic previews
+- **Research-Based Design** - Industry-specific fonts, animations, and micro-interactions (NEW)
 
 ## Quick Start
 
@@ -442,10 +443,60 @@ npm test -- validator       # Run specific test
 - [x] Industrial-modern preset
 - [x] CLI interface (design.js)
 - [x] HTML preview generation (Tailwind CDN)
-- [ ] Stock photo integration (Unsplash/Pexels)
+- [x] Stock photo integration (Unsplash/Pexels)
+- [x] Research-based design system (fonts, animations, micro-interactions)
 - [ ] AI-generated testimonials from partner data
 - [ ] Responsive image srcset generation
 - [ ] Placeholder toggle for sample content
+
+## Research-Based Design System
+
+The HTML preview generator implements best practices from Claude Code web design research to avoid generic "AI slop" aesthetics.
+
+### Industry-Specific Font Pairings
+
+Instead of generic fonts (Inter, Roboto, Arial), the system selects distinctive fonts per industry:
+
+| Industry | Display Font | Body Font | Aesthetic |
+|----------|-------------|-----------|-----------|
+| Construction | DM Sans | Source Sans 3 | Industrial |
+| Professional | Playfair Display | Lato | Editorial |
+| Restaurant | Cormorant Garamond | Nunito | Elegant |
+| Healthcare | Poppins | Open Sans | Clean |
+| Technology | Space Grotesk | IBM Plex Sans | Modern |
+| Retail | Outfit | Work Sans | Contemporary |
+| Creative | Sora | Plus Jakarta Sans | Bold |
+| Default | Bricolage Grotesque | Instrument Sans | Distinctive |
+
+### CSS Animations
+
+- **Staggered reveals** - Elements animate in sequence (delay-100 through delay-800)
+- **Slide animations** - slideInLeft/slideInRight for asymmetric layouts
+- **Card hover effects** - Transform + shadow micro-interactions
+- **Button interactions** - Lift effect with colored shadows
+
+### Background Treatments
+
+- **Gradient backgrounds** - Subtle gradients for depth (not flat colors)
+- **Decorative elements** - Blurred shapes, patterns, quote marks
+- **Visual hierarchy** - Dominant colors with sharp accents
+
+### Section Enhancements
+
+| Section | Enhancements |
+|---------|-------------|
+| Hero | Background pattern, staggered content reveals |
+| Services | Gradient background, animated cards with stagger |
+| About | Slide-in animations, decorative gradient |
+| Testimonials | Decorative quote marks, card-hover effects |
+| Contact | Slide-in form/info, blurred decorative shapes |
+| Footer | Gradient background, subtle top border accent |
+
+### Reference
+
+Based on research in:
+- `wordpress-knowledge-base/tools/ref-claude-code-web-design-best-practices.md`
+- `wordpress-knowledge-base/tools/howto-claude-code-web-design-implementation.md`
 
 ## Next Steps (Phase 2B - Realistic Preview)
 
