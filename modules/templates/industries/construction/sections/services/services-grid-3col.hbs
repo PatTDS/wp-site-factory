@@ -1,0 +1,68 @@
+<section id="services" class="services services--grid-3col" data-section="services">
+  <div class="services__container container">
+    {{#if tagline}}
+    <p class="services__tagline">{{tagline}}</p>
+    {{/if}}
+
+    <h2 class="services__headline">{{headline}}</h2>
+
+    {{#if subheadline}}
+    <p class="services__subheadline">{{subheadline}}</p>
+    {{/if}}
+
+    <div class="services__grid">
+      {{#each services}}
+      <article class="service-card">
+        {{#if this.icon}}
+        <div class="service-card__icon">
+          {{{this.icon}}}
+        </div>
+        {{else}}
+        <div class="service-card__icon service-card__icon--default">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect width="48" height="48" rx="8" fill="currentColor" opacity="0.1"/>
+            <path d="M24 16V32M16 24H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        {{/if}}
+
+        <h3 class="service-card__title">{{this.name}}</h3>
+
+        {{#if this.description}}
+        <p class="service-card__description">{{this.description}}</p>
+        {{/if}}
+
+        {{#if this.features}}
+        <ul class="service-card__features">
+          {{#each this.features}}
+          <li class="service-card__feature">
+            <svg class="service-card__check" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M13.5 4.5L6.5 11.5L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {{this}}
+          </li>
+          {{/each}}
+        </ul>
+        {{/if}}
+
+        {{#if this.cta_text}}
+        <a href="{{default this.cta_url '#contact'}}" class="service-card__link">
+          {{this.cta_text}}
+          <svg class="service-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        {{/if}}
+      </article>
+      {{/each}}
+    </div>
+
+    {{#if cta_text}}
+    <div class="services__cta">
+      <a href="{{default cta_url '#contact'}}" class="btn btn--primary btn--large">
+        {{cta_text}}
+      </a>
+    </div>
+    {{/if}}
+  </div>
+</section>

@@ -1,0 +1,120 @@
+{
+  "$schema": "../../../../schemas/template-rules.schema.json",
+  "section": "stats",
+  "variant": "stats-dark-animated",
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Dark background stats section with animated number counters. Displays 4-6 key metrics with optional prefix/suffix formatting.",
+
+  "blueprint_mapping": {
+    "required": [
+      {
+        "path": "content_drafts.stats.items",
+        "template_var": "stats",
+        "description": "Array of stat objects with value and label"
+      }
+    ],
+    "optional": [
+      {
+        "path": "content_drafts.stats.headline",
+        "template_var": "headline",
+        "description": "Section headline"
+      },
+      {
+        "path": "content_drafts.stats.subheadline",
+        "template_var": "subheadline",
+        "description": "Supporting text"
+      }
+    ]
+  },
+
+  "stat_item_schema": {
+    "required": ["value", "label"],
+    "optional": ["prefix", "suffix", "description"],
+    "examples": [
+      { "value": "25", "suffix": "+", "label": "Years Experience" },
+      { "value": "500", "suffix": "+", "label": "Projects Completed" },
+      { "prefix": "$", "value": "50", "suffix": "M+", "label": "Project Value" },
+      { "value": "98", "suffix": "%", "label": "Client Satisfaction" }
+    ]
+  },
+
+  "adaptive_rules": {
+    "stats": {
+      "min_items": 2,
+      "max_items": 6,
+      "optimal_items": 4,
+      "grid_behavior": "2 cols mobile, 4 cols tablet+",
+      "notes": "4 stats is optimal for visual balance"
+    },
+    "value": {
+      "max_chars": 6,
+      "notes": "Keep values short (e.g., '500+', '$50M')"
+    },
+    "label": {
+      "max_chars": 25,
+      "overflow_strategy": "wrap"
+    }
+  },
+
+  "design_tokens": {
+    "uses": [
+      "colors.primary",
+      "colors.secondary",
+      "spacing.*"
+    ],
+    "overrides": {
+      "background": "Uses primary color as dark background",
+      "text": "White text for contrast"
+    }
+  },
+
+  "responsive_behavior": {
+    "mobile": {
+      "breakpoint": "< 768px",
+      "columns": 2,
+      "value_size": "2.5rem"
+    },
+    "tablet": {
+      "breakpoint": ">= 768px",
+      "columns": 4,
+      "value_size": "3.5rem"
+    },
+    "desktop": {
+      "breakpoint": ">= 1024px",
+      "columns": 4,
+      "value_size": "4rem"
+    }
+  },
+
+  "accessibility": {
+    "semantic_element": "section",
+    "heading_level": "h2",
+    "animation_notes": "Respects prefers-reduced-motion"
+  },
+
+  "llm_instructions": {
+    "DO": [
+      "Extract stats array from content_drafts.stats.items",
+      "Include prefix/suffix for formatting (e.g., '$', '%', '+')",
+      "Keep stat values concise",
+      "Use 4 stats for optimal visual balance"
+    ],
+    "DO_NOT": [
+      "Add more than 6 stats",
+      "Use very long labels",
+      "Modify animation timings",
+      "Change dark background color"
+    ],
+    "HANDLE_MISSING": [
+      "If no headline: Don't render .stats__headline",
+      "If no subheadline: Don't render .stats__subheadline",
+      "If no prefix: Don't render .stat-item__prefix",
+      "If no suffix: Don't render .stat-item__suffix"
+    ]
+  },
+
+  "testing": {
+    "test_data_file": "stats-dark-animated.test.json"
+  }
+}

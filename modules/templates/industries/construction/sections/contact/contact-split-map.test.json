@@ -1,0 +1,92 @@
+{
+  "$schema": "../../../../schemas/test-data.schema.json",
+  "section": "contact",
+  "variant": "contact-split-map",
+  "version": "1.0.0",
+
+  "test_cases": {
+    "minimal": {
+      "description": "Only headline and form",
+      "data": {
+        "headline": "Contact Us"
+      }
+    },
+
+    "typical": {
+      "description": "Full contact section with company info",
+      "data": {
+        "tagline": "Get In Touch",
+        "headline": "Let's Discuss Your Project",
+        "subheadline": "Ready to start your next construction project? Get in touch with our team today.",
+        "submit_text": "Send Message",
+        "address": "123 Construction Way, Sydney NSW 2000",
+        "phone": "+61 2 1234 5678",
+        "email": "info@anywheresolutions.com.au",
+        "hours": "Mon-Fri: 7:00 AM - 5:00 PM",
+        "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.8!2d151.2!3d-33.86!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2sau!4v1"
+      }
+    },
+
+    "maximal": {
+      "description": "All fields including service dropdown",
+      "data": {
+        "tagline": "Contact",
+        "headline": "Ready to Start Your Project?",
+        "subheadline": "Fill out the form below and one of our team members will get back to you within 24 hours.",
+        "submit_text": "Request a Quote",
+        "address": "123 Construction Way, Sydney NSW 2000, Australia",
+        "phone": "+61 2 1234 5678",
+        "email": "projects@anywheresolutions.com.au",
+        "hours": "Monday - Friday: 7:00 AM - 5:00 PM\nSaturday: 8:00 AM - 12:00 PM",
+        "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.8!2d151.2!3d-33.86!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2sau!4v1",
+        "show_service_select": true,
+        "services": [
+          "Commercial Construction",
+          "Industrial Projects",
+          "Precast Concrete",
+          "Steel Fabrication",
+          "Project Management",
+          "Renovations",
+          "Other"
+        ]
+      }
+    },
+
+    "no_map": {
+      "description": "Contact section without map embed",
+      "data": {
+        "headline": "Contact Our Team",
+        "subheadline": "We'd love to hear from you.",
+        "address": "123 Main Street, City",
+        "phone": "+1 234 567 8900",
+        "email": "contact@example.com"
+      }
+    },
+
+    "with_services": {
+      "description": "Contact section with service dropdown",
+      "data": {
+        "headline": "Get a Quote",
+        "subheadline": "Tell us about your project and we'll provide a free estimate.",
+        "phone": "+61 2 1234 5678",
+        "email": "quotes@anywheresolutions.com.au",
+        "show_service_select": true,
+        "services": [
+          "New Construction",
+          "Renovation",
+          "Consultation",
+          "Maintenance"
+        ]
+      }
+    },
+
+    "minimal_info": {
+      "description": "Only phone and email, no address or hours",
+      "data": {
+        "headline": "Get In Touch",
+        "phone": "+61 2 1234 5678",
+        "email": "hello@example.com"
+      }
+    }
+  }
+}

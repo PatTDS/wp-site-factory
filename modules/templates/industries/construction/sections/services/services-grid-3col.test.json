@@ -1,0 +1,183 @@
+{
+  "$schema": "../../../../schemas/test-data.schema.json",
+  "section": "services",
+  "variant": "services-grid-3col",
+  "version": "1.0.0",
+
+  "test_cases": {
+    "minimal": {
+      "description": "Three services with only required fields",
+      "data": {
+        "headline": "Our Services",
+        "services": [
+          { "name": "Commercial Construction" },
+          { "name": "Industrial Projects" },
+          { "name": "Renovations" }
+        ]
+      }
+    },
+
+    "typical": {
+      "description": "Six services with descriptions",
+      "data": {
+        "tagline": "What We Do",
+        "headline": "Comprehensive Construction Services",
+        "subheadline": "From ground-breaking to handover, we deliver excellence at every stage.",
+        "services": [
+          {
+            "name": "Commercial Construction",
+            "description": "Full-service commercial building construction for offices, retail spaces, and mixed-use developments.",
+            "cta_text": "Learn More",
+            "cta_url": "#commercial"
+          },
+          {
+            "name": "Industrial Projects",
+            "description": "Specialized industrial construction including warehouses, factories, and distribution centers.",
+            "cta_text": "Learn More",
+            "cta_url": "#industrial"
+          },
+          {
+            "name": "Renovations & Fit-outs",
+            "description": "Transform existing spaces with our expert renovation and fit-out services.",
+            "cta_text": "Learn More",
+            "cta_url": "#renovations"
+          },
+          {
+            "name": "Project Management",
+            "description": "End-to-end project management ensuring on-time, on-budget delivery.",
+            "cta_text": "Learn More",
+            "cta_url": "#management"
+          },
+          {
+            "name": "Design & Build",
+            "description": "Integrated design and construction services for seamless project delivery.",
+            "cta_text": "Learn More",
+            "cta_url": "#design-build"
+          },
+          {
+            "name": "Maintenance Services",
+            "description": "Ongoing maintenance and facility management to protect your investment.",
+            "cta_text": "Learn More",
+            "cta_url": "#maintenance"
+          }
+        ],
+        "cta_text": "Get a Free Quote",
+        "cta_url": "#contact"
+      }
+    },
+
+    "maximal": {
+      "description": "Nine services with all optional fields",
+      "data": {
+        "tagline": "Expert Solutions",
+        "headline": "Full Range of Professional Construction Services",
+        "subheadline": "Whatever your construction needs, our experienced team delivers quality results on time and within budget.",
+        "services": [
+          {
+            "name": "Commercial Construction",
+            "description": "Complete commercial building solutions from concept to completion.",
+            "features": ["Office buildings", "Retail centers", "Mixed-use developments", "Healthcare facilities"],
+            "cta_text": "View Projects",
+            "cta_url": "#commercial"
+          },
+          {
+            "name": "Industrial Projects",
+            "description": "Heavy industrial construction for demanding environments.",
+            "features": ["Warehouses", "Manufacturing plants", "Distribution centers", "Cold storage"],
+            "cta_text": "View Projects",
+            "cta_url": "#industrial"
+          },
+          {
+            "name": "Precast Concrete",
+            "description": "Custom precast concrete solutions for structural and architectural applications.",
+            "features": ["Structural panels", "Architectural facades", "Retaining walls", "Custom elements"],
+            "cta_text": "Learn More",
+            "cta_url": "#precast"
+          },
+          {
+            "name": "Steel Fabrication",
+            "description": "Precision steel fabrication and erection services.",
+            "features": ["Structural steel", "Architectural metalwork", "Industrial equipment", "Custom fabrication"],
+            "cta_text": "Learn More",
+            "cta_url": "#steel"
+          },
+          {
+            "name": "Site Development",
+            "description": "Complete site preparation and civil works.",
+            "features": ["Earthworks", "Drainage systems", "Road construction", "Utility installation"],
+            "cta_text": "Learn More",
+            "cta_url": "#site-development"
+          },
+          {
+            "name": "Project Management",
+            "description": "Professional project management for complex builds.",
+            "features": ["Schedule management", "Cost control", "Quality assurance", "Risk mitigation"],
+            "cta_text": "Learn More",
+            "cta_url": "#management"
+          },
+          {
+            "name": "Design & Build",
+            "description": "Single-source responsibility for design and construction.",
+            "features": ["Concept design", "Engineering", "Construction", "Handover"],
+            "cta_text": "Learn More",
+            "cta_url": "#design-build"
+          },
+          {
+            "name": "Renovations",
+            "description": "Expert renovation and refurbishment services.",
+            "features": ["Office fit-outs", "Retail upgrades", "Facade renewal", "Seismic strengthening"],
+            "cta_text": "Learn More",
+            "cta_url": "#renovations"
+          },
+          {
+            "name": "Maintenance",
+            "description": "Preventive and reactive maintenance programs.",
+            "features": ["Scheduled maintenance", "Emergency repairs", "Asset management", "Compliance inspections"],
+            "cta_text": "Learn More",
+            "cta_url": "#maintenance"
+          }
+        ],
+        "cta_text": "Discuss Your Project",
+        "cta_url": "#contact"
+      }
+    },
+
+    "few_items": {
+      "description": "Only two services - tests grid adaptation",
+      "data": {
+        "headline": "Our Core Services",
+        "services": [
+          {
+            "name": "Commercial Construction",
+            "description": "Professional commercial building services for businesses of all sizes."
+          },
+          {
+            "name": "Industrial Projects",
+            "description": "Specialized industrial construction and manufacturing facility development."
+          }
+        ]
+      }
+    },
+
+    "many_items": {
+      "description": "Twelve services - tests grid overflow",
+      "data": {
+        "headline": "Complete Construction Solutions",
+        "services": [
+          { "name": "Commercial Construction", "description": "Office and retail construction." },
+          { "name": "Industrial Projects", "description": "Warehouse and factory construction." },
+          { "name": "Precast Concrete", "description": "Custom precast solutions." },
+          { "name": "Steel Fabrication", "description": "Structural steel services." },
+          { "name": "Site Development", "description": "Civil and earthworks." },
+          { "name": "Project Management", "description": "Professional PM services." },
+          { "name": "Design & Build", "description": "Integrated delivery." },
+          { "name": "Renovations", "description": "Fit-out and refurbishment." },
+          { "name": "Maintenance", "description": "Facility maintenance." },
+          { "name": "Consulting", "description": "Expert construction consulting." },
+          { "name": "Safety Services", "description": "WHS compliance services." },
+          { "name": "Sustainability", "description": "Green building solutions." }
+        ]
+      }
+    }
+  }
+}

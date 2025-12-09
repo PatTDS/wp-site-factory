@@ -1,0 +1,93 @@
+{
+  "id": "cta-split",
+  "name": "CTA Split",
+  "description": "Two-column layout with content on left and form or image on right. Perfect for lead generation or contact CTAs.",
+  "category": "cta",
+  "variants": ["with-form", "with-image"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["with-form", "with-image"],
+      "default": "with-form",
+      "description": "Right column content type"
+    },
+    "form_fields": {
+      "type": "array",
+      "default": ["name", "email", "phone"],
+      "description": "Form fields to display"
+    },
+    "image_position": {
+      "type": "enum",
+      "options": ["left", "right"],
+      "default": "right",
+      "description": "Image position (when variant is with-image)"
+    },
+    "background_color": {
+      "type": "enum",
+      "options": ["white", "gray", "primary-light"],
+      "default": "gray",
+      "description": "Section background color"
+    }
+  },
+  "content_slots": {
+    "headline": {
+      "required": true,
+      "source": "content_drafts.cta.headline",
+      "fallback": "Let's Work Together"
+    },
+    "subtext": {
+      "required": false,
+      "source": "content_drafts.cta.subtext",
+      "fallback": "Fill out the form and we'll get back to you within 24 hours."
+    },
+    "features": {
+      "required": false,
+      "source": "content_drafts.cta.features",
+      "fallback": [
+        "Quick response time",
+        "Expert consultation",
+        "No commitment required"
+      ]
+    },
+    "form_title": {
+      "required": false,
+      "source": "content_drafts.cta.form_title",
+      "fallback": "Get Started Today"
+    },
+    "image": {
+      "required": false,
+      "source": "assets.cta_image",
+      "fallback": ""
+    },
+    "submit_text": {
+      "required": false,
+      "source": "content_drafts.cta.submit_button",
+      "fallback": "Send Message"
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-20 lg:py-28 bg-gray-50",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "grid": "grid lg:grid-cols-2 gap-12 lg:gap-16 items-center",
+    "content": "lg:pr-8",
+    "headline": "text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-6",
+    "subtext": "text-lg text-gray-600 mb-8",
+    "features": "space-y-4 mb-8",
+    "feature_item": "flex items-start gap-3",
+    "form_container": "bg-white rounded-2xl shadow-xl p-8 lg:p-10",
+    "form_title": "text-2xl font-bold text-gray-900 mb-6",
+    "input": "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent",
+    "button": "w-full px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-primary-600/25"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["professional", "clean", "modern"],
+    "score_factors": {
+      "has_contact_form": 0.5,
+      "service_based": 0.3,
+      "b2b": 0.2,
+      "lead_generation": 0.4
+    }
+  },
+  "template_file": "template.php"
+}

@@ -1,0 +1,134 @@
+{{!--
+  Section: Hero Split Video
+  Variant: hero-split-video
+  Version: 1.0.0
+  Last Updated: 2025-12-05
+
+  Description: Split-layout hero with content on left, video/image on right.
+  Supports video background with fallback to static image.
+  Fully responsive with mobile-first design.
+
+  Required Fields:
+  - headline
+  - cta_primary_text
+
+  Optional Fields:
+  - tagline
+  - subheadline
+  - cta_primary_url
+  - cta_secondary_text
+  - cta_secondary_url
+  - video_url
+  - image (object with url, alt, photographer, etc.)
+--}}
+
+<section id="hero" class="hero hero--split-video" data-section="hero">
+  <div class="hero__container container">
+    <div class="hero__grid">
+
+      {{!-- Content Side --}}
+      <div class="hero__content">
+        {{#if tagline}}
+        <p class="hero__tagline">{{tagline}}</p>
+        {{/if}}
+
+        <h1 class="hero__headline">{{headline}}</h1>
+
+        {{#if subheadline}}
+        <p class="hero__subheadline">{{subheadline}}</p>
+        {{/if}}
+
+        <div class="hero__cta">
+          <a href="{{default cta_primary_url '#contact'}}"
+             class="btn btn--primary btn--large"
+             role="button">
+            {{cta_primary_text}}
+            <svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          {{#if cta_secondary_text}}
+          <a href="{{default cta_secondary_url '#services'}}"
+             class="btn btn--secondary btn--large"
+             role="button">
+            {{cta_secondary_text}}
+          </a>
+          {{/if}}
+        </div>
+
+        {{!-- Trust Indicators (optional) --}}
+        {{#if trust_badges}}
+        <div class="hero__trust">
+          {{#each trust_badges}}
+          <div class="hero__badge">
+            {{#if this.icon}}<span class="hero__badge-icon">{{{this.icon}}}</span>{{/if}}
+            <span class="hero__badge-text">{{this.text}}</span>
+          </div>
+          {{/each}}
+        </div>
+        {{/if}}
+      </div>
+
+      {{!-- Media Side --}}
+      <div class="hero__media">
+        <div class="hero__media-wrapper">
+          {{#if video_url}}
+          {{!-- Video Background --}}
+          <video
+            class="hero__video"
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="{{#if image}}{{image.url.medium}}{{/if}}"
+            aria-label="Background video showcasing our work">
+            <source src="{{video_url}}" type="video/mp4">
+          </video>
+          {{else if image}}
+          {{!-- Static Image --}}
+          <img
+            src="{{image.url.large}}"
+            {{#if image.srcset}}srcset="{{image.srcset}}"{{/if}}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="{{default image.alt headline}}"
+            class="hero__image"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async" />
+          {{else}}
+          {{!-- Fallback gradient --}}
+          <div class="hero__image-placeholder"></div>
+          {{/if}}
+
+          {{!-- Overlay --}}
+          <div class="hero__media-overlay"></div>
+
+          {{!-- Photo Attribution --}}
+          {{#if image.photographer}}
+          <div class="hero__attribution">
+            Photo by
+            <a href="{{image.photographer_url}}" target="_blank" rel="noopener">
+              {{image.photographer}}
+            </a>
+            {{#if image.source}}
+            on <a href="{{image.source_url}}" target="_blank" rel="noopener">
+              {{#eq image.source "unsplash"}}Unsplash{{else}}Pexels{{/eq}}
+            </a>
+            {{/if}}
+          </div>
+          {{/if}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {{!-- Scroll Indicator --}}
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-text">Scroll</span>
+    <svg class="hero__scroll-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>

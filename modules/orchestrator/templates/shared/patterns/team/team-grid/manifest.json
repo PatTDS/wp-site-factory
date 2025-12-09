@@ -1,0 +1,117 @@
+{
+  "id": "team-grid",
+  "name": "Team Grid",
+  "description": "Responsive grid of team member cards with photos, names, titles, optional bios, and social links.",
+  "category": "team",
+  "variants": ["3-column", "4-column", "with-bio"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["3-column", "4-column", "with-bio"],
+      "default": "3-column",
+      "description": "Grid layout variant"
+    },
+    "columns": {
+      "type": "number",
+      "min": 2,
+      "max": 4,
+      "default": 3,
+      "description": "Number of columns"
+    },
+    "show_bio": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show member biographies"
+    },
+    "show_social": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show social media links"
+    },
+    "card_style": {
+      "type": "enum",
+      "options": ["minimal", "bordered", "shadow"],
+      "default": "shadow",
+      "description": "Card visual style"
+    }
+  },
+  "content_slots": {
+    "section_title": {
+      "required": false,
+      "source": "content_drafts.team.headline",
+      "fallback": "Meet Our Team"
+    },
+    "section_subtitle": {
+      "required": false,
+      "source": "content_drafts.team.subheadline",
+      "fallback": "The talented people behind our success"
+    },
+    "members": {
+      "required": true,
+      "source": "content_drafts.team.members",
+      "fallback": [
+        {
+          "name": "John Doe",
+          "title": "CEO & Founder",
+          "bio": "With over 15 years of experience, John leads our vision and strategy.",
+          "photo": "",
+          "social": {
+            "linkedin": "https://linkedin.com",
+            "twitter": "https://twitter.com"
+          }
+        },
+        {
+          "name": "Jane Smith",
+          "title": "Head of Design",
+          "bio": "Jane brings creative excellence to every project she touches.",
+          "photo": "",
+          "social": {
+            "linkedin": "https://linkedin.com",
+            "dribbble": "https://dribbble.com"
+          }
+        },
+        {
+          "name": "Mike Johnson",
+          "title": "Lead Developer",
+          "bio": "Mike's technical expertise ensures our solutions are cutting-edge.",
+          "photo": "",
+          "social": {
+            "linkedin": "https://linkedin.com",
+            "github": "https://github.com"
+          }
+        }
+      ]
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-20 lg:py-28 bg-gray-50",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "header": "text-center mb-16",
+    "title": "text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-4",
+    "subtitle": "text-lg text-gray-600 max-w-2xl mx-auto",
+    "grid_2": "grid md:grid-cols-2 gap-8",
+    "grid_3": "grid md:grid-cols-2 lg:grid-cols-3 gap-8",
+    "grid_4": "grid md:grid-cols-2 lg:grid-cols-4 gap-8",
+    "card": "bg-white rounded-xl overflow-hidden",
+    "card_shadow": "bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow",
+    "card_bordered": "bg-white rounded-xl overflow-hidden border-2 border-gray-200",
+    "photo_container": "aspect-square overflow-hidden bg-gray-200",
+    "photo": "w-full h-full object-cover",
+    "content": "p-6 text-center",
+    "name": "text-xl font-bold text-gray-900 mb-1",
+    "title": "text-sm text-primary-600 font-medium mb-3",
+    "bio": "text-sm text-gray-600 mb-4",
+    "social": "flex justify-center gap-3"
+  },
+  "suitability": {
+    "industries": ["agency", "consulting", "professional-services", "startup"],
+    "styles": ["professional", "personal", "approachable"],
+    "score_factors": {
+      "is_service_based": 0.4,
+      "has_small_team": 0.3,
+      "is_agency": 0.3,
+      "personal_brand": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

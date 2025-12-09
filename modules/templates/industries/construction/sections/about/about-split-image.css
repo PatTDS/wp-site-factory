@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Section: About Split Image
+   Variant: about-split-image
+   Version: 1.0.0
+   ========================================================================== */
+
+.about--split-image {
+  --about-bg: var(--color-bg, #ffffff);
+  --about-padding: var(--spacing-20, 5rem);
+  --about-padding-mobile: var(--spacing-12, 3rem);
+  --about-gap: var(--spacing-12, 3rem);
+  --about-image-radius: var(--radius-xl, 1rem);
+  --about-badge-bg: var(--color-primary, #0F2942);
+  --about-badge-color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
+.about--split-image {
+  background: var(--about-bg);
+  padding: var(--about-padding-mobile) 0;
+}
+
+.about__container {
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--spacing-4, 1rem);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--about-gap);
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Media Side
+   -------------------------------------------------------------------------- */
+.about__media {
+  position: relative;
+}
+
+.about__image-wrapper {
+  position: relative;
+  border-radius: var(--about-image-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl, 0 20px 25px -5px rgb(0 0 0 / 0.1));
+}
+
+.about__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.about__image-placeholder {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--color-primary, #0F2942) 0%, var(--color-secondary, #4DA6FF) 100%);
+}
+
+.about__attribution {
+  position: absolute;
+  bottom: var(--spacing-3, 0.75rem);
+  right: var(--spacing-3, 0.75rem);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.5);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--radius-sm, 0.25rem);
+  backdrop-filter: blur(4px);
+}
+
+.about__attribution a {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Experience Badge */
+.about__badge {
+  position: absolute;
+  bottom: -1rem;
+  right: 1rem;
+  background: var(--about-badge-bg);
+  color: var(--about-badge-color);
+  padding: var(--spacing-4, 1rem) var(--spacing-6, 1.5rem);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  text-align: center;
+}
+
+.about__badge-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.about__badge-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+  margin-top: var(--spacing-1, 0.25rem);
+}
+
+/* --------------------------------------------------------------------------
+   Content Side
+   -------------------------------------------------------------------------- */
+.about__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6, 1.5rem);
+}
+
+.about__tagline {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary, #4DA6FF);
+  margin: 0;
+}
+
+.about__headline {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-primary, #0F2942);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.about__description {
+  font-size: 1rem;
+  color: var(--color-text-secondary, #4b5563);
+  line-height: 1.7;
+}
+
+.about__description p {
+  margin: 0 0 var(--spacing-4, 1rem);
+}
+
+.about__description p:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Values List
+   -------------------------------------------------------------------------- */
+.about__values {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4, 1rem);
+  margin-top: var(--spacing-4, 1rem);
+}
+
+.about__value {
+  display: flex;
+  gap: var(--spacing-4, 1rem);
+  align-items: flex-start;
+}
+
+.about__value-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 166, 255, 0.1);
+  border-radius: var(--radius-md, 0.5rem);
+  color: var(--color-secondary, #4DA6FF);
+}
+
+.about__value-content {
+  flex: 1;
+}
+
+.about__value-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary, #0F2942);
+  margin: 0 0 var(--spacing-1, 0.25rem);
+}
+
+.about__value-text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #4b5563);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   CTA
+   -------------------------------------------------------------------------- */
+.about__cta {
+  margin-top: var(--spacing-4, 1rem);
+}
+
+/* --------------------------------------------------------------------------
+   Tablet (768px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .about__container {
+    padding: 0 var(--spacing-6, 1.5rem);
+  }
+
+  .about__values {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .about__value {
+    flex: 1 1 45%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop (1024px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .about--split-image {
+    padding: var(--about-padding) 0;
+  }
+
+  .about__container {
+    padding: 0 var(--spacing-8, 2rem);
+  }
+
+  .about__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-16, 4rem);
+  }
+
+  .about__badge {
+    bottom: -1.5rem;
+    right: -1.5rem;
+    padding: var(--spacing-6, 1.5rem) var(--spacing-8, 2rem);
+  }
+
+  .about__badge-value {
+    font-size: 2.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Animation
+   -------------------------------------------------------------------------- */
+.about__media {
+  animation: fadeInLeft 0.8s ease forwards;
+}
+
+.about__content {
+  animation: fadeInRight 0.8s ease 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .about__media,
+  .about__content {
+    animation: none;
+    opacity: 1;
+  }
+}

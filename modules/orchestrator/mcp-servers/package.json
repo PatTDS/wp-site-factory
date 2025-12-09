@@ -1,0 +1,13 @@
+{
+  "name": "wpf-mcp-servers",
+  "version": "1.0.0",
+  "description": "Custom MCP servers for WPF orchestrator",
+  "type": "module",
+  "scripts": {
+    "start": "node stock-photos.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "node-fetch": "^3.3.2"
+  }
+}

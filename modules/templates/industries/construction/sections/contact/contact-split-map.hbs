@@ -1,0 +1,148 @@
+<section id="contact" class="contact contact--split-map" data-section="contact">
+  <div class="contact__container container">
+    <div class="contact__grid">
+
+      <div class="contact__form-side">
+        {{#if tagline}}
+        <p class="contact__tagline">{{tagline}}</p>
+        {{/if}}
+
+        <h2 class="contact__headline">{{headline}}</h2>
+
+        {{#if subheadline}}
+        <p class="contact__subheadline">{{subheadline}}</p>
+        {{/if}}
+
+        <form class="contact__form" action="#" method="POST" data-form="contact">
+          <div class="form-group">
+            <label for="contact-name" class="form-label">Name <span class="required">*</span></label>
+            <input type="text" id="contact-name" name="name" class="form-input" required placeholder="Your name" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email" class="form-label">Email <span class="required">*</span></label>
+            <input type="email" id="contact-email" name="email" class="form-input" required placeholder="your@email.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-phone" class="form-label">Phone</label>
+            <input type="tel" id="contact-phone" name="phone" class="form-input" placeholder="Your phone number" />
+          </div>
+
+          {{#if show_service_select}}
+          <div class="form-group">
+            <label for="contact-service" class="form-label">Service</label>
+            <select id="contact-service" name="service" class="form-select">
+              <option value="">Select a service</option>
+              {{#each services}}
+              <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+          {{/if}}
+
+          <div class="form-group">
+            <label for="contact-message" class="form-label">Message <span class="required">*</span></label>
+            <textarea id="contact-message" name="message" class="form-textarea" required rows="4" placeholder="Tell us about your project..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--large contact__submit">
+            {{default submit_text 'Send Message'}}
+            <svg class="btn__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <div class="contact__info-side">
+        <div class="contact__info-card">
+          <h3 class="contact__info-title">Contact Information</h3>
+
+          <div class="contact__info-items">
+            {{#if address}}
+            <div class="contact__info-item">
+              <div class="contact__info-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="contact__info-content">
+                <span class="contact__info-label">Address</span>
+                <span class="contact__info-value">{{address}}</span>
+              </div>
+            </div>
+            {{/if}}
+
+            {{#if phone}}
+            <div class="contact__info-item">
+              <div class="contact__info-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20.01 15.38C18.78 15.38 17.59 15.18 16.48 14.82C16.13 14.7 15.74 14.79 15.47 15.06L13.9 17.03C11.07 15.68 8.42 13.13 7.01 10.2L8.96 8.54C9.23 8.26 9.31 7.87 9.2 7.52C8.83 6.41 8.64 5.22 8.64 3.99C8.64 3.45 8.19 3 7.65 3H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21C20.72 21 21 20.37 21 19.82V16.37C21 15.83 20.55 15.38 20.01 15.38Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="contact__info-content">
+                <span class="contact__info-label">Phone</span>
+                <a href="tel:{{phone}}" class="contact__info-value contact__info-link">{{phone}}</a>
+              </div>
+            </div>
+            {{/if}}
+
+            {{#if email}}
+            <div class="contact__info-item">
+              <div class="contact__info-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="contact__info-content">
+                <span class="contact__info-label">Email</span>
+                <a href="mailto:{{email}}" class="contact__info-value contact__info-link">{{email}}</a>
+              </div>
+            </div>
+            {{/if}}
+
+            {{#if hours}}
+            <div class="contact__info-item">
+              <div class="contact__info-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="contact__info-content">
+                <span class="contact__info-label">Hours</span>
+                <span class="contact__info-value">{{hours}}</span>
+              </div>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        {{#if map_embed}}
+        <div class="contact__map">
+          <iframe
+            src="{{map_embed}}"
+            width="100%"
+            height="300"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Our location on Google Maps">
+          </iframe>
+        </div>
+        {{else}}
+        <div class="contact__map contact__map--placeholder">
+          <div class="contact__map-placeholder">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M24 4C16.26 4 10 10.26 10 18C10 28.5 24 44 24 44C24 44 38 28.5 38 18C38 10.26 31.74 4 24 4ZM24 23C21.24 23 19 20.76 19 18C19 15.24 21.24 13 24 13C26.76 13 29 15.24 29 18C29 20.76 26.76 23 24 23Z" fill="currentColor"/>
+            </svg>
+            <span>Map will be displayed here</span>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+
+    </div>
+  </div>
+</section>

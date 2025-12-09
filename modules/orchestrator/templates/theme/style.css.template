@@ -1,0 +1,20 @@
+/*
+Theme Name: {{theme_name}}
+Theme URI: {{theme_uri}}
+Author: {{author}}
+Author URI: {{author_uri}}
+Description: {{description}}
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: {{theme_slug}}
+Tags: {{tags}}
+*/
+
+/**
+ * This file only contains the theme header for WordPress to recognize the theme.
+ * All styling is handled by Tailwind CSS in assets/css/tailwind.css
+ */

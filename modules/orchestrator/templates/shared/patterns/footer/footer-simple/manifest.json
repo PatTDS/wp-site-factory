@@ -1,0 +1,116 @@
+{
+  "id": "footer-simple",
+  "name": "Simple Footer",
+  "description": "Clean footer with logo, navigation columns, social links, and copyright. Suitable for all website types with straightforward information architecture.",
+  "category": "footer",
+  "variants": ["3-column", "4-column"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["3-column", "4-column"],
+      "default": "4-column",
+      "description": "Number of navigation columns"
+    },
+    "show_newsletter": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show newsletter signup form"
+    },
+    "show_social": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show social media links"
+    },
+    "dark_mode": {
+      "type": "boolean",
+      "default": true,
+      "description": "Use dark background"
+    }
+  },
+  "content_slots": {
+    "logo_url": {
+      "required": false,
+      "source": "assets.logo.url",
+      "fallback": ""
+    },
+    "logo_alt": {
+      "required": false,
+      "source": "client_profile.company.name",
+      "fallback": "Company Logo"
+    },
+    "tagline": {
+      "required": false,
+      "source": "client_profile.company.tagline",
+      "fallback": ""
+    },
+    "nav_columns": {
+      "required": true,
+      "source": "content_drafts.navigation.footer_columns",
+      "fallback": [
+        {
+          "title": "Company",
+          "links": [
+            {"label": "About Us", "url": "#about"},
+            {"label": "Careers", "url": "#careers"},
+            {"label": "Contact", "url": "#contact"}
+          ]
+        },
+        {
+          "title": "Services",
+          "links": [
+            {"label": "Service 1", "url": "#service-1"},
+            {"label": "Service 2", "url": "#service-2"},
+            {"label": "Service 3", "url": "#service-3"}
+          ]
+        },
+        {
+          "title": "Resources",
+          "links": [
+            {"label": "Blog", "url": "#blog"},
+            {"label": "Help Center", "url": "#help"},
+            {"label": "Documentation", "url": "#docs"}
+          ]
+        },
+        {
+          "title": "Legal",
+          "links": [
+            {"label": "Privacy Policy", "url": "#privacy"},
+            {"label": "Terms of Service", "url": "#terms"}
+          ]
+        }
+      ]
+    },
+    "social_links": {
+      "required": false,
+      "source": "client_profile.contact.social_media",
+      "fallback": []
+    },
+    "copyright": {
+      "required": false,
+      "source": "client_profile.company.name",
+      "fallback": "Company Name"
+    }
+  },
+  "tailwind_classes": {
+    "footer": "bg-gray-900 text-white",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "main": "py-12 md:py-16",
+    "grid": "grid gap-8 md:gap-12",
+    "column": "space-y-4",
+    "heading": "text-sm font-semibold uppercase tracking-wider text-gray-300",
+    "link": "text-gray-400 hover:text-white transition-colors",
+    "copyright_bar": "border-t border-gray-800 py-6",
+    "social_link": "w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-primary-600 rounded-full transition-colors"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["modern", "minimal", "clean", "professional", "classic"],
+    "score_factors": {
+      "simple_structure": 0.3,
+      "clear_navigation": 0.3,
+      "mobile_friendly": 0.2,
+      "standard_layout": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

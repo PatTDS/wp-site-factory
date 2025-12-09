@@ -1,0 +1,434 @@
+/* ==========================================================================
+   Section: Hero Split Video
+   Variant: hero-split-video
+   Version: 1.0.0
+   Last Updated: 2025-12-05
+
+   Description: Split-layout hero with content on left, video/image on right.
+   Mobile-first responsive design with adaptive text scaling.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Custom Properties (can be overridden by design tokens)
+   -------------------------------------------------------------------------- */
+.hero--split-video {
+  --hero-min-height: 100vh;
+  --hero-min-height-mobile: auto;
+  --hero-padding-y: var(--spacing-16, 4rem);
+  --hero-padding-y-mobile: var(--spacing-12, 3rem);
+  --hero-gap: var(--spacing-12, 3rem);
+  --hero-gap-mobile: var(--spacing-8, 2rem);
+
+  /* Typography */
+  --hero-tagline-size: 0.875rem;
+  --hero-headline-size: clamp(2.25rem, 5vw, 4rem);
+  --hero-subheadline-size: clamp(1rem, 2vw, 1.25rem);
+
+  /* Colors */
+  --hero-bg: var(--color-bg, #ffffff);
+  --hero-tagline-color: var(--color-secondary, #4DA6FF);
+  --hero-headline-color: var(--color-primary, #0F2942);
+  --hero-subheadline-color: var(--color-text-secondary, #4b5563);
+  --hero-overlay-color: rgba(15, 41, 66, 0.3);
+
+  /* Media */
+  --hero-media-radius: var(--radius-xl, 1rem);
+  --hero-media-shadow: var(--shadow-2xl, 0 25px 50px -12px rgb(0 0 0 / 0.25));
+}
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
+.hero--split-video {
+  position: relative;
+  min-height: var(--hero-min-height-mobile);
+  display: flex;
+  align-items: center;
+  background: var(--hero-bg);
+  overflow: hidden;
+}
+
+.hero__container {
+  width: 100%;
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: var(--hero-padding-y-mobile) var(--spacing-4, 1rem);
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--hero-gap-mobile);
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Content Side
+   -------------------------------------------------------------------------- */
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6, 1.5rem);
+}
+
+/* Tagline */
+.hero__tagline {
+  font-size: var(--hero-tagline-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hero-tagline-color);
+  margin: 0;
+}
+
+/* Headline */
+.hero__headline {
+  font-size: var(--hero-headline-size);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--hero-headline-color);
+  margin: 0;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Subheadline */
+.hero__subheadline {
+  font-size: var(--hero-subheadline-size);
+  line-height: 1.6;
+  color: var(--hero-subheadline-color);
+  margin: 0;
+  max-width: 540px;
+}
+
+/* --------------------------------------------------------------------------
+   CTA Buttons
+   -------------------------------------------------------------------------- */
+.hero__cta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4, 1rem);
+  padding-top: var(--spacing-2, 0.5rem);
+}
+
+/* Base Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2, 0.5rem);
+  padding: var(--spacing-4, 1rem) var(--spacing-6, 1.5rem);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+  border-radius: var(--radius-md, 0.5rem);
+  transition: all var(--transition-base, 300ms) ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  text-align: center;
+}
+
+.btn--large {
+  padding: var(--spacing-4, 1rem) var(--spacing-8, 2rem);
+  font-size: 1.125rem;
+}
+
+.btn--primary {
+  background: var(--color-primary, #0F2942);
+  color: white;
+  border-color: var(--color-primary, #0F2942);
+  box-shadow: 0 4px 14px 0 rgba(15, 41, 66, 0.25);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-dark, #0a1d2e);
+  border-color: var(--color-primary-dark, #0a1d2e);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(15, 41, 66, 0.35);
+}
+
+.btn--primary:focus-visible {
+  outline: 2px solid var(--color-secondary, #4DA6FF);
+  outline-offset: 2px;
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-primary, #0F2942);
+  border-color: var(--color-primary, #0F2942);
+}
+
+.btn--secondary:hover {
+  background: var(--color-primary, #0F2942);
+  color: white;
+}
+
+.btn--secondary:focus-visible {
+  outline: 2px solid var(--color-primary, #0F2942);
+  outline-offset: 2px;
+}
+
+.btn__icon {
+  flex-shrink: 0;
+  transition: transform var(--transition-fast, 150ms) ease;
+}
+
+.btn:hover .btn__icon {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Trust Badges
+   -------------------------------------------------------------------------- */
+.hero__trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4, 1rem);
+  padding-top: var(--spacing-4, 1rem);
+}
+
+.hero__badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #4b5563);
+}
+
+.hero__badge-icon {
+  color: var(--color-secondary, #4DA6FF);
+}
+
+/* --------------------------------------------------------------------------
+   Media Side
+   -------------------------------------------------------------------------- */
+.hero__media {
+  position: relative;
+  order: -1; /* Image first on mobile */
+}
+
+.hero__media-wrapper {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--hero-media-radius);
+  overflow: hidden;
+  box-shadow: var(--hero-media-shadow);
+}
+
+.hero__video,
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__image-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-primary, #0F2942) 0%, var(--color-secondary, #4DA6FF) 100%);
+}
+
+.hero__media-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-overlay-color);
+  pointer-events: none;
+}
+
+/* Photo Attribution */
+.hero__attribution {
+  position: absolute;
+  bottom: var(--spacing-3, 0.75rem);
+  right: var(--spacing-3, 0.75rem);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.5);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
+  border-radius: var(--radius-sm, 0.25rem);
+  backdrop-filter: blur(4px);
+}
+
+.hero__attribution a {
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hero__attribution a:hover {
+  color: var(--color-secondary, #4DA6FF);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll Indicator
+   -------------------------------------------------------------------------- */
+.hero__scroll {
+  position: absolute;
+  bottom: var(--spacing-6, 1.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  color: var(--color-text-secondary, #4b5563);
+  animation: bounceScroll 2s infinite;
+}
+
+.hero__scroll-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero__scroll-icon {
+  opacity: 0.7;
+}
+
+@keyframes bounceScroll {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(8px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(4px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tablet Styles (768px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .hero__container {
+    padding: var(--hero-padding-y-mobile) var(--spacing-6, 1.5rem);
+  }
+
+  .hero__cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .hero__media-wrapper {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop Styles (1024px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .hero--split-video {
+    min-height: var(--hero-min-height);
+  }
+
+  .hero__container {
+    padding: var(--hero-padding-y) var(--spacing-8, 2rem);
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--hero-gap);
+  }
+
+  .hero__content {
+    gap: var(--spacing-8, 2rem);
+  }
+
+  .hero__media {
+    order: 0; /* Reset order for desktop */
+  }
+
+  .hero__media-wrapper {
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero__scroll {
+    display: flex;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Large Desktop (1280px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+  .hero__grid {
+    gap: var(--spacing-16, 4rem);
+  }
+
+  .hero__media-wrapper {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Animations
+   -------------------------------------------------------------------------- */
+.hero__content {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.hero__media {
+  animation: fadeInUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__content,
+  .hero__media {
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero__scroll {
+    animation: none;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
+
+  .btn:hover .btn__icon {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Print Styles
+   -------------------------------------------------------------------------- */
+@media print {
+  .hero--split-video {
+    min-height: auto;
+    page-break-inside: avoid;
+  }
+
+  .hero__video {
+    display: none;
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+
+  .hero__media-overlay {
+    display: none;
+  }
+}

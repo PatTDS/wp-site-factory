@@ -1,0 +1,110 @@
+{
+  "id": "header-mega",
+  "name": "Mega Menu Header",
+  "description": "Advanced navigation header with dropdown mega menus, search functionality, and multi-level navigation. Best for enterprise sites, SaaS platforms, and e-commerce.",
+  "category": "header",
+  "variants": ["default", "with-search"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "with-search"],
+      "default": "default",
+      "description": "Header variant with optional search"
+    },
+    "show_search": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show search icon in header"
+    },
+    "dropdown_style": {
+      "type": "enum",
+      "options": ["grid", "list"],
+      "default": "grid",
+      "description": "Mega menu layout style"
+    },
+    "max_columns": {
+      "type": "number",
+      "default": 4,
+      "description": "Maximum columns in mega menu (2-4)"
+    },
+    "sticky_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable sticky header on scroll"
+    }
+  },
+  "content_slots": {
+    "logo_url": {
+      "required": true,
+      "source": "assets.logo.url",
+      "fallback": ""
+    },
+    "logo_alt": {
+      "required": false,
+      "source": "client_profile.company.name",
+      "fallback": "Company Logo"
+    },
+    "nav_items": {
+      "required": true,
+      "source": "content_drafts.navigation.mega_menu",
+      "fallback": [
+        {
+          "label": "Products",
+          "url": "#products",
+          "children": [
+            {"label": "Product A", "url": "#product-a", "description": "Description of Product A"},
+            {"label": "Product B", "url": "#product-b", "description": "Description of Product B"}
+          ]
+        },
+        {
+          "label": "Solutions",
+          "url": "#solutions",
+          "children": [
+            {"label": "For Enterprise", "url": "#enterprise", "description": "Enterprise solutions"},
+            {"label": "For SMB", "url": "#smb", "description": "Small business solutions"}
+          ]
+        },
+        {"label": "Pricing", "url": "#pricing"},
+        {"label": "Resources", "url": "#resources"}
+      ]
+    },
+    "search_placeholder": {
+      "required": false,
+      "source": "content_drafts.navigation.search_placeholder",
+      "fallback": "Search..."
+    },
+    "cta_text": {
+      "required": true,
+      "source": "content_drafts.navigation.cta_text",
+      "fallback": "Get Started"
+    },
+    "cta_url": {
+      "required": false,
+      "source": "content_drafts.navigation.cta_url",
+      "fallback": "#contact"
+    }
+  },
+  "tailwind_classes": {
+    "header": "fixed top-0 w-full z-50 bg-white border-b border-gray-100",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "inner": "flex items-center justify-between h-16 md:h-20",
+    "nav": "hidden lg:flex items-center gap-1",
+    "nav_item": "relative group px-4 py-2",
+    "nav_link": "text-gray-700 hover:text-primary-600 font-medium transition-colors",
+    "mega_menu": "absolute top-full left-0 w-screen max-w-screen-xl bg-white border border-gray-100 shadow-xl rounded-b-lg",
+    "mega_menu_grid": "grid gap-6 p-8",
+    "cta": "inline-flex items-center px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all"
+  },
+  "suitability": {
+    "industries": ["saas", "enterprise", "e-commerce", "technology", "professional-services"],
+    "styles": ["modern", "corporate", "tech", "professional"],
+    "score_factors": {
+      "complex_navigation": 0.4,
+      "multiple_products": 0.3,
+      "enterprise_client": 0.3,
+      "b2b_focus": 0.2,
+      "large_site": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

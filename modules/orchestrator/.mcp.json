@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "shadcn-ui": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-shadcn"],
+      "description": "shadcn/ui component registry - access to UI components and installation"
+    },
+    "css": {
+      "command": "npx",
+      "args": ["-y", "css-mcp-server"],
+      "description": "CSS documentation and analysis - MDN docs, CSS metrics, pattern detection"
+    },
+    "stock-photos": {
+      "command": "node",
+      "args": ["./mcp-servers/stock-photos.js"],
+      "env": {
+        "UNSPLASH_API_KEY": "${UNSPLASH_API_KEY}",
+        "PEXELS_API_KEY": "${PEXELS_API_KEY}"
+      },
+      "description": "Stock photo APIs - search and download from Unsplash and Pexels"
+    }
+  }
+}

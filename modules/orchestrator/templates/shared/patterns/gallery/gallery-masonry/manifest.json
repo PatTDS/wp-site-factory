@@ -1,0 +1,117 @@
+{
+  "id": "gallery-masonry",
+  "name": "Gallery Masonry",
+  "description": "Responsive masonry-style image grid with CSS grid layout. Optional lightbox integration via data attributes.",
+  "category": "gallery",
+  "variants": ["masonry", "grid", "slider"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["masonry", "grid", "slider"],
+      "default": "masonry",
+      "description": "Gallery layout style"
+    },
+    "columns": {
+      "type": "number",
+      "min": 2,
+      "max": 5,
+      "default": 3,
+      "description": "Number of columns"
+    },
+    "gap": {
+      "type": "enum",
+      "options": ["small", "medium", "large"],
+      "default": "medium",
+      "description": "Gap between images"
+    },
+    "lightbox_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable lightbox on click"
+    },
+    "show_captions": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show image captions"
+    },
+    "aspect_ratio": {
+      "type": "enum",
+      "options": ["auto", "square", "landscape", "portrait"],
+      "default": "auto",
+      "description": "Force aspect ratio (grid variant only)"
+    }
+  },
+  "content_slots": {
+    "section_title": {
+      "required": false,
+      "source": "content_drafts.gallery.headline",
+      "fallback": "Our Gallery"
+    },
+    "section_subtitle": {
+      "required": false,
+      "source": "content_drafts.gallery.subheadline",
+      "fallback": "Explore our latest work and projects"
+    },
+    "images": {
+      "required": true,
+      "source": "content_drafts.gallery.images",
+      "fallback": [
+        {
+          "url": "",
+          "alt": "Gallery image 1",
+          "caption": "Beautiful landscape"
+        },
+        {
+          "url": "",
+          "alt": "Gallery image 2",
+          "caption": "Modern architecture"
+        },
+        {
+          "url": "",
+          "alt": "Gallery image 3",
+          "caption": "Abstract art"
+        },
+        {
+          "url": "",
+          "alt": "Gallery image 4",
+          "caption": "City skyline"
+        },
+        {
+          "url": "",
+          "alt": "Gallery image 5",
+          "caption": "Nature photography"
+        },
+        {
+          "url": "",
+          "alt": "Gallery image 6",
+          "caption": "Interior design"
+        }
+      ]
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-20 lg:py-28 bg-gray-50",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "header": "text-center mb-16",
+    "title": "text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-4",
+    "subtitle": "text-lg text-gray-600",
+    "gallery_masonry": "columns-2 md:columns-3 gap-4",
+    "gallery_grid_2": "grid grid-cols-2 gap-4",
+    "gallery_grid_3": "grid md:grid-cols-2 lg:grid-cols-3 gap-4",
+    "gallery_grid_4": "grid md:grid-cols-2 lg:grid-cols-4 gap-4",
+    "image_wrapper": "relative overflow-hidden rounded-lg group cursor-pointer mb-4 break-inside-avoid",
+    "image": "w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500",
+    "caption": "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity"
+  },
+  "suitability": {
+    "industries": ["photography", "portfolio", "creative", "architecture", "interior-design"],
+    "styles": ["visual", "creative", "modern"],
+    "score_factors": {
+      "is_visual_portfolio": 0.5,
+      "has_many_images": 0.3,
+      "creative_industry": 0.3,
+      "needs_showcase": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

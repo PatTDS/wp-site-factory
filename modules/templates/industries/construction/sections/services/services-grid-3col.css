@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Section: Services Grid 3-Column
+   Variant: services-grid-3col
+   Version: 1.0.0
+   ========================================================================== */
+
+.services--grid-3col {
+  --services-bg: var(--color-bg-secondary, #f9fafb);
+  --services-padding: var(--spacing-20, 5rem);
+  --services-padding-mobile: var(--spacing-12, 3rem);
+  --services-gap: var(--spacing-8, 2rem);
+  --services-card-bg: var(--color-bg, #ffffff);
+  --services-card-radius: var(--radius-xl, 1rem);
+  --services-card-shadow: var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1));
+  --services-card-shadow-hover: var(--shadow-xl, 0 20px 25px -5px rgb(0 0 0 / 0.1));
+}
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
+.services--grid-3col {
+  background: var(--services-bg);
+  padding: var(--services-padding-mobile) 0;
+}
+
+.services__container {
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--spacing-4, 1rem);
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+.services__tagline {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary, #4DA6FF);
+  text-align: center;
+  margin: 0 0 var(--spacing-4, 1rem);
+}
+
+.services__headline {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-primary, #0F2942);
+  text-align: center;
+  margin: 0 0 var(--spacing-4, 1rem);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.services__subheadline {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--color-text-secondary, #4b5563);
+  text-align: center;
+  margin: 0 0 var(--spacing-12, 3rem);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   Grid Layout
+   -------------------------------------------------------------------------- */
+.services__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--services-gap);
+}
+
+/* --------------------------------------------------------------------------
+   Service Cards
+   -------------------------------------------------------------------------- */
+.service-card {
+  background: var(--services-card-bg);
+  border-radius: var(--services-card-radius);
+  padding: var(--spacing-8, 2rem);
+  box-shadow: var(--services-card-shadow);
+  transition: all var(--transition-base, 300ms) ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--services-card-shadow-hover);
+}
+
+.service-card__icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-6, 1.5rem);
+  color: var(--color-secondary, #4DA6FF);
+}
+
+.service-card__icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+.service-card__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-primary, #0F2942);
+  margin: 0 0 var(--spacing-3, 0.75rem);
+}
+
+.service-card__description {
+  font-size: 1rem;
+  color: var(--color-text-secondary, #4b5563);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-4, 1rem);
+  flex-grow: 1;
+}
+
+.service-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-6, 1.5rem);
+}
+
+.service-card__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2, 0.5rem);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #4b5563);
+  margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.service-card__check {
+  flex-shrink: 0;
+  color: var(--color-secondary, #4DA6FF);
+  margin-top: 2px;
+}
+
+.service-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary, #0F2942);
+  text-decoration: none;
+  margin-top: auto;
+  transition: color var(--transition-fast, 150ms) ease;
+}
+
+.service-card__link:hover {
+  color: var(--color-secondary, #4DA6FF);
+}
+
+.service-card__arrow {
+  transition: transform var(--transition-fast, 150ms) ease;
+}
+
+.service-card__link:hover .service-card__arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Bottom CTA
+   -------------------------------------------------------------------------- */
+.services__cta {
+  text-align: center;
+  margin-top: var(--spacing-12, 3rem);
+}
+
+/* --------------------------------------------------------------------------
+   Tablet (768px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .services__container {
+    padding: 0 var(--spacing-6, 1.5rem);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop (1024px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .services--grid-3col {
+    padding: var(--services-padding) 0;
+  }
+
+  .services__container {
+    padding: 0 var(--spacing-8, 2rem);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Auto-fit for variable item counts
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .services__grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .service-card {
+    transition: none;
+  }
+
+  .service-card:hover {
+    transform: none;
+  }
+}

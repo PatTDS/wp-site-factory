@@ -1,0 +1,160 @@
+{
+  "$schema": "../../../../schemas/template-rules.schema.json",
+  "section": "services",
+  "variant": "services-grid-3col",
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Responsive grid of service cards with icons, descriptions, and optional features list. Auto-adapts from 1 to 3+ columns based on viewport and item count.",
+
+  "blueprint_mapping": {
+    "required": [
+      {
+        "path": "content_drafts.services.headline",
+        "template_var": "headline",
+        "description": "Section headline"
+      },
+      {
+        "path": "content_drafts.services.items",
+        "template_var": "services",
+        "description": "Array of service objects"
+      }
+    ],
+    "optional": [
+      {
+        "path": "content_drafts.services.tagline",
+        "template_var": "tagline",
+        "description": "Tagline above headline"
+      },
+      {
+        "path": "content_drafts.services.subheadline",
+        "template_var": "subheadline",
+        "description": "Supporting text below headline"
+      },
+      {
+        "path": "content_drafts.services.cta_text",
+        "template_var": "cta_text",
+        "description": "Bottom CTA button text"
+      },
+      {
+        "path": "content_drafts.services.cta_url",
+        "template_var": "cta_url",
+        "default": "#contact",
+        "description": "Bottom CTA button URL"
+      }
+    ]
+  },
+
+  "service_item_schema": {
+    "required": ["name"],
+    "optional": ["description", "icon", "features", "cta_text", "cta_url"],
+    "description": "Each service item must have at least a name"
+  },
+
+  "adaptive_rules": {
+    "headline": {
+      "max_chars": 60,
+      "overflow_strategy": "wrap"
+    },
+    "subheadline": {
+      "max_chars": 150,
+      "overflow_strategy": "wrap"
+    },
+    "services": {
+      "min_items": 1,
+      "max_items": 12,
+      "grid_behavior": "auto-fit with minmax(300px, 1fr)",
+      "notes": "Grid automatically adjusts: 1 col mobile, 2 col tablet, 3+ col desktop"
+    },
+    "service_name": {
+      "max_chars": 40,
+      "overflow_strategy": "wrap"
+    },
+    "service_description": {
+      "max_chars": 200,
+      "overflow_strategy": "truncate",
+      "css_handling": "line-clamp if needed"
+    },
+    "service_features": {
+      "max_items": 5,
+      "notes": "Optional feature list per service"
+    }
+  },
+
+  "design_tokens": {
+    "uses": [
+      "colors.primary",
+      "colors.secondary",
+      "colors.bg-secondary",
+      "colors.text.secondary",
+      "spacing.*",
+      "borders.radius.xl",
+      "shadows.md",
+      "shadows.xl",
+      "transitions.base"
+    ]
+  },
+
+  "responsive_behavior": {
+    "mobile": {
+      "breakpoint": "< 768px",
+      "columns": 1,
+      "card_padding": "2rem"
+    },
+    "tablet": {
+      "breakpoint": "768px - 1023px",
+      "columns": 2,
+      "card_padding": "2rem"
+    },
+    "desktop": {
+      "breakpoint": ">= 1024px",
+      "columns": "auto-fit (typically 3)",
+      "card_padding": "2rem"
+    }
+  },
+
+  "accessibility": {
+    "semantic_element": "section",
+    "landmark": true,
+    "heading_level": "h2 for section, h3 for cards",
+    "card_requirements": {
+      "element": "article",
+      "focusable_links": true
+    }
+  },
+
+  "llm_instructions": {
+    "DO": [
+      "Extract services array from content_drafts.services.items",
+      "Map each service: name, description, icon (if provided), features (if provided)",
+      "Use default placeholder icon if no icon provided",
+      "Apply brand colors from design tokens",
+      "Include cta_text/cta_url per service if available"
+    ],
+    "DO_NOT": [
+      "Modify grid layout structure",
+      "Change card styling or shadows",
+      "Add services not in blueprint",
+      "Reorder services (maintain blueprint order)",
+      "Change responsive breakpoints"
+    ],
+    "HANDLE_MISSING": [
+      "If no tagline: Don't render .services__tagline",
+      "If no subheadline: Don't render .services__subheadline",
+      "If no service icon: Render default icon SVG",
+      "If no service description: Don't render .service-card__description",
+      "If no service features: Don't render .service-card__features",
+      "If no bottom CTA: Don't render .services__cta"
+    ]
+  },
+
+  "testing": {
+    "test_data_file": "services-grid-3col.test.json",
+    "test_cases": [
+      "minimal (3 services, names only)",
+      "typical (6 services with descriptions)",
+      "maximal (9 services with all fields)",
+      "few_items (2 services)",
+      "many_items (12 services)"
+    ]
+  }
+}

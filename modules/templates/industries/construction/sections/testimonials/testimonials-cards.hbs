@@ -1,0 +1,59 @@
+<section id="testimonials" class="testimonials testimonials--cards" data-section="testimonials">
+  <div class="testimonials__container container">
+    {{#if tagline}}
+    <p class="testimonials__tagline">{{tagline}}</p>
+    {{/if}}
+
+    <h2 class="testimonials__headline">{{headline}}</h2>
+
+    {{#if subheadline}}
+    <p class="testimonials__subheadline">{{subheadline}}</p>
+    {{/if}}
+
+    <div class="testimonials__grid">
+      {{#each testimonials}}
+      <article class="testimonial-card">
+        {{#if this.rating}}
+        <div class="testimonial-card__rating" aria-label="{{this.rating}} out of 5 stars">
+          {{#each (repeat 5)}}
+          <svg class="testimonial-card__star {{#if (lte @index ../this.rating)}}testimonial-card__star--filled{{/if}}" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 1L12.39 6.26L18 7.27L14 11.14L14.76 17L10 14.27L5.24 17L6 11.14L2 7.27L7.61 6.26L10 1Z" fill="currentColor"/>
+          </svg>
+          {{/each}}
+        </div>
+        {{/if}}
+
+        <blockquote class="testimonial-card__quote">
+          <p>{{this.quote}}</p>
+        </blockquote>
+
+        <div class="testimonial-card__author">
+          {{#if this.avatar}}
+          <img
+            src="{{this.avatar}}"
+            alt="{{this.name}}"
+            class="testimonial-card__avatar"
+            loading="lazy"
+            width="48"
+            height="48" />
+          {{else}}
+          <div class="testimonial-card__avatar testimonial-card__avatar--placeholder">
+            {{this.initials}}
+          </div>
+          {{/if}}
+
+          <div class="testimonial-card__author-info">
+            <cite class="testimonial-card__name">{{this.name}}</cite>
+            {{#if this.role}}
+            <span class="testimonial-card__role">{{this.role}}</span>
+            {{/if}}
+            {{#if this.company}}
+            <span class="testimonial-card__company">{{this.company}}</span>
+            {{/if}}
+          </div>
+        </div>
+      </article>
+      {{/each}}
+    </div>
+  </div>
+</section>

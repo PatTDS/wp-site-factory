@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schemas/preset.schema.json",
+  "name": "Industrial Modern",
+  "version": "1.0.0",
+  "description": "Bold, professional design with dark tones, strong typography, and video hero. Ideal for industrial construction, manufacturing, and trade businesses.",
+
+  "characteristics": {
+    "tone": ["professional", "bold", "trustworthy"],
+    "visual_style": "dark-modern",
+    "suitable_for": [
+      "Industrial construction",
+      "Commercial construction",
+      "Manufacturing",
+      "Heavy equipment services",
+      "Precast concrete",
+      "Steel fabrication"
+    ]
+  },
+
+  "sections": {
+    "hero": "hero-split-video",
+    "services": "services-grid-3col",
+    "stats": "stats-dark-animated",
+    "about": "about-split-image",
+    "testimonials": "testimonials-cards",
+    "contact": "contact-split-map"
+  },
+
+  "section_order": [
+    "hero",
+    "stats",
+    "services",
+    "about",
+    "testimonials",
+    "contact"
+  ],
+
+  "token_overrides": {
+    "colors": {
+      "background": {
+        "secondary": "#f3f4f6"
+      }
+    },
+    "components": {
+      "button": {
+        "border-radius": "0.5rem"
+      }
+    }
+  },
+
+  "layout_options": {
+    "hero": {
+      "variant": "split",
+      "image_position": "right",
+      "show_video": true,
+      "overlay_opacity": 0.3
+    },
+    "services": {
+      "columns": 3,
+      "show_icons": true,
+      "show_images": false
+    },
+    "stats": {
+      "background": "dark",
+      "animate_numbers": true
+    },
+    "about": {
+      "image_position": "left",
+      "show_values": true
+    },
+    "testimonials": {
+      "style": "cards",
+      "show_rating": true,
+      "show_company": true
+    },
+    "contact": {
+      "show_map": true,
+      "form_position": "left"
+    }
+  },
+
+  "created_at": "2025-12-05",
+  "updated_at": "2025-12-05"
+}

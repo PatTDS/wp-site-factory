@@ -1,0 +1,99 @@
+{
+  "id": "cta-banner",
+  "name": "CTA Banner",
+  "description": "Full-width banner with background image, overlay, headline, and prominent buttons. Perfect for conversion-focused sections.",
+  "category": "cta",
+  "variants": ["default", "gradient", "split"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "gradient", "split"],
+      "default": "default",
+      "description": "Banner style variant"
+    },
+    "background_type": {
+      "type": "enum",
+      "options": ["image", "gradient", "solid"],
+      "default": "gradient",
+      "description": "Background style"
+    },
+    "overlay_opacity": {
+      "type": "enum",
+      "options": ["light", "medium", "heavy"],
+      "default": "medium",
+      "description": "Background overlay darkness"
+    },
+    "show_secondary_button": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show secondary CTA button"
+    },
+    "button_size": {
+      "type": "enum",
+      "options": ["md", "lg", "xl"],
+      "default": "lg",
+      "description": "Button size"
+    },
+    "alignment": {
+      "type": "enum",
+      "options": ["left", "center"],
+      "default": "center",
+      "description": "Content alignment"
+    }
+  },
+  "content_slots": {
+    "headline": {
+      "required": true,
+      "source": "content_drafts.cta.headline",
+      "fallback": "Ready to Get Started?"
+    },
+    "subheadline": {
+      "required": false,
+      "source": "content_drafts.cta.subheadline",
+      "fallback": "Join thousands of satisfied customers today"
+    },
+    "primary_button_text": {
+      "required": true,
+      "source": "content_drafts.cta.primary_button.text",
+      "fallback": "Get Started Now"
+    },
+    "primary_button_url": {
+      "required": false,
+      "source": "content_drafts.cta.primary_button.url",
+      "fallback": "#contact"
+    },
+    "secondary_button_text": {
+      "required": false,
+      "source": "content_drafts.cta.secondary_button.text",
+      "fallback": "Learn More"
+    },
+    "secondary_button_url": {
+      "required": false,
+      "source": "content_drafts.cta.secondary_button.url",
+      "fallback": "#about"
+    },
+    "background_image": {
+      "required": false,
+      "source": "assets.cta_background",
+      "fallback": ""
+    }
+  },
+  "tailwind_classes": {
+    "section": "relative py-20 lg:py-28 overflow-hidden",
+    "overlay": "absolute inset-0 bg-gradient-to-r from-primary-900/90 to-secondary-900/90",
+    "container": "relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center",
+    "headline": "text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white mb-6",
+    "subheadline": "text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10",
+    "button_container": "flex flex-col sm:flex-row gap-4 justify-center"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["modern", "bold", "conversion-focused"],
+    "score_factors": {
+      "needs_conversion": 0.5,
+      "has_product": 0.3,
+      "b2c_focus": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

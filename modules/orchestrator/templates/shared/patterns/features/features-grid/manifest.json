@@ -1,0 +1,100 @@
+{
+  "id": "features-grid",
+  "name": "Features Grid",
+  "description": "Responsive grid of feature cards with icons, titles, and descriptions. Supports 2-4 columns with multiple visual styles.",
+  "category": "features",
+  "variants": ["cards", "minimal", "with-images"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["cards", "minimal", "with-images"],
+      "default": "cards",
+      "description": "Visual style variant"
+    },
+    "columns": {
+      "type": "number",
+      "min": 2,
+      "max": 4,
+      "default": 3,
+      "description": "Number of columns"
+    },
+    "show_icons": {
+      "type": "boolean",
+      "default": true,
+      "description": "Display feature icons"
+    },
+    "card_style": {
+      "type": "enum",
+      "options": ["bordered", "shadow", "flat"],
+      "default": "shadow",
+      "description": "Card visual style"
+    },
+    "icon_style": {
+      "type": "enum",
+      "options": ["filled", "outlined", "gradient"],
+      "default": "filled",
+      "description": "Icon background style"
+    }
+  },
+  "content_slots": {
+    "section_title": {
+      "required": false,
+      "source": "content_drafts.features.headline",
+      "fallback": "Why Choose Us"
+    },
+    "section_subtitle": {
+      "required": false,
+      "source": "content_drafts.features.subheadline",
+      "fallback": "Everything you need to succeed"
+    },
+    "features": {
+      "required": true,
+      "source": "content_drafts.features.items",
+      "fallback": [
+        {
+          "icon": "⚡",
+          "title": "Fast Performance",
+          "description": "Lightning-fast load times for better user experience"
+        },
+        {
+          "icon": "🔒",
+          "title": "Secure & Reliable",
+          "description": "Enterprise-grade security protecting your data"
+        },
+        {
+          "icon": "📱",
+          "title": "Mobile First",
+          "description": "Perfectly optimized for all devices and screens"
+        }
+      ]
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-20 lg:py-28 bg-white",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "header": "text-center mb-16",
+    "title": "text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-4",
+    "subtitle": "text-lg text-gray-600 max-w-2xl mx-auto",
+    "grid_2": "grid md:grid-cols-2 gap-8",
+    "grid_3": "grid md:grid-cols-2 lg:grid-cols-3 gap-8",
+    "grid_4": "grid md:grid-cols-2 lg:grid-cols-4 gap-8",
+    "card": "bg-white rounded-xl p-8 hover:shadow-xl transition-shadow",
+    "card_bordered": "bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-primary-500 transition-colors",
+    "card_shadow": "bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow",
+    "icon_container": "inline-flex items-center justify-center w-14 h-14 bg-primary-100 text-primary-600 rounded-xl mb-5 text-2xl",
+    "icon_gradient": "inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 text-white rounded-xl mb-5 text-2xl",
+    "feature_title": "text-xl font-bold text-gray-900 mb-3",
+    "feature_description": "text-gray-600 leading-relaxed"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["modern", "clean", "professional"],
+    "score_factors": {
+      "has_multiple_services": 0.4,
+      "needs_benefits_showcase": 0.3,
+      "b2b": 0.2,
+      "saas": 0.3
+    }
+  },
+  "template_file": "template.php"
+}

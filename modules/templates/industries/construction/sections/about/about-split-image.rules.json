@@ -1,0 +1,138 @@
+{
+  "$schema": "../../../../schemas/template-rules.schema.json",
+  "section": "about",
+  "variant": "about-split-image",
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Split layout with image on left and content on right. Features optional experience badge, company values, and CTA button.",
+
+  "blueprint_mapping": {
+    "required": [
+      {
+        "path": "content_drafts.about.headline",
+        "template_var": "headline",
+        "description": "Section headline"
+      }
+    ],
+    "optional": [
+      {
+        "path": "content_drafts.about.tagline",
+        "template_var": "tagline",
+        "description": "Tagline above headline"
+      },
+      {
+        "path": "content_drafts.about.description",
+        "template_var": "description",
+        "description": "Main description (can include HTML paragraphs)"
+      },
+      {
+        "path": "content_drafts.about.values",
+        "template_var": "values",
+        "description": "Array of company values"
+      },
+      {
+        "path": "content_drafts.about.experience_badge",
+        "template_var": "experience_badge",
+        "description": "Experience badge with value and label"
+      },
+      {
+        "path": "content_drafts.about.cta_text",
+        "template_var": "cta_text",
+        "description": "CTA button text"
+      },
+      {
+        "path": "content_drafts.about.cta_url",
+        "template_var": "cta_url",
+        "default": "#contact",
+        "description": "CTA button URL"
+      }
+    ]
+  },
+
+  "stock_photos": {
+    "enabled": true,
+    "template_var": "image",
+    "fields": ["content_drafts.about.image_keywords"],
+    "fallback_keywords": ["construction team", "professional workers", "industrial site"],
+    "requirements": {
+      "aspect_ratio": "4:3",
+      "min_width": 1200,
+      "orientation": "landscape"
+    }
+  },
+
+  "adaptive_rules": {
+    "headline": {
+      "max_chars": 80,
+      "overflow_strategy": "wrap"
+    },
+    "description": {
+      "max_chars": 600,
+      "overflow_strategy": "wrap",
+      "notes": "Can contain multiple paragraphs as HTML"
+    },
+    "values": {
+      "min_items": 0,
+      "max_items": 4,
+      "optimal_items": 3,
+      "notes": "Values are optional. 2-4 items work best."
+    }
+  },
+
+  "design_tokens": {
+    "uses": [
+      "colors.primary",
+      "colors.secondary",
+      "colors.bg",
+      "colors.text.secondary",
+      "spacing.*",
+      "borders.radius.xl",
+      "shadows.xl"
+    ]
+  },
+
+  "responsive_behavior": {
+    "mobile": {
+      "breakpoint": "< 768px",
+      "layout": "stacked (image on top)",
+      "values_layout": "stacked"
+    },
+    "tablet": {
+      "breakpoint": "768px - 1023px",
+      "layout": "stacked",
+      "values_layout": "2 columns"
+    },
+    "desktop": {
+      "breakpoint": ">= 1024px",
+      "layout": "split (image left, content right)",
+      "values_layout": "2 columns"
+    }
+  },
+
+  "llm_instructions": {
+    "DO": [
+      "Extract about content from content_drafts.about",
+      "Fetch stock photo using image_keywords",
+      "Format experience_badge with value (e.g., '25+') and label (e.g., 'Years')",
+      "Wrap description paragraphs in <p> tags if multiple paragraphs"
+    ],
+    "DO_NOT": [
+      "Change split layout structure",
+      "Modify badge positioning",
+      "Add more than 4 values",
+      "Use very long descriptions"
+    ],
+    "HANDLE_MISSING": [
+      "If no tagline: Don't render .about__tagline",
+      "If no description: Don't render .about__description",
+      "If no values: Don't render .about__values",
+      "If no experience_badge: Don't render .about__badge",
+      "If no image: Show gradient placeholder",
+      "If no CTA: Don't render .about__cta"
+    ]
+  },
+
+  "testing": {
+    "test_data_file": "about-split-image.test.json"
+  }
+}

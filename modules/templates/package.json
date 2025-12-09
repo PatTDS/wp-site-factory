@@ -1,0 +1,21 @@
+{
+  "name": "@wpf/templates",
+  "version": "1.0.0",
+  "description": "WPF Template Module - High-quality adaptive templates for WordPress site generation",
+  "private": true,
+  "scripts": {
+    "dev": "node tools/dev-server.js",
+    "dev:watch": "node tools/dev-server.js --watch",
+    "preview": "node tools/dev-server.js --port 3000",
+    "test": "node tools/test-templates.js",
+    "validate": "node tools/validate-templates.js"
+  },
+  "keywords": [
+    "wpf",
+    "wordpress",
+    "templates",
+    "handlebars"
+  ],
+  "author": "WPF",
+  "license": "MIT"
+}

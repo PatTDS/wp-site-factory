@@ -1,0 +1,173 @@
+{
+  "$schema": "../../../../schemas/test-data.schema.json",
+  "section": "testimonials",
+  "variant": "testimonials-cards",
+  "version": "1.0.0",
+
+  "test_cases": {
+    "minimal": {
+      "description": "Single testimonial with only required fields",
+      "data": {
+        "headline": "What Our Clients Say",
+        "testimonials": [
+          {
+            "quote": "Excellent work on our new warehouse. Highly recommended.",
+            "name": "John Smith",
+            "initials": "JS"
+          }
+        ]
+      }
+    },
+
+    "typical": {
+      "description": "Three testimonials with ratings and company info",
+      "data": {
+        "tagline": "Testimonials",
+        "headline": "Trusted by Industry Leaders",
+        "subheadline": "See what our clients have to say about working with us.",
+        "testimonials": [
+          {
+            "quote": "Anywhere Solutions delivered our new facility on time and within budget. Their attention to detail and professionalism made the entire process seamless.",
+            "name": "Michael Chen",
+            "initials": "MC",
+            "role": "Operations Director",
+            "company": "Pacific Manufacturing",
+            "rating": 5
+          },
+          {
+            "quote": "We've worked with many contractors over the years, but Anywhere Solutions stands out for their reliability and quality. They're now our go-to for all construction projects.",
+            "name": "Sarah Williams",
+            "initials": "SW",
+            "role": "Facilities Manager",
+            "company": "Westfield Logistics",
+            "rating": 5
+          },
+          {
+            "quote": "The team at Anywhere Solutions took our vision and made it a reality. Their expertise in industrial construction is unmatched.",
+            "name": "David Thompson",
+            "initials": "DT",
+            "role": "CEO",
+            "company": "Thompson Industries",
+            "rating": 5
+          }
+        ]
+      }
+    },
+
+    "maximal": {
+      "description": "Six testimonials with avatars and full details",
+      "data": {
+        "tagline": "Client Reviews",
+        "headline": "What Our Clients Say About Us",
+        "subheadline": "We're proud of the relationships we've built with our clients over the years.",
+        "testimonials": [
+          {
+            "quote": "Outstanding quality and professionalism. Our new distribution center exceeded all expectations.",
+            "name": "Michael Chen",
+            "initials": "MC",
+            "role": "Operations Director",
+            "company": "Pacific Manufacturing",
+            "rating": 5,
+            "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+          },
+          {
+            "quote": "Anywhere Solutions has been our trusted construction partner for over a decade. They consistently deliver excellence.",
+            "name": "Sarah Williams",
+            "initials": "SW",
+            "role": "Facilities Manager",
+            "company": "Westfield Logistics",
+            "rating": 5,
+            "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+          },
+          {
+            "quote": "The team's expertise in industrial construction helped us navigate a complex project with ease.",
+            "name": "David Thompson",
+            "initials": "DT",
+            "role": "CEO",
+            "company": "Thompson Industries",
+            "rating": 5,
+            "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+          },
+          {
+            "quote": "Reliable, professional, and great communicators throughout the entire project.",
+            "name": "Jennifer Martinez",
+            "initials": "JM",
+            "role": "Project Manager",
+            "company": "Metro Developments",
+            "rating": 4
+          },
+          {
+            "quote": "They completed our office renovation ahead of schedule. Very impressed with the result.",
+            "name": "Robert Lee",
+            "initials": "RL",
+            "role": "Managing Director",
+            "company": "Lee & Associates",
+            "rating": 5
+          },
+          {
+            "quote": "A pleasure to work with from start to finish. Highly recommend for any commercial project.",
+            "name": "Emma Watson",
+            "initials": "EW",
+            "role": "Business Owner",
+            "company": "Watson Enterprises",
+            "rating": 5
+          }
+        ]
+      }
+    },
+
+    "no_ratings": {
+      "description": "Testimonials without star ratings",
+      "data": {
+        "headline": "Client Testimonials",
+        "testimonials": [
+          {
+            "quote": "Professional service from beginning to end. Would definitely use again.",
+            "name": "John Smith",
+            "initials": "JS",
+            "company": "Smith Holdings"
+          },
+          {
+            "quote": "Excellent communication throughout the project. No surprises.",
+            "name": "Mary Johnson",
+            "initials": "MJ",
+            "company": "Johnson Corp"
+          }
+        ]
+      }
+    },
+
+    "with_avatars": {
+      "description": "All testimonials with avatar images",
+      "data": {
+        "headline": "Trusted by Business Leaders",
+        "testimonials": [
+          {
+            "quote": "The best construction company we've ever worked with.",
+            "name": "James Wilson",
+            "role": "Director",
+            "company": "Wilson Group",
+            "rating": 5,
+            "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
+          },
+          {
+            "quote": "Exceptional quality and attention to detail.",
+            "name": "Lisa Brown",
+            "role": "Operations Manager",
+            "company": "Brown Industries",
+            "rating": 5,
+            "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
+          },
+          {
+            "quote": "Reliable and professional team. Highly recommend.",
+            "name": "Mark Davis",
+            "role": "CEO",
+            "company": "Davis Construction",
+            "rating": 5,
+            "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop"
+          }
+        ]
+      }
+    }
+  }
+}

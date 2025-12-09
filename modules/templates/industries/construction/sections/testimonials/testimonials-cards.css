@@ -1,0 +1,237 @@
+/* ==========================================================================
+   Section: Testimonials Cards
+   Variant: testimonials-cards
+   Version: 1.0.0
+   ========================================================================== */
+
+.testimonials--cards {
+  --testimonials-bg: var(--color-bg-secondary, #f9fafb);
+  --testimonials-padding: var(--spacing-20, 5rem);
+  --testimonials-padding-mobile: var(--spacing-12, 3rem);
+  --testimonials-card-bg: var(--color-bg, #ffffff);
+  --testimonials-card-radius: var(--radius-xl, 1rem);
+  --testimonials-card-shadow: var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1));
+  --testimonials-star-color: #fbbf24;
+  --testimonials-star-empty: #e5e7eb;
+}
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
+.testimonials--cards {
+  background: var(--testimonials-bg);
+  padding: var(--testimonials-padding-mobile) 0;
+}
+
+.testimonials__container {
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--spacing-4, 1rem);
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+.testimonials__tagline {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary, #4DA6FF);
+  text-align: center;
+  margin: 0 0 var(--spacing-4, 1rem);
+}
+
+.testimonials__headline {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-primary, #0F2942);
+  text-align: center;
+  margin: 0 0 var(--spacing-4, 1rem);
+}
+
+.testimonials__subheadline {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--color-text-secondary, #4b5563);
+  text-align: center;
+  margin: 0 0 var(--spacing-12, 3rem);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Grid Layout
+   -------------------------------------------------------------------------- */
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6, 1.5rem);
+}
+
+/* --------------------------------------------------------------------------
+   Testimonial Cards
+   -------------------------------------------------------------------------- */
+.testimonial-card {
+  background: var(--testimonials-card-bg);
+  border-radius: var(--testimonials-card-radius);
+  padding: var(--spacing-6, 1.5rem);
+  box-shadow: var(--testimonials-card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4, 1rem);
+}
+
+/* Rating Stars */
+.testimonial-card__rating {
+  display: flex;
+  gap: 2px;
+}
+
+.testimonial-card__star {
+  color: var(--testimonials-star-empty);
+}
+
+.testimonial-card__star--filled {
+  color: var(--testimonials-star-color);
+}
+
+/* Quote */
+.testimonial-card__quote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  flex-grow: 1;
+}
+
+.testimonial-card__quote p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary, #4b5563);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Author */
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3, 0.75rem);
+  padding-top: var(--spacing-4, 1rem);
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+.testimonial-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.testimonial-card__avatar--placeholder {
+  background: var(--color-primary, #0F2942);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.testimonial-card__author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary, #0F2942);
+  font-style: normal;
+}
+
+.testimonial-card__role,
+.testimonial-card__company {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #4b5563);
+}
+
+/* --------------------------------------------------------------------------
+   Tablet (768px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .testimonials__container {
+    padding: 0 var(--spacing-6, 1.5rem);
+  }
+
+  .testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonial-card {
+    padding: var(--spacing-8, 2rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop (1024px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .testimonials--cards {
+    padding: var(--testimonials-padding) 0;
+  }
+
+  .testimonials__container {
+    padding: 0 var(--spacing-8, 2rem);
+  }
+
+  .testimonials__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Auto-fit for variable item counts
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .testimonials__grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Animation
+   -------------------------------------------------------------------------- */
+.testimonial-card {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+.testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+.testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+.testimonial-card:nth-child(4) { animation-delay: 0.4s; }
+.testimonial-card:nth-child(5) { animation-delay: 0.5s; }
+.testimonial-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-card {
+    animation: none;
+    opacity: 1;
+  }
+}

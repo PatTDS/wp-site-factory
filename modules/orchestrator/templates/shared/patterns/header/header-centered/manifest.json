@@ -1,0 +1,109 @@
+{
+  "id": "header-centered",
+  "name": "Header Centered",
+  "description": "Centered logo with horizontal navigation, CTA button, and mobile hamburger menu. Sticky on scroll option. Best for modern, minimal brands.",
+  "category": "header",
+  "variants": ["default", "sticky", "transparent"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "sticky", "transparent"],
+      "default": "default",
+      "description": "Header variant style"
+    },
+    "sticky": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable sticky header on scroll"
+    },
+    "transparent_on_scroll": {
+      "type": "boolean",
+      "default": false,
+      "description": "Start transparent and become solid on scroll"
+    },
+    "show_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show CTA button in header"
+    },
+    "show_contact_info": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show phone/email in header (desktop only)"
+    },
+    "menu_alignment": {
+      "type": "enum",
+      "options": ["center", "spread"],
+      "default": "center",
+      "description": "Navigation menu alignment"
+    }
+  },
+  "content_slots": {
+    "logo_url": {
+      "required": true,
+      "source": "assets.logo.primary",
+      "fallback": "/wp-content/themes/theme-name/assets/logo.svg"
+    },
+    "logo_alt": {
+      "required": true,
+      "source": "client_profile.company.name",
+      "fallback": "Company Logo"
+    },
+    "menu_items": {
+      "required": true,
+      "source": "navigation.primary",
+      "fallback": [
+        {"text": "Home", "url": "/", "active": true},
+        {"text": "About", "url": "/about"},
+        {"text": "Services", "url": "/services"},
+        {"text": "Contact", "url": "/contact"}
+      ]
+    },
+    "cta_text": {
+      "required": false,
+      "source": "content_drafts.header.cta_text",
+      "fallback": "Get Started"
+    },
+    "cta_url": {
+      "required": false,
+      "source": "content_drafts.header.cta_url",
+      "fallback": "#contact"
+    },
+    "phone": {
+      "required": false,
+      "source": "client_profile.contact.phone",
+      "fallback": ""
+    },
+    "email": {
+      "required": false,
+      "source": "client_profile.contact.email",
+      "fallback": ""
+    }
+  },
+  "tailwind_classes": {
+    "header": "w-full bg-white border-b border-gray-200 transition-all duration-300",
+    "header_sticky": "sticky top-0 z-50 shadow-sm",
+    "header_transparent": "bg-transparent border-transparent",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "nav_wrapper": "flex items-center justify-between py-4",
+    "logo": "h-10 md:h-12 w-auto",
+    "nav_menu": "hidden lg:flex items-center gap-8",
+    "nav_link": "text-gray-700 hover:text-primary-600 font-medium transition-colors",
+    "nav_link_active": "text-primary-600",
+    "cta_button": "inline-flex items-center px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all shadow-sm",
+    "mobile_toggle": "lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors",
+    "mobile_menu": "lg:hidden border-t border-gray-200 py-4",
+    "mobile_link": "block py-3 px-4 text-gray-700 hover:bg-gray-50 hover:text-primary-600 rounded-lg transition-colors"
+  },
+  "suitability": {
+    "industries": ["technology", "saas", "startup", "agency", "professional-services", "consulting"],
+    "styles": ["modern", "minimal", "clean", "professional"],
+    "score_factors": {
+      "is_modern": 0.4,
+      "is_b2b": 0.3,
+      "prefers_minimal": 0.3,
+      "has_few_pages": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

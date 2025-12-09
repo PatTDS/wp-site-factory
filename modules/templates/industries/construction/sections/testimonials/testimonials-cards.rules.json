@@ -1,0 +1,128 @@
+{
+  "$schema": "../../../../schemas/template-rules.schema.json",
+  "section": "testimonials",
+  "variant": "testimonials-cards",
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Grid of testimonial cards with star ratings, quotes, and author information. Auto-adapts to 1-3 columns based on viewport.",
+
+  "blueprint_mapping": {
+    "required": [
+      {
+        "path": "content_drafts.testimonials.headline",
+        "template_var": "headline",
+        "description": "Section headline"
+      },
+      {
+        "path": "content_drafts.testimonials.items",
+        "template_var": "testimonials",
+        "description": "Array of testimonial objects"
+      }
+    ],
+    "optional": [
+      {
+        "path": "content_drafts.testimonials.tagline",
+        "template_var": "tagline",
+        "description": "Tagline above headline"
+      },
+      {
+        "path": "content_drafts.testimonials.subheadline",
+        "template_var": "subheadline",
+        "description": "Supporting text below headline"
+      }
+    ]
+  },
+
+  "testimonial_item_schema": {
+    "required": ["quote", "name"],
+    "optional": ["rating", "role", "company", "avatar", "initials"],
+    "notes": "If no avatar provided, use initials from name"
+  },
+
+  "adaptive_rules": {
+    "headline": {
+      "max_chars": 60,
+      "overflow_strategy": "wrap"
+    },
+    "testimonials": {
+      "min_items": 1,
+      "max_items": 6,
+      "optimal_items": 3,
+      "grid_behavior": "auto-fit with minmax(320px, 1fr)",
+      "notes": "3 testimonials is optimal. Grid adapts to 1-3 columns."
+    },
+    "quote": {
+      "max_chars": 300,
+      "overflow_strategy": "truncate",
+      "notes": "Keep quotes concise for visual balance"
+    },
+    "rating": {
+      "min": 1,
+      "max": 5,
+      "notes": "Optional 1-5 star rating"
+    }
+  },
+
+  "design_tokens": {
+    "uses": [
+      "colors.primary",
+      "colors.secondary",
+      "colors.bg",
+      "colors.bg-secondary",
+      "colors.text.secondary",
+      "spacing.*",
+      "borders.radius.xl",
+      "shadows.md"
+    ]
+  },
+
+  "responsive_behavior": {
+    "mobile": {
+      "breakpoint": "< 768px",
+      "columns": 1
+    },
+    "tablet": {
+      "breakpoint": "768px - 1023px",
+      "columns": 2
+    },
+    "desktop": {
+      "breakpoint": ">= 1024px",
+      "columns": "auto-fit (typically 3)"
+    }
+  },
+
+  "accessibility": {
+    "semantic_element": "section",
+    "card_element": "article",
+    "quote_element": "blockquote with p",
+    "author_element": "cite",
+    "rating_aria": "aria-label for star rating"
+  },
+
+  "llm_instructions": {
+    "DO": [
+      "Extract testimonials from content_drafts.testimonials.items",
+      "Map: quote, name, role, company, rating",
+      "Generate initials from name if no avatar",
+      "Use 5-star rating system"
+    ],
+    "DO_NOT": [
+      "Add more than 6 testimonials",
+      "Use very long quotes",
+      "Modify card structure",
+      "Change star rating styling"
+    ],
+    "HANDLE_MISSING": [
+      "If no tagline: Don't render .testimonials__tagline",
+      "If no subheadline: Don't render .testimonials__subheadline",
+      "If no rating: Don't render .testimonial-card__rating",
+      "If no avatar: Render initials placeholder",
+      "If no role: Don't render .testimonial-card__role",
+      "If no company: Don't render .testimonial-card__company"
+    ]
+  },
+
+  "testing": {
+    "test_data_file": "testimonials-cards.test.json"
+  }
+}

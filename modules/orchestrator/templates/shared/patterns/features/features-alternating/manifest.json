@@ -1,0 +1,99 @@
+{
+  "id": "features-alternating",
+  "name": "Features Alternating",
+  "description": "Alternating rows of feature content and images. Detailed descriptions with bullet points and large feature images.",
+  "category": "features",
+  "variants": ["default", "with-icons", "compact"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "with-icons", "compact"],
+      "default": "default",
+      "description": "Layout variant"
+    },
+    "show_bullets": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show bullet points for features"
+    },
+    "image_aspect": {
+      "type": "enum",
+      "options": ["square", "landscape", "portrait"],
+      "default": "landscape",
+      "description": "Image aspect ratio"
+    },
+    "background_pattern": {
+      "type": "enum",
+      "options": ["none", "dots", "grid"],
+      "default": "none",
+      "description": "Background pattern style"
+    }
+  },
+  "content_slots": {
+    "section_title": {
+      "required": false,
+      "source": "content_drafts.features.headline",
+      "fallback": "Features That Matter"
+    },
+    "section_subtitle": {
+      "required": false,
+      "source": "content_drafts.features.subheadline",
+      "fallback": "Everything you need in one powerful platform"
+    },
+    "features": {
+      "required": true,
+      "source": "content_drafts.features.detailed_items",
+      "fallback": [
+        {
+          "title": "Advanced Analytics",
+          "description": "Get deep insights into your business with real-time analytics and reporting.",
+          "bullets": [
+            "Real-time data visualization",
+            "Custom report builder",
+            "Export to multiple formats"
+          ],
+          "image": "",
+          "image_alt": "Analytics Dashboard"
+        },
+        {
+          "title": "Team Collaboration",
+          "description": "Work together seamlessly with powerful collaboration tools built for teams.",
+          "bullets": [
+            "Shared workspaces",
+            "Real-time commenting",
+            "Activity tracking"
+          ],
+          "image": "",
+          "image_alt": "Team Collaboration"
+        }
+      ]
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-20 lg:py-28 bg-white",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "header": "text-center mb-20",
+    "title": "text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900 mb-4",
+    "subtitle": "text-lg text-gray-600 max-w-2xl mx-auto",
+    "feature_row": "grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20 last:mb-0",
+    "feature_row_reverse": "grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20 last:mb-0 lg:flex-row-reverse",
+    "content": "space-y-6",
+    "feature_title": "text-2xl md:text-3xl font-bold text-gray-900",
+    "feature_description": "text-lg text-gray-600",
+    "bullets": "space-y-3",
+    "bullet_item": "flex items-start gap-3",
+    "image_container": "rounded-2xl overflow-hidden shadow-2xl",
+    "image": "w-full h-full object-cover"
+  },
+  "suitability": {
+    "industries": ["saas", "technology", "agency", "consulting"],
+    "styles": ["modern", "professional", "detailed"],
+    "score_factors": {
+      "has_complex_features": 0.4,
+      "needs_detailed_explanation": 0.3,
+      "has_feature_images": 0.3,
+      "b2b": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

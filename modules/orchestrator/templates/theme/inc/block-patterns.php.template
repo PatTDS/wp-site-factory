@@ -1,0 +1,94 @@
+<?php
+/**
+ * Block Patterns Registration
+ * {{theme_name}}
+ *
+ * @package {{theme_slug}}
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * Register custom block pattern category
+ */
+function {{theme_slug}}_register_pattern_category() {
+    register_block_pattern_category(
+        '{{theme_slug}}',
+        array(
+            'label'       => __( '{{theme_name}} Patterns', '{{text_domain}}' ),
+            'description' => __( 'Custom block patterns for {{theme_name}}', '{{text_domain}}' ),
+        )
+    );
+}
+add_action( 'init', '{{theme_slug}}_register_pattern_category' );
+
+/**
+ * Register all block patterns from the patterns directory
+ */
+function {{theme_slug}}_register_patterns() {
+    $patterns_dir = get_template_directory() . '/patterns';
+
+    if ( ! is_dir( $patterns_dir ) ) {
+        return;
+    }
+
+    // Get all PHP files in patterns directory
+    $pattern_files = glob( $patterns_dir . '/*.php' );
+
+    if ( empty( $pattern_files ) ) {
+        return;
+    }
+
+    foreach ( $pattern_files as $pattern_file ) {
+        $pattern_slug = basename( $pattern_file, '.php' );
+
+        // Skip manifest files
+        if ( strpos( $pattern_slug, '.manifest' ) !== false ) {
+            continue;
+        }
+
+        // Load pattern manifest if exists
+        $manifest_file = $patterns_dir . '/' . $pattern_slug . '.manifest.json';
+        $manifest = array();
+
+        if ( file_exists( $manifest_file ) ) {
+            $manifest_content = file_get_contents( $manifest_file );
+            $manifest = json_decode( $manifest_content, true );
+        }
+
+        // Get pattern content
+        ob_start();
+        include $pattern_file;
+        $pattern_content = ob_get_clean();
+
+        // Register pattern with WordPress
+        register_block_pattern(
+            '{{theme_slug}}/' . $pattern_slug,
+            array(
+                'title'       => $manifest['name'] ?? ucwords( str_replace( '-', ' ', $pattern_slug ) ),
+                'description' => $manifest['description'] ?? '',
+                'content'     => $pattern_content,
+                'categories'  => array( '{{theme_slug}}' ),
+                'keywords'    => $manifest['keywords'] ?? array(),
+                'viewportWidth' => 1200,
+            )
+        );
+    }
+}
+add_action( 'init', '{{theme_slug}}_register_patterns' );
+
+/**
+ * Allow patterns to be used in the block editor
+ */
+function {{theme_slug}}_block_editor_assets() {
+    // Add any block editor specific scripts or styles here
+    wp_enqueue_style(
+        '{{theme_slug}}-editor-styles',
+        get_template_directory_uri() . '/assets/css/editor-styles.css',
+        array(),
+        wp_get_theme()->get( 'Version' )
+    );
+}
+add_action( 'enqueue_block_editor_assets', '{{theme_slug}}_block_editor_assets' );

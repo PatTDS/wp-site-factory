@@ -1,0 +1,161 @@
+{
+  "$schema": "../../../../schemas/template-rules.schema.json",
+  "section": "contact",
+  "variant": "contact-split-map",
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Split layout with contact form on left and company info with Google Maps on right. Form includes name, email, phone, optional service selector, and message fields.",
+
+  "blueprint_mapping": {
+    "required": [
+      {
+        "path": "content_drafts.contact.headline",
+        "template_var": "headline",
+        "description": "Section headline"
+      }
+    ],
+    "optional": [
+      {
+        "path": "content_drafts.contact.tagline",
+        "template_var": "tagline",
+        "description": "Tagline above headline"
+      },
+      {
+        "path": "content_drafts.contact.subheadline",
+        "template_var": "subheadline",
+        "description": "Supporting text"
+      },
+      {
+        "path": "content_drafts.contact.submit_text",
+        "template_var": "submit_text",
+        "default": "Send Message",
+        "description": "Form submit button text"
+      },
+      {
+        "path": "company.contact.address",
+        "template_var": "address",
+        "description": "Business address"
+      },
+      {
+        "path": "company.contact.phone",
+        "template_var": "phone",
+        "description": "Business phone"
+      },
+      {
+        "path": "company.contact.email",
+        "template_var": "email",
+        "description": "Business email"
+      },
+      {
+        "path": "company.hours.formatted",
+        "template_var": "hours",
+        "description": "Business hours"
+      },
+      {
+        "path": "company.location.map_embed",
+        "template_var": "map_embed",
+        "description": "Google Maps embed URL"
+      },
+      {
+        "path": "content_drafts.contact.show_service_select",
+        "template_var": "show_service_select",
+        "description": "Whether to show service dropdown"
+      },
+      {
+        "path": "content_drafts.contact.services",
+        "template_var": "services",
+        "description": "Array of service names for dropdown"
+      }
+    ]
+  },
+
+  "form_fields": {
+    "required": ["name", "email", "message"],
+    "optional": ["phone", "service"],
+    "notes": "Form structure is fixed. Processing handled by WordPress backend."
+  },
+
+  "adaptive_rules": {
+    "headline": {
+      "max_chars": 60,
+      "overflow_strategy": "wrap"
+    },
+    "subheadline": {
+      "max_chars": 150,
+      "overflow_strategy": "wrap"
+    },
+    "services": {
+      "max_items": 10,
+      "notes": "Optional dropdown for service selection"
+    }
+  },
+
+  "design_tokens": {
+    "uses": [
+      "colors.primary",
+      "colors.secondary",
+      "colors.bg",
+      "colors.text.secondary",
+      "colors.border",
+      "spacing.*",
+      "borders.radius.md",
+      "borders.radius.xl",
+      "shadows.md"
+    ]
+  },
+
+  "responsive_behavior": {
+    "mobile": {
+      "breakpoint": "< 1024px",
+      "layout": "stacked (form on top)",
+      "map_aspect": "16:9"
+    },
+    "desktop": {
+      "breakpoint": ">= 1024px",
+      "layout": "split (form left, info right)",
+      "map_height": "300px"
+    }
+  },
+
+  "accessibility": {
+    "semantic_element": "section",
+    "form_requirements": {
+      "labels": "All inputs have associated labels",
+      "required_indicator": "Visual and semantic (required attribute)",
+      "focus_states": "Visible focus indicators"
+    },
+    "map_requirements": {
+      "title": "iframe has descriptive title",
+      "loading": "lazy loading enabled"
+    }
+  },
+
+  "llm_instructions": {
+    "DO": [
+      "Extract contact info from company object in blueprint",
+      "Use Google Maps embed URL if provided",
+      "Include service dropdown if services array provided",
+      "Format phone as tel: link, email as mailto: link"
+    ],
+    "DO_NOT": [
+      "Modify form structure",
+      "Change form field names",
+      "Add additional form fields",
+      "Remove required indicators"
+    ],
+    "HANDLE_MISSING": [
+      "If no tagline: Don't render .contact__tagline",
+      "If no subheadline: Don't render .contact__subheadline",
+      "If no address: Don't render address info item",
+      "If no phone: Don't render phone info item",
+      "If no email: Don't render email info item",
+      "If no hours: Don't render hours info item",
+      "If no map_embed: Show map placeholder",
+      "If no services: Don't show service dropdown"
+    ]
+  },
+
+  "testing": {
+    "test_data_file": "contact-split-map.test.json"
+  }
+}

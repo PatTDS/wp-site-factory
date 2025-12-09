@@ -1,0 +1,125 @@
+{
+  "$schema": "../../../../schemas/test-data.schema.json",
+  "section": "about",
+  "variant": "about-split-image",
+  "version": "1.0.0",
+
+  "test_cases": {
+    "minimal": {
+      "description": "Only headline",
+      "data": {
+        "headline": "About Our Company"
+      }
+    },
+
+    "typical": {
+      "description": "Full about section with image, description, and values",
+      "data": {
+        "tagline": "Who We Are",
+        "headline": "Building Excellence Since 1999",
+        "description": "<p>Anywhere Solutions is a leading construction company specializing in commercial and industrial projects across Australia. With over 25 years of experience, we have built a reputation for delivering quality results on time and within budget.</p><p>Our team of experienced professionals brings expertise across all aspects of construction, from initial planning through to final handover.</p>",
+        "values": [
+          {
+            "title": "Quality First",
+            "description": "We never compromise on the quality of materials or workmanship."
+          },
+          {
+            "title": "Safety Always",
+            "description": "A zero-harm workplace is our top priority on every project."
+          },
+          {
+            "title": "Client Focus",
+            "description": "Your satisfaction drives every decision we make."
+          }
+        ],
+        "experience_badge": {
+          "value": "25+",
+          "label": "Years Experience"
+        },
+        "image": {
+          "url": {
+            "large": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200"
+          },
+          "alt": "Construction team at work",
+          "photographer": "Construction Pro",
+          "photographer_url": "https://unsplash.com/@constructionpro"
+        },
+        "cta_text": "Learn More About Us",
+        "cta_url": "#contact"
+      }
+    },
+
+    "maximal": {
+      "description": "All fields with four values",
+      "data": {
+        "tagline": "Our Story",
+        "headline": "Trusted Construction Partner for Over Two Decades",
+        "description": "<p>Founded in 1999, Anywhere Solutions has grown from a small family business to one of Australia's most trusted construction companies. We specialise in commercial and industrial construction, delivering projects that exceed expectations.</p><p>Our success is built on strong relationships with our clients, subcontractors, and suppliers. We believe in open communication, transparent pricing, and delivering on our promises.</p><p>Today, our team of over 150 professionals continues to uphold the values that have made us a leader in the industry.</p>",
+        "values": [
+          {
+            "title": "Quality Craftsmanship",
+            "description": "Every project receives our full attention to detail and commitment to excellence."
+          },
+          {
+            "title": "Safety Excellence",
+            "description": "Zero harm is not just a goal—it's how we operate every single day."
+          },
+          {
+            "title": "Client Partnership",
+            "description": "We work alongside you as partners, not just contractors."
+          },
+          {
+            "title": "Innovation",
+            "description": "Embracing new technologies and methods to deliver better outcomes."
+          }
+        ],
+        "experience_badge": {
+          "value": "25+",
+          "label": "Years"
+        },
+        "image": {
+          "url": {
+            "small": "https://images.unsplash.com/photo-example?w=400",
+            "medium": "https://images.unsplash.com/photo-example?w=800",
+            "large": "https://images.unsplash.com/photo-example?w=1200"
+          },
+          "srcset": "https://images.unsplash.com/photo-example?w=400 400w, https://images.unsplash.com/photo-example?w=800 800w, https://images.unsplash.com/photo-example?w=1200 1200w",
+          "alt": "Our experienced construction team",
+          "photographer": "John Smith",
+          "photographer_url": "https://unsplash.com/@johnsmith",
+          "source": "unsplash",
+          "source_url": "https://unsplash.com/photos/example"
+        },
+        "cta_text": "Get in Touch",
+        "cta_url": "#contact"
+      }
+    },
+
+    "no_values": {
+      "description": "About section without values list",
+      "data": {
+        "tagline": "About Us",
+        "headline": "Your Trusted Construction Partner",
+        "description": "<p>With decades of experience in commercial and industrial construction, we deliver quality projects on time and within budget.</p>",
+        "experience_badge": {
+          "value": "500+",
+          "label": "Projects"
+        },
+        "cta_text": "Contact Us",
+        "cta_url": "#contact"
+      }
+    },
+
+    "no_image": {
+      "description": "About section without image (gradient fallback)",
+      "data": {
+        "headline": "Expert Construction Services",
+        "description": "<p>Professional construction services for commercial and industrial clients.</p>",
+        "values": [
+          { "title": "Quality", "description": "Uncompromising standards." },
+          { "title": "Safety", "description": "Zero harm workplace." }
+        ]
+      }
+    }
+  }
+}

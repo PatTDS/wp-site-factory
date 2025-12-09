@@ -1,0 +1,160 @@
+{
+  "$schema": "../../schemas/industry-manifest.schema.json",
+  "industry": "construction",
+  "display_name": "Construction & Industrial",
+  "version": "1.0.0",
+  "status": "active",
+  "description": "Templates for construction, industrial, manufacturing, and trade businesses",
+
+  "applicable_niches": [
+    "general-construction",
+    "commercial-construction",
+    "residential-construction",
+    "industrial-services",
+    "precast-concrete",
+    "steel-fabrication",
+    "electrical-contractors",
+    "plumbing-contractors",
+    "hvac-services",
+    "roofing",
+    "landscaping",
+    "demolition",
+    "excavation",
+    "concrete-services"
+  ],
+
+  "default_preset": "industrial-modern",
+
+  "presets": {
+    "industrial-modern": {
+      "name": "Industrial Modern",
+      "description": "Bold, professional design with dark tones and strong typography. Ideal for industrial and commercial construction.",
+      "tone": ["professional", "bold"],
+      "sections": {
+        "hero": "hero-split-video",
+        "services": "services-grid-3col",
+        "stats": "stats-dark-animated",
+        "about": "about-split-image",
+        "testimonials": "testimonials-cards",
+        "contact": "contact-split-map"
+      }
+    },
+    "corporate-clean": {
+      "name": "Corporate Clean",
+      "description": "Clean, trustworthy design with lighter tones. Ideal for professional services and corporate clients.",
+      "tone": ["professional", "trustworthy"],
+      "sections": {
+        "hero": "hero-split-image",
+        "services": "services-grid-icons",
+        "stats": "stats-light",
+        "about": "about-split-image",
+        "testimonials": "testimonials-slider",
+        "contact": "contact-form-centered"
+      }
+    },
+    "bold-minimal": {
+      "name": "Bold Minimal",
+      "description": "Minimalist design with bold typography. Ideal for modern construction brands.",
+      "tone": ["bold", "modern"],
+      "sections": {
+        "hero": "hero-fullwidth",
+        "services": "services-list",
+        "stats": "stats-inline",
+        "about": "about-text-focused",
+        "testimonials": "testimonials-large-quote",
+        "contact": "contact-minimal"
+      }
+    }
+  },
+
+  "sections_available": {
+    "hero": {
+      "variants": ["hero-split-video", "hero-split-image", "hero-fullwidth"],
+      "default": "hero-split-video",
+      "status": {
+        "hero-split-video": "approved",
+        "hero-split-image": "draft",
+        "hero-fullwidth": "draft"
+      }
+    },
+    "services": {
+      "variants": ["services-grid-3col", "services-grid-icons", "services-list", "services-accordion"],
+      "default": "services-grid-3col",
+      "status": {
+        "services-grid-3col": "draft",
+        "services-grid-icons": "draft",
+        "services-list": "draft",
+        "services-accordion": "draft"
+      }
+    },
+    "stats": {
+      "variants": ["stats-dark-animated", "stats-light", "stats-inline"],
+      "default": "stats-dark-animated",
+      "status": {
+        "stats-dark-animated": "draft",
+        "stats-light": "draft",
+        "stats-inline": "draft"
+      }
+    },
+    "about": {
+      "variants": ["about-split-image", "about-text-focused", "about-timeline"],
+      "default": "about-split-image",
+      "status": {
+        "about-split-image": "draft",
+        "about-text-focused": "draft",
+        "about-timeline": "draft"
+      }
+    },
+    "testimonials": {
+      "variants": ["testimonials-cards", "testimonials-slider", "testimonials-large-quote"],
+      "default": "testimonials-cards",
+      "status": {
+        "testimonials-cards": "draft",
+        "testimonials-slider": "draft",
+        "testimonials-large-quote": "draft"
+      }
+    },
+    "contact": {
+      "variants": ["contact-split-map", "contact-form-centered", "contact-minimal"],
+      "default": "contact-split-map",
+      "status": {
+        "contact-split-map": "draft",
+        "contact-form-centered": "draft",
+        "contact-minimal": "draft"
+      }
+    }
+  },
+
+  "stock_photo_defaults": {
+    "hero": ["construction site", "industrial", "professional workers", "heavy equipment"],
+    "about": ["construction team", "workers collaboration", "project planning"],
+    "services": ["construction work", "tools", "building", "equipment"]
+  },
+
+  "design_characteristics": {
+    "typography": {
+      "style": "bold",
+      "headline_weight": 700,
+      "body_weight": 400
+    },
+    "colors": {
+      "tendency": "dark-primary",
+      "common_primaries": ["#0F2942", "#1a365d", "#0c4a6e", "#1e3a5f"],
+      "common_accents": ["#4DA6FF", "#f59e0b", "#10b981", "#ef4444"]
+    },
+    "imagery": {
+      "style": "professional",
+      "subjects": ["workers", "equipment", "projects", "buildings"],
+      "treatment": "high-contrast"
+    }
+  },
+
+  "seo_defaults": {
+    "schema_type": "LocalBusiness",
+    "industry_keywords": ["construction", "building", "contractor", "industrial"],
+    "service_schema": "Service"
+  },
+
+  "created_at": "2025-12-05",
+  "updated_at": "2025-12-05"
+}

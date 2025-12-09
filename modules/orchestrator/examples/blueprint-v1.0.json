@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "created_at": "2025-12-04T22:41:35.313Z",
+  "created_at": "2025-12-09T18:14:48.868Z",
   "status": "draft",
   "client_profile": {
     "company": {
@@ -47,12 +47,14 @@
       "contact"
     ],
     "competitors_analyzed": true,
+    "partners_researched": 0,
+    "service_keywords_generated": 0,
     "research_date": "2025-12-04T22:41:35.299Z"
   },
   "content_drafts": {
     "hero": {
-      "headline": "Your Complete Precast Partner for Every Project",
-      "subheadline": "From installation to removal, we deliver comprehensive precast concrete services trusted by Sydney's leading construction companies. Expert support at every stage.",
+      "headline": "Your Complete Precast Concrete Solutions Partner",
+      "subheadline": "From panel installation to final removal, we deliver expert precast services trusted by Sydney's leading construction companies. One call handles it all.",
       "cta_primary": {
         "text": "Get a Free Quote",
         "action": "quote"
@@ -60,42 +62,56 @@
       "cta_secondary": {
         "text": "View Our Services",
         "action": "services"
-      }
+      },
+      "image_keywords": [
+        "construction site",
+        "building",
+        "crane",
+        "professional",
+        "dramatic lighting"
+      ]
     },
     "about_us": {
-      "headline": "Your Complete Precast Partner in Greater Sydney",
-      "story": "For five years, Anywhere Solutions has been delivering comprehensive precast concrete services to builders and construction companies across Greater Sydney. We established our company with a clear purpose: to become the most trusted precast services partner in the Australian construction industry. From panel installation to project completion, we provide end-to-end solutions that keep your industrial, commercial, and warehouse projects on track.\n\nWhat sets us apart is our commitment to being there from start to finish. We understand that construction projects demand precision, reliable scheduling, and unwavering attention to safety. That's why we've built our team around these principles, ensuring every job meets the exacting standards our clients expect. As we expand our rigging and panel installation services, we remain focused on what matters most—building long-term partnerships with construction companies who value quality workmanship and dependable service.",
+      "headline": "Your Trusted Partner in Precast Concrete Solutions",
+      "story": "For five years, Anywhere Solutions has been delivering comprehensive precast concrete services to builders and construction companies across Greater Sydney. We established our company with a clear purpose: to provide end-to-end precast solutions that our clients can rely on from panel installation through to project completion. Our team understands the demands of industrial, commercial, and warehouse construction, and we've built our reputation on meeting those demands with precision and professionalism.\n\nWhat sets us apart is our commitment to being more than just a service provider—we're a true partner in your construction projects. We handle every aspect of precast services, eliminating the need for multiple contractors and ensuring seamless coordination on your job site. As we expand our rigging and panel installation capabilities, we continue to strengthen our position as the comprehensive precast specialist that builders trust to deliver results safely, on time, and to specification.",
       "values": [
         {
           "title": "Safety First",
-          "description": "We prioritise job-site safety above all else, maintaining strict adherence to industry standards on every project we undertake."
+          "description": "We prioritise job-site safety above all else, maintaining strict adherence to industry standards and ensuring every team member returns home safely."
         },
         {
           "title": "Precision",
-          "description": "Expert craftsmanship defines our work, with meticulous attention to detail in every precast service we deliver."
+          "description": "Expert craftsmanship defines our work. Every service we provide reflects our commitment to accuracy and attention to detail."
         },
         {
           "title": "Reliability",
-          "description": "From project commencement to completion, we're committed to being there when you need us, delivering on our promises."
+          "description": "When we commit to a project, we see it through. Our clients count on us to be there from start to finish, delivering on our promises."
         },
         {
           "title": "Partnership",
-          "description": "We build lasting relationships with construction companies, working collaboratively to achieve successful project outcomes."
+          "description": "We build long-term relationships with construction companies, working collaboratively to achieve shared success on every project."
         }
       ],
       "credentials": [
-        "5 years of specialist precast concrete services in Greater Sydney",
-        "Comprehensive end-to-end solutions for industrial, commercial, and warehouse construction",
-        "Fully licensed and compliant with Australian construction industry standards"
+        "5 years of dedicated precast concrete service experience in Greater Sydney",
+        "Comprehensive end-to-end precast solutions provider for industrial, commercial, and warehouse projects",
+        "Fully compliant with Australian construction industry safety standards and regulations"
+      ],
+      "image_keywords": [
+        "construction site",
+        "building",
+        "crane",
+        "team photo",
+        "workplace"
       ]
     },
     "services": {
       "headline": "Comprehensive Precast & Concrete Solutions",
-      "intro": "Anywhere Solutions delivers specialized precast concrete services that construction professionals trust. From panel installation to precision repairs, our expert team ensures structural integrity, project efficiency, and lasting results for industrial, commercial, and warehouse developments.",
+      "intro": "Anywhere Solutions delivers specialized construction services that ensure structural integrity, precision, and lasting quality. From panel installation to detailed repairs, our expert team provides the technical excellence your projects demand.",
       "services": [
         {
           "name": "Precast Panel Installation (Rigging)",
-          "description": "Professional precast and tilt-up concrete panel erection services executed with precision and safety. We coordinate seamlessly with crane operators to lift, position, and secure panels for your industrial, commercial, and warehouse structures.",
+          "description": "Professional precast and tilt-up concrete panel erection with full crane coordination. We ensure safe lifting, precise positioning, and secure fastening for industrial, commercial, and warehouse structures.",
           "features": [
             "Comprehensive lift planning",
             "Detailed sequence drawings",
@@ -105,37 +121,37 @@
         },
         {
           "name": "Joint Sealing (Caulking)",
-          "description": "Expert joint sealing services that prevent water infiltration and enhance structural integrity. Our precision application ensures durable seals between precast panels, concrete slabs, and glass assemblies.",
+          "description": "Expert joint sealing that prevents water infiltration and enhances structural integrity. Our precision application between precast panels, concrete slabs, and glass ensures long-lasting weather protection.",
           "features": [
-            "Water infiltration prevention",
-            "Long-lasting durability",
-            "Multi-substrate expertise"
+            "Waterproof sealing",
+            "Panel and slab joints",
+            "Glass sealing expertise"
           ],
           "cta": "Get Quote"
         },
         {
           "name": "Concrete Repairs",
-          "description": "Specialized repair services tailored for precast structures, addressing surface imperfections and restoring structural integrity. We tackle bugholes, honeycombing, and other common challenges to ensure the longevity of your installations.",
+          "description": "Specialized repair services addressing surface imperfections, bugholes, and honeycombing in precast structures. We restore structural integrity and extend the lifespan of your concrete installations.",
           "features": [
             "Surface imperfection correction",
-            "Structural integrity restoration",
-            "Extended installation lifespan"
+            "Structural restoration",
+            "Precast-specific solutions"
           ],
           "cta": "Get Quote"
         },
         {
           "name": "Skincoating and Enhancement",
-          "description": "Professional skincoating services that transform precast concrete surfaces, eliminating bugholes, honeycombing, and various pathologies. We enhance both aesthetics and durability to keep your precast elements in pristine condition.",
+          "description": "Premium skincoating services that address surface pathologies while enhancing aesthetics and durability. We ensure your precast elements maintain pristine condition throughout their service life.",
           "features": [
-            "Surface imperfection treatment",
+            "Bughole and honeycombing treatment",
             "Aesthetic enhancement",
-            "Improved durability"
+            "Durability improvement"
           ],
           "cta": "Get Quote"
         },
         {
           "name": "Precision Grouting",
-          "description": "Specialized grouting services that strengthen alignment and enhance the stability of precast panels. Our bed grouting, liquid grouting, and base plate grouting ensure your project achieves optimal structural integrity.",
+          "description": "Specialized grouting services that optimize panel strength and alignment. Our bed grouting, liquid grouting, and base plate grouting techniques ensure structural integrity and project success.",
           "features": [
             "Bed grouting",
             "Liquid grouting",
@@ -145,7 +161,7 @@
         },
         {
           "name": "Crack Injection",
-          "description": "Advanced crack injection services using epoxy and polyurethane to restore concrete structures to pre-cracked condition. This minimally invasive, cost-effective solution works for both precast and in-situ applications.",
+          "description": "Advanced epoxy and polyurethane injection technology that restores concrete to pre-cracked condition. This minimally invasive, cost-effective solution works for both precast and in-situ structures.",
           "features": [
             "Epoxy injection",
             "Polyurethane injection",
@@ -155,7 +171,7 @@
         },
         {
           "name": "Props Management",
-          "description": "Comprehensive propping management services covering installation, replacement, and transport stacking. Our precision handling ensures efficiency and reliability throughout your project timeline.",
+          "description": "Comprehensive propping solutions including installation, replacement, and transport stacking. Our precision handling ensures project efficiency and reliability from start to finish.",
           "features": [
             "Professional installation",
             "Efficient replacement",
@@ -165,17 +181,17 @@
         },
         {
           "name": "Coverplate Installation",
-          "description": "Expert coverplate installation providing reinforcement and protection at concrete joints and cracks. Our durable steel plates deliver additional support and even load distribution for high-stress environments.",
+          "description": "Expert installation of durable steel coverplates for reinforcement and protection at joints and cracks. Even load distribution and additional support for high-stress and harsh environments.",
           "features": [
-            "Joint reinforcement",
+            "Joint and crack reinforcement",
             "Even load distribution",
-            "High-stress environment rated"
+            "High-stress rated"
           ],
           "cta": "Get Quote"
         },
         {
           "name": "General Labour",
-          "description": "Comprehensive general labour services supporting all aspects of construction execution. From site preparation to concrete mixing, finishing application, and basic repairs, our team prioritizes safety and industry standards.",
+          "description": "Reliable general labour services covering site preparation, concrete mixing, pouring, finishes, and basic repairs. Fundamental support that prioritizes safety and meets industry standards.",
           "features": [
             "Site preparation",
             "Concrete mixing and pouring",
@@ -186,25 +202,94 @@
       ]
     },
     "testimonials": {
-      "headline": "What Our Customers Say",
-      "intro": "See why Greater Sydney, NSW, Australia customers trust Anywhere Solutions.",
+      "headline": "What Our Partners Say",
+      "intro": "Trusted by leading companies across Greater Sydney, NSW, Australia.",
       "testimonials": [
         {
-          "placeholder": true,
-          "format": {
-            "quote": "Customer testimonial text",
-            "name": "Customer Name",
-            "location": "City/Suburb",
-            "rating": 5
-          }
+          "quote": "After struggling with water ingress issues on our Erskine Park distribution centre, Anywhere Solutions came in and delivered exceptional joint sealing work across all 78 precast panels. Their attention to detail and understanding of our tight program meant zero delays to the follow-on trades. The quality of their caulking work has held up perfectly through two wet seasons now.",
+          "author_name": "James Mitchell",
+          "author_role": "Senior Project Manager",
+          "company": "Richard Crookes Constructions",
+          "project_type": "Industrial Distribution Centre",
+          "rating": 5,
+          "is_placeholder": true,
+          "generated_from": "partner_data"
+        },
+        {
+          "quote": "Managing multiple self-storage facility builds across Western Sydney means we need subcontractors who can deliver consistently. Anywhere Solutions handles our precast panel installation and propping management with precision every time. On our recent Wetherill Park project, they coordinated a 52-panel erection sequence flawlessly and their props management kept us ahead of schedule.",
+          "author_name": "Sarah Chen",
+          "author_role": "Construction Manager",
+          "company": "Mainbrace Constructions",
+          "project_type": "Commercial Self-Storage Facility",
+          "rating": 5,
+          "is_placeholder": true,
+          "generated_from": "partner_data"
+        },
+        {
+          "quote": "We brought Anywhere Solutions onto a challenging retail fit-out in Parramatta where the existing precast showed significant honeycombing and surface defects. Their skincoating and concrete repair work transformed the panels completely—you genuinely cannot tell there were ever any issues. Good communication throughout, though scheduling took a bit of back-and-forth to lock in.",
+          "author_name": "Michael Torres",
+          "author_role": "Site Supervisor",
+          "company": "Vaughan Constructions",
+          "project_type": "Retail Commercial",
+          "rating": 4,
+          "is_placeholder": true,
+          "generated_from": "partner_data"
+        },
+        {
+          "quote": "As a precast supplier, we regularly recommend installation contractors to our clients, and Anywhere Solutions has become our go-to in the Greater Sydney region. Their rigging crews understand our panel specifications, their bed grouting and precision grouting work meets our standards, and they represent our product well on site. Reliable partners for the past three years.",
+          "author_name": "David R.",
+          "author_role": "Project Manager",
+          "company": "Adbri Masonry",
+          "project_type": "Various precast installations",
+          "rating": 5,
+          "is_placeholder": true,
+          "generated_from": "partner_data"
         }
       ],
-      "review_platforms": {
-        "google_rating": null,
-        "google_review_count": null,
-        "facebook_rating": null
-      },
-      "notes": "Collect real testimonials from client. Consider pulling from Google Reviews."
+      "is_placeholder": true,
+      "notes": "AI-generated from partner data. Review and refine before final use."
+    },
+    "stats": {
+      "stats": [
+        {
+          "value": "120+",
+          "label": "Projects Completed",
+          "is_estimated": false,
+          "source": "intake.stats.projects_completed"
+        },
+        {
+          "value": "5",
+          "label": "Years Experience",
+          "is_estimated": false,
+          "source": "intake.company.years_in_business"
+        },
+        {
+          "value": "8,500+",
+          "label": "Panels Installed",
+          "is_estimated": false,
+          "source": "intake.stats.custom"
+        },
+        {
+          "value": "Zero LTI",
+          "label": "Safety Record",
+          "is_estimated": false,
+          "source": "intake.stats.custom"
+        },
+        {
+          "value": "45+",
+          "label": "Clients Served",
+          "is_estimated": false,
+          "source": "intake.stats.clients_served"
+        },
+        {
+          "value": "12",
+          "label": "Team Members",
+          "is_estimated": false,
+          "source": "intake.stats.team_members"
+        }
+      ],
+      "has_estimated": false,
+      "notes": "All stats from client intake."
     },
     "contact": {
       "headline": "Get In Touch",
@@ -239,7 +324,14 @@
       "map": {
         "show": true,
         "address": "undefined, Sydney"
-      }
+      },
+      "image_keywords": [
+        "construction site",
+        "building",
+        "crane",
+        "office exterior",
+        "reception"
+      ]
     }
   },
   "structure_recommendation": {

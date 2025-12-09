@@ -1,0 +1,91 @@
+{
+  "id": "header-simple",
+  "name": "Simple Header",
+  "description": "Clean navigation header with logo, menu, and optional CTA. Mobile-responsive with hamburger menu. Suitable for all website types.",
+  "category": "header",
+  "variants": ["transparent", "solid", "sticky"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["transparent", "solid", "sticky"],
+      "default": "solid",
+      "description": "Header background style"
+    },
+    "logo_position": {
+      "type": "enum",
+      "options": ["left", "center"],
+      "default": "left",
+      "description": "Logo alignment"
+    },
+    "nav_position": {
+      "type": "enum",
+      "options": ["center", "right"],
+      "default": "right",
+      "description": "Navigation menu position"
+    },
+    "show_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show CTA button in header"
+    },
+    "sticky_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable sticky header on scroll"
+    }
+  },
+  "content_slots": {
+    "logo_url": {
+      "required": true,
+      "source": "assets.logo.url",
+      "fallback": ""
+    },
+    "logo_alt": {
+      "required": false,
+      "source": "client_profile.company.name",
+      "fallback": "Company Logo"
+    },
+    "nav_items": {
+      "required": true,
+      "source": "content_drafts.navigation.main_menu",
+      "fallback": [
+        {"label": "Home", "url": "#home"},
+        {"label": "About", "url": "#about"},
+        {"label": "Services", "url": "#services"},
+        {"label": "Contact", "url": "#contact"}
+      ]
+    },
+    "cta_text": {
+      "required": false,
+      "source": "content_drafts.navigation.cta_text",
+      "fallback": "Get Started"
+    },
+    "cta_url": {
+      "required": false,
+      "source": "content_drafts.navigation.cta_url",
+      "fallback": "#contact"
+    }
+  },
+  "tailwind_classes": {
+    "header": "fixed top-0 w-full z-50 transition-all duration-300",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "inner": "flex items-center justify-between h-16 md:h-20",
+    "logo": "flex-shrink-0",
+    "nav": "hidden md:flex items-center gap-8",
+    "nav_link": "text-gray-700 hover:text-primary-600 font-medium transition-colors",
+    "cta": "inline-flex items-center px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all",
+    "mobile_toggle": "md:hidden p-2 text-gray-700 hover:text-primary-600",
+    "mobile_menu": "md:hidden absolute top-full left-0 right-0 bg-white shadow-lg"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["modern", "minimal", "clean", "professional", "classic"],
+    "score_factors": {
+      "simple_navigation": 0.3,
+      "minimal_design": 0.2,
+      "mobile_friendly": 0.3,
+      "fast_loading": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

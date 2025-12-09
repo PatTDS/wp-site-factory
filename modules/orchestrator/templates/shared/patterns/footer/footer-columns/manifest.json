@@ -1,0 +1,119 @@
+{
+  "id": "footer-columns",
+  "name": "Footer Columns",
+  "description": "Multi-column footer with About, Services, Quick Links, and Contact sections. Includes social media icons, newsletter signup, and back-to-top button.",
+  "category": "footer",
+  "variants": ["4-column", "3-column", "2-column"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["4-column", "3-column", "2-column"],
+      "default": "4-column",
+      "description": "Number of footer columns"
+    },
+    "show_newsletter": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show newsletter signup form"
+    },
+    "show_social": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show social media icons"
+    },
+    "show_back_to_top": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show back to top button"
+    },
+    "background": {
+      "type": "enum",
+      "options": ["dark", "light", "gradient"],
+      "default": "dark",
+      "description": "Footer background style"
+    }
+  },
+  "content_slots": {
+    "company_name": {
+      "required": true,
+      "source": "client_profile.company.name",
+      "fallback": "Company Name"
+    },
+    "company_description": {
+      "required": false,
+      "source": "client_profile.company.description",
+      "fallback": "We provide exceptional services to help businesses grow and succeed."
+    },
+    "about_links": {
+      "required": false,
+      "source": "site.navigation.footer.about",
+      "fallback": [
+        {"text": "About Us", "url": "#about"},
+        {"text": "Our Team", "url": "#team"},
+        {"text": "Careers", "url": "#careers"}
+      ]
+    },
+    "services_links": {
+      "required": false,
+      "source": "site.navigation.footer.services",
+      "fallback": [
+        {"text": "Service 1", "url": "#service-1"},
+        {"text": "Service 2", "url": "#service-2"},
+        {"text": "Service 3", "url": "#service-3"}
+      ]
+    },
+    "contact_email": {
+      "required": false,
+      "source": "client_profile.contact.email",
+      "fallback": "hello@company.com"
+    },
+    "contact_phone": {
+      "required": false,
+      "source": "client_profile.contact.phone",
+      "fallback": "(555) 123-4567"
+    },
+    "contact_address": {
+      "required": false,
+      "source": "client_profile.contact.address",
+      "fallback": "123 Main Street, City, State 12345"
+    },
+    "social_links": {
+      "required": false,
+      "source": "client_profile.social",
+      "fallback": []
+    },
+    "legal_links": {
+      "required": false,
+      "source": "site.navigation.footer.legal",
+      "fallback": [
+        {"text": "Privacy Policy", "url": "#privacy"},
+        {"text": "Terms of Service", "url": "#terms"}
+      ]
+    }
+  },
+  "tailwind_classes": {
+    "section_dark": "bg-gray-900 text-white",
+    "section_light": "bg-gray-50 text-gray-900",
+    "section_gradient": "bg-gradient-to-b from-gray-900 to-gray-800 text-white",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16",
+    "grid_4col": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12",
+    "grid_3col": "grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12",
+    "grid_2col": "grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12",
+    "column_title": "text-lg font-heading font-semibold mb-4",
+    "link": "block text-sm text-gray-400 hover:text-white transition-colors mb-2",
+    "social_container": "flex gap-4 mt-6",
+    "bottom_bar": "border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4",
+    "copyright": "text-sm text-gray-400"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["professional", "comprehensive", "corporate"],
+    "score_factors": {
+      "has_multiple_services": 0.3,
+      "needs_newsletter": 0.2,
+      "has_locations": 0.2,
+      "content_rich_site": 0.3
+    }
+  },
+  "template_file": "template.php"
+}

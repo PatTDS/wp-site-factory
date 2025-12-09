@@ -1,0 +1,91 @@
+{
+  "$schema": "../../../../schemas/test-data.schema.json",
+  "section": "stats",
+  "variant": "stats-dark-animated",
+  "version": "1.0.0",
+
+  "test_cases": {
+    "minimal": {
+      "description": "Two stats, no headline",
+      "data": {
+        "stats": [
+          { "value": "25", "suffix": "+", "label": "Years Experience" },
+          { "value": "500", "suffix": "+", "label": "Projects" }
+        ]
+      }
+    },
+
+    "typical": {
+      "description": "Four stats with headline",
+      "data": {
+        "headline": "Our Track Record",
+        "subheadline": "Delivering excellence across Australia for over two decades.",
+        "stats": [
+          { "value": "25", "suffix": "+", "label": "Years Experience" },
+          { "value": "500", "suffix": "+", "label": "Projects Completed" },
+          { "prefix": "$", "value": "50", "suffix": "M+", "label": "Project Value" },
+          { "value": "98", "suffix": "%", "label": "Client Satisfaction" }
+        ]
+      }
+    },
+
+    "maximal": {
+      "description": "Six stats with descriptions",
+      "data": {
+        "headline": "Why Choose Us",
+        "subheadline": "Numbers that speak to our commitment to excellence.",
+        "stats": [
+          {
+            "value": "25",
+            "suffix": "+",
+            "label": "Years Experience",
+            "description": "Serving the construction industry since 1999"
+          },
+          {
+            "value": "500",
+            "suffix": "+",
+            "label": "Projects Completed",
+            "description": "Commercial and industrial projects delivered"
+          },
+          {
+            "prefix": "$",
+            "value": "50",
+            "suffix": "M+",
+            "label": "Project Value",
+            "description": "Total value of completed works"
+          },
+          {
+            "value": "98",
+            "suffix": "%",
+            "label": "Client Satisfaction",
+            "description": "Based on post-project surveys"
+          },
+          {
+            "value": "150",
+            "suffix": "+",
+            "label": "Team Members",
+            "description": "Skilled professionals across all trades"
+          },
+          {
+            "value": "0",
+            "label": "Safety Incidents",
+            "description": "Zero LTIs in the past 3 years"
+          }
+        ]
+      }
+    },
+
+    "currency_focused": {
+      "description": "Financial stats with currency formatting",
+      "data": {
+        "headline": "Financial Strength",
+        "stats": [
+          { "prefix": "$", "value": "100", "suffix": "M", "label": "Annual Revenue" },
+          { "prefix": "$", "value": "25", "suffix": "M", "label": "Largest Project" },
+          { "prefix": "$", "value": "500", "suffix": "K", "label": "Average Project" },
+          { "value": "95", "suffix": "%", "label": "On-Budget Delivery" }
+        ]
+      }
+    }
+  }
+}

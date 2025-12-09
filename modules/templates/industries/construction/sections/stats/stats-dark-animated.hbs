@@ -1,0 +1,29 @@
+<section id="stats" class="stats stats--dark-animated" data-section="stats">
+  <div class="stats__container container">
+    {{#if headline}}
+    <h2 class="stats__headline">{{headline}}</h2>
+    {{/if}}
+
+    {{#if subheadline}}
+    <p class="stats__subheadline">{{subheadline}}</p>
+    {{/if}}
+
+    <div class="stats__grid">
+      {{#each stats}}
+      <div class="stat-item" data-value="{{this.value}}">
+        <div class="stat-item__value">
+          {{#if this.prefix}}<span class="stat-item__prefix">{{this.prefix}}</span>{{/if}}
+          <span class="stat-item__number" data-target="{{this.value}}">{{this.value}}</span>
+          {{#if this.suffix}}<span class="stat-item__suffix">{{this.suffix}}</span>{{/if}}
+        </div>
+        <div class="stat-item__label">{{this.label}}</div>
+        {{#if this.description}}
+        <p class="stat-item__description">{{this.description}}</p>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="stats__bg-pattern" aria-hidden="true"></div>
+</section>

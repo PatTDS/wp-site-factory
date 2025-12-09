@@ -1,0 +1,86 @@
+<section id="about" class="about about--split-image" data-section="about">
+  <div class="about__container container">
+    <div class="about__grid">
+
+      <div class="about__media">
+        <div class="about__image-wrapper">
+          {{#if image}}
+          <img
+            src="{{image.url.large}}"
+            {{#if image.srcset}}srcset="{{image.srcset}}"{{/if}}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="{{default image.alt 'About our company'}}"
+            class="about__image"
+            loading="lazy"
+            decoding="async" />
+          {{else}}
+          <div class="about__image-placeholder"></div>
+          {{/if}}
+
+          {{#if image.photographer}}
+          <div class="about__attribution">
+            Photo by
+            <a href="{{image.photographer_url}}" target="_blank" rel="noopener">
+              {{image.photographer}}
+            </a>
+          </div>
+          {{/if}}
+        </div>
+
+        {{#if experience_badge}}
+        <div class="about__badge">
+          <span class="about__badge-value">{{experience_badge.value}}</span>
+          <span class="about__badge-label">{{experience_badge.label}}</span>
+        </div>
+        {{/if}}
+      </div>
+
+      <div class="about__content">
+        {{#if tagline}}
+        <p class="about__tagline">{{tagline}}</p>
+        {{/if}}
+
+        <h2 class="about__headline">{{headline}}</h2>
+
+        {{#if description}}
+        <div class="about__description">
+          {{{description}}}
+        </div>
+        {{/if}}
+
+        {{#if values}}
+        <div class="about__values">
+          {{#each values}}
+          <div class="about__value">
+            {{#if this.icon}}
+            <div class="about__value-icon">{{{this.icon}}}</div>
+            {{else}}
+            <div class="about__value-icon about__value-icon--default">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            {{/if}}
+            <div class="about__value-content">
+              <h3 class="about__value-title">{{this.title}}</h3>
+              {{#if this.description}}
+              <p class="about__value-text">{{this.description}}</p>
+              {{/if}}
+            </div>
+          </div>
+          {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if cta_text}}
+        <div class="about__cta">
+          <a href="{{default cta_url '#contact'}}" class="btn btn--primary btn--large">
+            {{cta_text}}
+          </a>
+        </div>
+        {{/if}}
+      </div>
+
+    </div>
+  </div>
+</section>

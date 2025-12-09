@@ -12,6 +12,7 @@ export * from './theme-assembler.js';
 export * from './html-preview-generator.js';
 export * from './stock-photos.js';
 export * from './anti-pattern-validator.js';
+export * from './theme-exporter.js';
 
 // Convenience re-exports
 import { assembleTheme, previewThemeAssembly, generateComparisonAssembly } from './theme-assembler.js';
@@ -19,6 +20,7 @@ import { selectBestPreset, generateTemplateComparison } from './template-selecto
 import { extractTokensFromBlueprint, generateAllTokens, generateTokensWithValidation, getIndustryTypography } from './design-tokens.js';
 import { generateHtmlPreview } from './html-preview-generator.js';
 import { validateDesign, autoFixDesign, getRecommendedFonts } from './anti-pattern-validator.js';
+import { exportWordPressTheme, compilePatternToPhp, createWordPressThemeZip } from './theme-exporter.js';
 import stockPhotos from './stock-photos.js';
 
 export default {
@@ -44,6 +46,11 @@ export default {
 
   // HTML Preview
   generateHtmlPreview,
+
+  // Theme Export
+  exportWordPressTheme,
+  compilePatternToPhp,
+  createWordPressThemeZip,
 
   // Stock Photos
   stockPhotos,

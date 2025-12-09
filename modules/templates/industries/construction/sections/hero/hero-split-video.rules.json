@@ -1,0 +1,282 @@
+{
+  "$schema": "../../../../schemas/template-rules.schema.json",
+  "section": "hero",
+  "variant": "hero-split-video",
+  "version": "1.0.0",
+  "status": "approved",
+  "description": "Split-layout hero section with content on left and video/image on right. Supports video background with static image fallback. Ideal for construction and industrial businesses.",
+
+  "blueprint_mapping": {
+    "required": [
+      {
+        "path": "content_drafts.hero.headline",
+        "template_var": "headline",
+        "description": "Main headline text"
+      },
+      {
+        "path": "content_drafts.hero.cta_primary_text",
+        "template_var": "cta_primary_text",
+        "description": "Primary CTA button text"
+      }
+    ],
+    "optional": [
+      {
+        "path": "company.tagline",
+        "template_var": "tagline",
+        "fallback": "content_drafts.hero.tagline",
+        "description": "Tagline displayed above headline"
+      },
+      {
+        "path": "content_drafts.hero.subheadline",
+        "template_var": "subheadline",
+        "description": "Supporting text below headline"
+      },
+      {
+        "path": "content_drafts.hero.cta_primary_url",
+        "template_var": "cta_primary_url",
+        "default": "#contact",
+        "description": "Primary CTA link URL"
+      },
+      {
+        "path": "content_drafts.hero.cta_secondary_text",
+        "template_var": "cta_secondary_text",
+        "description": "Secondary CTA button text"
+      },
+      {
+        "path": "content_drafts.hero.cta_secondary_url",
+        "template_var": "cta_secondary_url",
+        "default": "#services",
+        "description": "Secondary CTA link URL"
+      },
+      {
+        "path": "content_drafts.hero.video_url",
+        "template_var": "video_url",
+        "description": "URL for background video (MP4)"
+      }
+    ]
+  },
+
+  "stock_photos": {
+    "enabled": true,
+    "template_var": "image",
+    "fields": [
+      "content_drafts.hero.image_keywords"
+    ],
+    "fallback_keywords": [
+      "construction site",
+      "industrial",
+      "professional workers",
+      "building"
+    ],
+    "requirements": {
+      "aspect_ratio": "16:9",
+      "min_width": 1920,
+      "orientation": "landscape",
+      "style": "professional"
+    },
+    "output_format": {
+      "url": {
+        "small": "400w",
+        "medium": "800w",
+        "large": "1200w",
+        "full": "1920w"
+      },
+      "alt": "string",
+      "photographer": "string",
+      "photographer_url": "string",
+      "source": "unsplash|pexels",
+      "source_url": "string",
+      "srcset": "generated from urls"
+    }
+  },
+
+  "adaptive_rules": {
+    "headline": {
+      "max_chars": 80,
+      "min_chars": 10,
+      "overflow_strategy": "wrap",
+      "css_handling": "clamp(2.25rem, 5vw, 4rem) scales automatically",
+      "notes": "Long headlines will wrap to multiple lines. Font size scales with viewport."
+    },
+    "subheadline": {
+      "max_chars": 200,
+      "min_chars": 0,
+      "overflow_strategy": "wrap",
+      "css_handling": "Max-width constrains line length for readability",
+      "notes": "Optional field. If missing, layout adjusts automatically."
+    },
+    "tagline": {
+      "max_chars": 40,
+      "min_chars": 0,
+      "overflow_strategy": "truncate",
+      "notes": "Optional. Displayed in uppercase above headline."
+    },
+    "cta_buttons": {
+      "max_visible": 2,
+      "min_visible": 1,
+      "primary_required": true,
+      "secondary_optional": true,
+      "notes": "Primary CTA always shown. Secondary CTA only if text provided."
+    },
+    "media": {
+      "video_preferred": true,
+      "image_fallback": true,
+      "gradient_fallback": true,
+      "aspect_ratios": {
+        "mobile": "4:3",
+        "tablet": "16:10",
+        "desktop": "4:3",
+        "large_desktop": "1:1"
+      }
+    }
+  },
+
+  "design_tokens": {
+    "uses": [
+      "colors.primary",
+      "colors.primary-dark",
+      "colors.secondary",
+      "colors.text.primary",
+      "colors.text.secondary",
+      "typography.font-family.heading",
+      "typography.font-family.body",
+      "spacing.*",
+      "borders.radius.md",
+      "borders.radius.xl",
+      "shadows.2xl",
+      "transitions.duration.base"
+    ],
+    "overridable_by_blueprint": [
+      "colors.primary",
+      "colors.secondary"
+    ],
+    "css_variables": [
+      "--color-primary",
+      "--color-primary-dark",
+      "--color-secondary",
+      "--color-text-secondary",
+      "--spacing-*",
+      "--radius-md",
+      "--radius-xl",
+      "--shadow-2xl",
+      "--transition-base"
+    ]
+  },
+
+  "responsive_behavior": {
+    "mobile": {
+      "breakpoint": "< 768px",
+      "layout": "stacked (media on top, content below)",
+      "media_aspect": "4:3",
+      "cta_layout": "stacked buttons"
+    },
+    "tablet": {
+      "breakpoint": "768px - 1023px",
+      "layout": "stacked (media on top, content below)",
+      "media_aspect": "16:10",
+      "cta_layout": "inline buttons"
+    },
+    "desktop": {
+      "breakpoint": "1024px - 1279px",
+      "layout": "split (content left, media right)",
+      "media_aspect": "4:3",
+      "cta_layout": "inline buttons"
+    },
+    "large_desktop": {
+      "breakpoint": ">= 1280px",
+      "layout": "split (content left, media right)",
+      "media_aspect": "1:1",
+      "cta_layout": "inline buttons"
+    }
+  },
+
+  "accessibility": {
+    "semantic_element": "section",
+    "landmark": true,
+    "heading_level": "h1",
+    "video_requirements": {
+      "autoplay": true,
+      "muted": true,
+      "no_audio_content": true,
+      "poster_image": "required"
+    },
+    "button_requirements": {
+      "role": "button",
+      "focus_visible": true,
+      "min_touch_target": "44x44px"
+    },
+    "image_requirements": {
+      "alt_text": "required",
+      "decorative": false
+    }
+  },
+
+  "llm_instructions": {
+    "DO": [
+      "Extract headline from content_drafts.hero.headline",
+      "Extract cta_primary_text from content_drafts.hero.cta_primary_text",
+      "Use company.tagline OR content_drafts.hero.tagline for tagline",
+      "Fetch stock photo using image_keywords from blueprint",
+      "Generate srcset for responsive images",
+      "Apply brand colors (primary, secondary) from blueprint.brand.colors",
+      "Use default URLs (#contact, #services) if not provided",
+      "Include photographer attribution if stock photo used"
+    ],
+    "DO_NOT": [
+      "Modify the HTML structure of the hero section",
+      "Change CSS class names",
+      "Add additional HTML elements not in template",
+      "Remove the media overlay",
+      "Change animation timings or keyframes",
+      "Modify responsive breakpoints",
+      "Override font families (use design tokens)",
+      "Add inline styles (except for user-requested customizations)"
+    ],
+    "HANDLE_MISSING": [
+      "If tagline missing: Don't render .hero__tagline element",
+      "If subheadline missing: Don't render .hero__subheadline element",
+      "If cta_secondary missing: Don't render secondary button",
+      "If video_url missing: Use stock photo image",
+      "If no image keywords: Use fallback_keywords for stock photo",
+      "If stock photo fails: Template shows gradient fallback"
+    ],
+    "USER_CUSTOMIZABLE": [
+      "headline (text content only)",
+      "subheadline (text content only)",
+      "cta_primary_text (text content only)",
+      "cta_secondary_text (text content only)",
+      "video_url (can be added/removed)",
+      "Font size adjustments (via inline style on specific request)",
+      "Button color overrides (via CSS variable override)",
+      "Media position (left/right via variant change)"
+    ]
+  },
+
+  "dependencies": {
+    "fonts": [
+      "Inter:400,500,600,700"
+    ],
+    "components": [],
+    "shared_css": [],
+    "javascript": []
+  },
+
+  "testing": {
+    "test_data_file": "hero-split-video.test.json",
+    "test_cases": [
+      "minimal (only required fields)",
+      "typical (common content lengths)",
+      "maximal (all fields, long content)",
+      "no_video (static image only)",
+      "no_secondary_cta (single button)"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2025-12-05",
+    "updated_at": "2025-12-05",
+    "author": "WPF Template System",
+    "review_status": "approved",
+    "performance_notes": "Video should be optimized (< 5MB). Images use lazy loading except hero which uses eager."
+  }
+}

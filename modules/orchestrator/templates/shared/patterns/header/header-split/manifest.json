@@ -1,0 +1,116 @@
+{
+  "id": "header-split",
+  "name": "Header Split",
+  "description": "Split header with logo on left, navigation on right. Supports mega menu, search bar, and contact info. Professional and versatile layout.",
+  "category": "header",
+  "variants": ["default", "with-topbar", "transparent"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "with-topbar", "transparent"],
+      "default": "default",
+      "description": "Header style variant"
+    },
+    "sticky": {
+      "type": "boolean",
+      "default": true,
+      "description": "Make header sticky on scroll"
+    },
+    "show_search": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show search bar"
+    },
+    "show_contact_info": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show contact info in top bar"
+    },
+    "show_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show CTA button"
+    },
+    "logo_position": {
+      "type": "enum",
+      "options": ["left", "center"],
+      "default": "left",
+      "description": "Logo position"
+    },
+    "nav_style": {
+      "type": "enum",
+      "options": ["simple", "mega"],
+      "default": "simple",
+      "description": "Navigation style"
+    }
+  },
+  "content_slots": {
+    "logo_url": {
+      "required": false,
+      "source": "assets.logo",
+      "fallback": ""
+    },
+    "company_name": {
+      "required": true,
+      "source": "client_profile.company.name",
+      "fallback": "Company Name"
+    },
+    "navigation_links": {
+      "required": true,
+      "source": "site.navigation.main",
+      "fallback": [
+        {"text": "Home", "url": "#home"},
+        {"text": "About", "url": "#about"},
+        {"text": "Services", "url": "#services", "submenu": [
+          {"text": "Service 1", "url": "#service-1"},
+          {"text": "Service 2", "url": "#service-2"}
+        ]},
+        {"text": "Contact", "url": "#contact"}
+      ]
+    },
+    "contact_phone": {
+      "required": false,
+      "source": "client_profile.contact.phone",
+      "fallback": ""
+    },
+    "contact_email": {
+      "required": false,
+      "source": "client_profile.contact.email",
+      "fallback": ""
+    },
+    "cta_text": {
+      "required": false,
+      "source": "content_drafts.header.cta.text",
+      "fallback": "Get Started"
+    },
+    "cta_url": {
+      "required": false,
+      "source": "content_drafts.header.cta.url",
+      "fallback": "#contact"
+    }
+  },
+  "tailwind_classes": {
+    "topbar": "bg-gray-900 text-white py-2 text-sm",
+    "header_default": "bg-white border-b border-gray-200",
+    "header_transparent": "bg-transparent absolute top-0 left-0 right-0 z-50",
+    "header_sticky": "sticky top-0 z-50 backdrop-blur-sm bg-white/95",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "nav_container": "flex items-center justify-between h-20",
+    "logo": "h-8 w-auto",
+    "nav": "hidden lg:flex items-center gap-8",
+    "nav_link": "text-gray-700 hover:text-primary-600 font-medium transition-colors",
+    "cta_button": "px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors",
+    "mobile_menu_button": "lg:hidden p-2 rounded-lg hover:bg-gray-100"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["professional", "corporate", "versatile"],
+    "score_factors": {
+      "has_many_pages": 0.3,
+      "professional_services": 0.3,
+      "b2b_focus": 0.2,
+      "content_rich_site": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

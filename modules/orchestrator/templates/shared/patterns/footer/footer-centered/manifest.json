@@ -1,0 +1,98 @@
+{
+  "id": "footer-centered",
+  "name": "Footer Centered",
+  "description": "Minimalist centered footer with logo, single-row navigation, social icons, and copyright. Perfect for simple, clean designs.",
+  "category": "footer",
+  "variants": ["default", "compact", "extended"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "compact", "extended"],
+      "default": "default",
+      "description": "Footer style variant"
+    },
+    "show_logo": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show company logo"
+    },
+    "show_social": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show social media icons"
+    },
+    "show_tagline": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show company tagline"
+    },
+    "background": {
+      "type": "enum",
+      "options": ["white", "gray", "dark"],
+      "default": "white",
+      "description": "Footer background color"
+    }
+  },
+  "content_slots": {
+    "company_name": {
+      "required": true,
+      "source": "client_profile.company.name",
+      "fallback": "Company Name"
+    },
+    "tagline": {
+      "required": false,
+      "source": "client_profile.company.tagline",
+      "fallback": "Building better solutions"
+    },
+    "logo_url": {
+      "required": false,
+      "source": "assets.logo",
+      "fallback": ""
+    },
+    "navigation_links": {
+      "required": false,
+      "source": "site.navigation.footer.main",
+      "fallback": [
+        {"text": "Home", "url": "#home"},
+        {"text": "About", "url": "#about"},
+        {"text": "Services", "url": "#services"},
+        {"text": "Contact", "url": "#contact"}
+      ]
+    },
+    "social_links": {
+      "required": false,
+      "source": "client_profile.social",
+      "fallback": []
+    },
+    "legal_links": {
+      "required": false,
+      "source": "site.navigation.footer.legal",
+      "fallback": [
+        {"text": "Privacy", "url": "#privacy"},
+        {"text": "Terms", "url": "#terms"}
+      ]
+    }
+  },
+  "tailwind_classes": {
+    "section_white": "bg-white border-t border-gray-200",
+    "section_gray": "bg-gray-50 border-t border-gray-200",
+    "section_dark": "bg-gray-900 text-white border-t border-gray-800",
+    "container": "max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center",
+    "logo": "h-10 mx-auto mb-4",
+    "tagline": "text-sm text-gray-600 mb-6",
+    "nav": "flex flex-wrap justify-center gap-6 mb-6",
+    "nav_link": "text-sm text-gray-600 hover:text-gray-900 transition-colors",
+    "social_container": "flex justify-center gap-4 mb-6",
+    "copyright": "text-sm text-gray-500"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["minimal", "clean", "modern", "simple"],
+    "score_factors": {
+      "minimal_design": 0.5,
+      "single_page": 0.3,
+      "small_business": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

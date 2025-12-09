@@ -1,0 +1,93 @@
+{
+  "id": "cta-box",
+  "name": "CTA Box",
+  "description": "Contained CTA box with border, icon or image, and centered button. Perfect for inline content sections or sidebar calls-to-action.",
+  "category": "cta",
+  "variants": ["default", "bordered", "elevated"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "bordered", "elevated"],
+      "default": "bordered",
+      "description": "Box style variant"
+    },
+    "show_icon": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show icon above headline"
+    },
+    "icon_style": {
+      "type": "enum",
+      "options": ["circle", "square", "none"],
+      "default": "circle",
+      "description": "Icon container style"
+    },
+    "button_style": {
+      "type": "enum",
+      "options": ["solid", "outline", "ghost"],
+      "default": "solid",
+      "description": "Button style"
+    },
+    "button_size": {
+      "type": "enum",
+      "options": ["md", "lg"],
+      "default": "md",
+      "description": "Button size"
+    },
+    "max_width": {
+      "type": "enum",
+      "options": ["sm", "md", "lg", "full"],
+      "default": "md",
+      "description": "Box maximum width"
+    }
+  },
+  "content_slots": {
+    "icon": {
+      "required": false,
+      "source": "assets.cta_icon",
+      "fallback": "rocket"
+    },
+    "headline": {
+      "required": true,
+      "source": "content_drafts.cta_box.headline",
+      "fallback": "Ready to Transform Your Business?"
+    },
+    "description": {
+      "required": true,
+      "source": "content_drafts.cta_box.description",
+      "fallback": "Join our community and start seeing results immediately."
+    },
+    "button_text": {
+      "required": true,
+      "source": "content_drafts.cta_box.button.text",
+      "fallback": "Get Started"
+    },
+    "button_url": {
+      "required": false,
+      "source": "content_drafts.cta_box.button.url",
+      "fallback": "#contact"
+    }
+  },
+  "tailwind_classes": {
+    "container": "mx-auto px-4 sm:px-6 lg:px-8 py-12",
+    "box_default": "bg-gradient-to-br from-primary-50 to-white rounded-2xl p-8 text-center",
+    "box_bordered": "bg-white border-2 border-primary-200 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors",
+    "box_elevated": "bg-white rounded-2xl p-8 text-center shadow-xl",
+    "icon_container_circle": "w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-primary-100 text-primary-600",
+    "icon_container_square": "w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-lg bg-primary-100 text-primary-600",
+    "icon": "w-8 h-8",
+    "headline": "text-2xl md:text-3xl font-heading font-bold text-gray-900 mb-4",
+    "description": "text-base md:text-lg text-gray-600 mb-6 max-w-2xl mx-auto",
+    "button_container": "flex justify-center"
+  },
+  "suitability": {
+    "industries": ["all"],
+    "styles": ["clean", "modern", "friendly"],
+    "score_factors": {
+      "inline_content": 0.5,
+      "sidebar_placement": 0.3,
+      "subtle_conversion": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

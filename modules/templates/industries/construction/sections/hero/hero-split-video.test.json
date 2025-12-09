@@ -1,0 +1,279 @@
+{
+  "$schema": "../../../../schemas/test-data.schema.json",
+  "section": "hero",
+  "variant": "hero-split-video",
+  "version": "1.0.0",
+  "description": "Test data for hero-split-video template covering minimal, typical, and maximal content scenarios",
+
+  "test_cases": {
+    "minimal": {
+      "description": "Only required fields - tests graceful handling of missing optional content",
+      "data": {
+        "headline": "Building Excellence",
+        "cta_primary_text": "Contact Us"
+      },
+      "expected_behavior": [
+        "No tagline rendered",
+        "No subheadline rendered",
+        "Single CTA button",
+        "Gradient fallback for media (no image)",
+        "CTA links to #contact by default"
+      ]
+    },
+
+    "typical": {
+      "description": "Common content lengths with all typical fields",
+      "data": {
+        "tagline": "Your Trusted Partner",
+        "headline": "Expert Construction Solutions for Your Projects",
+        "subheadline": "From concept to completion, we deliver quality construction services with precision and care.",
+        "cta_primary_text": "Get a Free Quote",
+        "cta_primary_url": "#contact",
+        "cta_secondary_text": "Our Services",
+        "cta_secondary_url": "#services",
+        "image": {
+          "url": {
+            "small": "https://images.unsplash.com/photo-example?w=400",
+            "medium": "https://images.unsplash.com/photo-example?w=800",
+            "large": "https://images.unsplash.com/photo-example?w=1200",
+            "full": "https://images.unsplash.com/photo-example?w=1920"
+          },
+          "srcset": "https://images.unsplash.com/photo-example?w=400 400w, https://images.unsplash.com/photo-example?w=800 800w, https://images.unsplash.com/photo-example?w=1200 1200w, https://images.unsplash.com/photo-example?w=1920 1920w",
+          "alt": "Construction workers on site",
+          "photographer": "John Smith",
+          "photographer_url": "https://unsplash.com/@johnsmith",
+          "source": "unsplash",
+          "source_url": "https://unsplash.com/photos/example"
+        }
+      },
+      "expected_behavior": [
+        "Tagline displayed above headline",
+        "Both CTA buttons visible",
+        "Image displayed with attribution",
+        "Responsive srcset applied"
+      ]
+    },
+
+    "maximal": {
+      "description": "All fields with maximum content lengths",
+      "data": {
+        "tagline": "Australia's Premier Construction Partner",
+        "headline": "Comprehensive Professional Construction Services for Industrial and Commercial Projects Across Greater Sydney Metropolitan Area",
+        "subheadline": "From initial consultation through to final delivery and handover, our experienced team provides end-to-end construction solutions that exceed expectations and deliver lasting value for businesses of all sizes across the region.",
+        "cta_primary_text": "Request Your Free Quote Today",
+        "cta_primary_url": "#contact",
+        "cta_secondary_text": "Explore Our Full Range of Services",
+        "cta_secondary_url": "#services",
+        "video_url": "https://example.com/hero-video.mp4",
+        "image": {
+          "url": {
+            "small": "https://images.unsplash.com/photo-example?w=400",
+            "medium": "https://images.unsplash.com/photo-example?w=800",
+            "large": "https://images.unsplash.com/photo-example?w=1200",
+            "full": "https://images.unsplash.com/photo-example?w=1920"
+          },
+          "srcset": "https://images.unsplash.com/photo-example?w=400 400w, https://images.unsplash.com/photo-example?w=800 800w, https://images.unsplash.com/photo-example?w=1200 1200w, https://images.unsplash.com/photo-example?w=1920 1920w",
+          "alt": "Industrial construction site with heavy equipment",
+          "photographer": "Jane Doe",
+          "photographer_url": "https://unsplash.com/@janedoe",
+          "source": "unsplash",
+          "source_url": "https://unsplash.com/photos/example"
+        },
+        "trust_badges": [
+          {
+            "icon": "<svg>...</svg>",
+            "text": "Licensed & Insured"
+          },
+          {
+            "icon": "<svg>...</svg>",
+            "text": "20+ Years Experience"
+          }
+        ]
+      },
+      "expected_behavior": [
+        "Long headline wraps and scales appropriately",
+        "Video plays with image as poster",
+        "Both CTAs visible with longer text",
+        "Trust badges displayed",
+        "No overflow or layout breaking"
+      ]
+    },
+
+    "no_video": {
+      "description": "Static image without video",
+      "data": {
+        "tagline": "Quality Construction",
+        "headline": "Building Tomorrow's Infrastructure Today",
+        "subheadline": "Professional construction services you can rely on.",
+        "cta_primary_text": "Get Started",
+        "cta_primary_url": "#contact",
+        "image": {
+          "url": {
+            "small": "https://images.unsplash.com/photo-example?w=400",
+            "medium": "https://images.unsplash.com/photo-example?w=800",
+            "large": "https://images.unsplash.com/photo-example?w=1200",
+            "full": "https://images.unsplash.com/photo-example?w=1920"
+          },
+          "alt": "Modern construction project",
+          "photographer": "Construction Photo Co",
+          "photographer_url": "https://unsplash.com/@constructionphoto",
+          "source": "unsplash",
+          "source_url": "https://unsplash.com/photos/example"
+        }
+      },
+      "expected_behavior": [
+        "Static image displayed instead of video",
+        "No video element rendered",
+        "Image uses eager loading and high priority",
+        "Attribution shown"
+      ]
+    },
+
+    "single_cta": {
+      "description": "Only primary CTA button",
+      "data": {
+        "headline": "Expert Construction Services",
+        "subheadline": "Quality workmanship, delivered on time.",
+        "cta_primary_text": "Contact Us",
+        "cta_primary_url": "#contact"
+      },
+      "expected_behavior": [
+        "Single button centered on mobile",
+        "Single button left-aligned on desktop",
+        "No secondary button rendered"
+      ]
+    },
+
+    "with_pexels_image": {
+      "description": "Test with Pexels image source",
+      "data": {
+        "headline": "Professional Construction",
+        "cta_primary_text": "Learn More",
+        "image": {
+          "url": {
+            "large": "https://images.pexels.com/photos/example/pexels-photo.jpeg?w=1200"
+          },
+          "alt": "Construction site aerial view",
+          "photographer": "Pexels User",
+          "photographer_url": "https://pexels.com/@pexelsuser",
+          "source": "pexels",
+          "source_url": "https://pexels.com/photo/example"
+        }
+      },
+      "expected_behavior": [
+        "Pexels attribution shows 'Pexels' instead of 'Unsplash'",
+        "Image displays correctly"
+      ]
+    },
+
+    "short_headline": {
+      "description": "Very short headline",
+      "data": {
+        "headline": "Build",
+        "cta_primary_text": "Go"
+      },
+      "expected_behavior": [
+        "Short text displays correctly",
+        "No minimum height issues",
+        "Layout remains balanced"
+      ]
+    },
+
+    "special_characters": {
+      "description": "Test HTML escaping and special characters",
+      "data": {
+        "tagline": "Australia's #1 Choice",
+        "headline": "Building Excellence — Quality & Trust",
+        "subheadline": "We're committed to delivering <exceptional> results for every client.",
+        "cta_primary_text": "Get Quote →",
+        "cta_secondary_text": "Learn More >"
+      },
+      "expected_behavior": [
+        "Special characters escaped properly",
+        "Ampersands, quotes, arrows display correctly",
+        "No XSS vulnerabilities"
+      ]
+    }
+  },
+
+  "design_tokens_test": {
+    "description": "Test with custom brand colors",
+    "colors": {
+      "primary": "#0F2942",
+      "secondary": "#4DA6FF"
+    },
+    "expected_behavior": [
+      "Primary color applied to headline and buttons",
+      "Secondary color applied to tagline and accents",
+      "CSS variables override defaults"
+    ]
+  },
+
+  "responsive_test": {
+    "viewports": [
+      {
+        "name": "mobile",
+        "width": 375,
+        "height": 667,
+        "expected": [
+          "Single column layout",
+          "Media above content",
+          "Stacked buttons",
+          "4:3 media aspect ratio"
+        ]
+      },
+      {
+        "name": "tablet",
+        "width": 768,
+        "height": 1024,
+        "expected": [
+          "Single column layout",
+          "Media above content",
+          "Inline buttons",
+          "16:10 media aspect ratio"
+        ]
+      },
+      {
+        "name": "desktop",
+        "width": 1280,
+        "height": 800,
+        "expected": [
+          "Two column layout",
+          "Content left, media right",
+          "Inline buttons",
+          "1:1 media aspect ratio",
+          "Scroll indicator visible"
+        ]
+      }
+    ]
+  },
+
+  "accessibility_test": {
+    "checks": [
+      {
+        "name": "Heading hierarchy",
+        "expected": "Single h1 element for headline"
+      },
+      {
+        "name": "Button accessibility",
+        "expected": "role='button' and focus-visible styles"
+      },
+      {
+        "name": "Image alt text",
+        "expected": "Descriptive alt text present"
+      },
+      {
+        "name": "Video accessibility",
+        "expected": "muted, no audio content, poster image"
+      },
+      {
+        "name": "Color contrast",
+        "expected": "4.5:1 minimum for text"
+      },
+      {
+        "name": "Reduced motion",
+        "expected": "Animations disabled when prefers-reduced-motion"
+      }
+    ]
+  }
+}
