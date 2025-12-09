@@ -1,0 +1,93 @@
+{
+  "id": "hero-fullscreen",
+  "name": "Hero Fullscreen Image",
+  "description": "Full-bleed background image with overlay gradient and minimal text. Best for Hospitality, Real Estate, and Portfolio sites.",
+  "category": "hero",
+  "variants": ["default", "left-align", "bottom-align"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "left-align", "bottom-align"],
+      "default": "left-align",
+      "description": "Content alignment"
+    },
+    "show_scroll_indicator": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show scroll down indicator"
+    },
+    "show_secondary_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show secondary CTA button"
+    },
+    "overlay_darkness": {
+      "type": "enum",
+      "options": ["light", "medium", "dark"],
+      "default": "medium",
+      "description": "Image overlay darkness level"
+    }
+  },
+  "content_slots": {
+    "background_image": {
+      "required": true,
+      "source": "assets.hero_image",
+      "fallback": "/wp-content/themes/theme-name/assets/images/hero-placeholder.jpg"
+    },
+    "image_alt": {
+      "required": false,
+      "source": "content_drafts.hero.headline",
+      "fallback": "Hero background"
+    },
+    "headline": {
+      "required": true,
+      "source": "content_drafts.hero.headline"
+    },
+    "subheadline": {
+      "required": false,
+      "source": "content_drafts.hero.subheadline"
+    },
+    "cta_primary_text": {
+      "required": true,
+      "source": "content_drafts.hero.cta_primary.text",
+      "fallback": "Get Started"
+    },
+    "cta_primary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_primary.url",
+      "fallback": "#contact"
+    },
+    "cta_secondary_text": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.text",
+      "fallback": "Learn More"
+    },
+    "cta_secondary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.url",
+      "fallback": "#about"
+    }
+  },
+  "tailwind_classes": {
+    "section": "relative min-h-screen flex items-center overflow-hidden",
+    "overlay": "absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent",
+    "container": "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32",
+    "content": "max-w-2xl",
+    "headline": "text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white leading-[1.1] mb-6",
+    "subheadline": "text-lg md:text-xl text-white/80 mb-10 leading-relaxed max-w-lg",
+    "cta_primary": "inline-flex items-center justify-center px-8 py-4 bg-secondary-500 hover:bg-secondary-600 text-white font-semibold rounded-lg transition-all shadow-lg",
+    "cta_secondary": "inline-flex items-center justify-center px-8 py-4 border-2 border-white/50 hover:border-white hover:bg-white/10 text-white font-semibold rounded-lg transition-all"
+  },
+  "suitability": {
+    "industries": ["hospitality", "real-estate", "restaurant", "portfolio", "photography", "luxury"],
+    "styles": ["elegant", "premium", "dramatic", "visual"],
+    "score_factors": {
+      "is_hospitality": 0.4,
+      "is_visual_industry": 0.3,
+      "has_hero_image": 0.3,
+      "premium_positioning": 0.2,
+      "needs_atmosphere": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

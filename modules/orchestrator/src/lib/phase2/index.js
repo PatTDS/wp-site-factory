@@ -11,12 +11,14 @@ export * from './content-injector.js';
 export * from './theme-assembler.js';
 export * from './html-preview-generator.js';
 export * from './stock-photos.js';
+export * from './anti-pattern-validator.js';
 
 // Convenience re-exports
 import { assembleTheme, previewThemeAssembly, generateComparisonAssembly } from './theme-assembler.js';
 import { selectBestPreset, generateTemplateComparison } from './template-selector.js';
-import { extractTokensFromBlueprint, generateAllTokens } from './design-tokens.js';
+import { extractTokensFromBlueprint, generateAllTokens, generateTokensWithValidation, getIndustryTypography } from './design-tokens.js';
 import { generateHtmlPreview } from './html-preview-generator.js';
+import { validateDesign, autoFixDesign, getRecommendedFonts } from './anti-pattern-validator.js';
 import stockPhotos from './stock-photos.js';
 
 export default {
@@ -32,6 +34,13 @@ export default {
   // Design tokens
   extractTokensFromBlueprint,
   generateAllTokens,
+  generateTokensWithValidation,
+  getIndustryTypography,
+
+  // Anti-pattern validation
+  validateDesign,
+  autoFixDesign,
+  getRecommendedFonts,
 
   // HTML Preview
   generateHtmlPreview,

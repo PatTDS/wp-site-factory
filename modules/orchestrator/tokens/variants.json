@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Component Variants System",
+  "description": "Standardized variants for consistent component styling across the design system",
+  "version": "1.0.0",
+
+  "sizes": {
+    "xs": {
+      "padding": "px-2 py-1",
+      "text": "text-xs",
+      "icon": "w-3 h-3",
+      "gap": "gap-1",
+      "rounded": "rounded"
+    },
+    "sm": {
+      "padding": "px-3 py-1.5",
+      "text": "text-sm",
+      "icon": "w-4 h-4",
+      "gap": "gap-1.5",
+      "rounded": "rounded-md"
+    },
+    "md": {
+      "padding": "px-4 py-2.5",
+      "text": "text-sm",
+      "icon": "w-5 h-5",
+      "gap": "gap-2",
+      "rounded": "rounded-lg"
+    },
+    "lg": {
+      "padding": "px-5 py-3",
+      "text": "text-base",
+      "icon": "w-5 h-5",
+      "gap": "gap-2.5",
+      "rounded": "rounded-lg"
+    },
+    "xl": {
+      "padding": "px-6 py-4",
+      "text": "text-lg",
+      "icon": "w-6 h-6",
+      "gap": "gap-3",
+      "rounded": "rounded-xl"
+    }
+  },
+
+  "buttonStyles": {
+    "solid": {
+      "primary": "bg-primary-600 hover:bg-primary-700 text-white shadow-sm",
+      "secondary": "bg-secondary-600 hover:bg-secondary-700 text-white shadow-sm",
+      "success": "bg-success hover:bg-success-dark text-white shadow-sm",
+      "warning": "bg-warning hover:bg-warning-dark text-white shadow-sm",
+      "danger": "bg-danger hover:bg-danger-dark text-white shadow-sm",
+      "neutral": "bg-gray-900 hover:bg-gray-800 text-white shadow-sm"
+    },
+    "outline": {
+      "primary": "border-2 border-primary-600 text-primary-600 hover:bg-primary-50",
+      "secondary": "border-2 border-secondary-600 text-secondary-600 hover:bg-secondary-50",
+      "success": "border-2 border-success text-success hover:bg-success-light/20",
+      "warning": "border-2 border-warning text-warning-dark hover:bg-warning-light/20",
+      "danger": "border-2 border-danger text-danger hover:bg-danger-light/20",
+      "neutral": "border-2 border-gray-300 text-gray-700 hover:bg-gray-50"
+    },
+    "ghost": {
+      "primary": "text-primary-600 hover:bg-primary-50",
+      "secondary": "text-secondary-600 hover:bg-secondary-50",
+      "success": "text-success hover:bg-success-light/20",
+      "warning": "text-warning-dark hover:bg-warning-light/20",
+      "danger": "text-danger hover:bg-danger-light/20",
+      "neutral": "text-gray-700 hover:bg-gray-100"
+    },
+    "soft": {
+      "primary": "bg-primary-100 text-primary-700 hover:bg-primary-200",
+      "secondary": "bg-secondary-100 text-secondary-700 hover:bg-secondary-200",
+      "success": "bg-success-light/20 text-success-dark hover:bg-success-light/30",
+      "warning": "bg-warning-light/20 text-warning-dark hover:bg-warning-light/30",
+      "danger": "bg-danger-light/20 text-danger-dark hover:bg-danger-light/30",
+      "neutral": "bg-gray-100 text-gray-700 hover:bg-gray-200"
+    }
+  },
+
+  "badgeStyles": {
+    "solid": {
+      "primary": "bg-primary-600 text-white",
+      "secondary": "bg-secondary-600 text-white",
+      "success": "bg-success text-white",
+      "warning": "bg-warning text-white",
+      "danger": "bg-danger text-white",
+      "neutral": "bg-gray-600 text-white"
+    },
+    "soft": {
+      "primary": "bg-primary-100 text-primary-700",
+      "secondary": "bg-secondary-100 text-secondary-700",
+      "success": "bg-success-light/20 text-success-dark",
+      "warning": "bg-warning-light/20 text-warning-dark",
+      "danger": "bg-danger-light/20 text-danger-dark",
+      "neutral": "bg-gray-100 text-gray-700"
+    },
+    "outline": {
+      "primary": "border border-primary-300 text-primary-700 bg-transparent",
+      "secondary": "border border-secondary-300 text-secondary-700 bg-transparent",
+      "success": "border border-success/30 text-success-dark bg-transparent",
+      "warning": "border border-warning/30 text-warning-dark bg-transparent",
+      "danger": "border border-danger/30 text-danger-dark bg-transparent",
+      "neutral": "border border-gray-300 text-gray-700 bg-transparent"
+    }
+  },
+
+  "inputStates": {
+    "default": {
+      "border": "border-gray-300",
+      "focus": "focus:ring-2 focus:ring-primary-500 focus:border-primary-500",
+      "bg": "bg-white"
+    },
+    "error": {
+      "border": "border-2 border-danger",
+      "focus": "focus:ring-2 focus:ring-danger/20 focus:border-danger",
+      "bg": "bg-danger-light/10"
+    },
+    "success": {
+      "border": "border-2 border-success",
+      "focus": "focus:ring-2 focus:ring-success/20 focus:border-success",
+      "bg": "bg-success-light/10"
+    },
+    "disabled": {
+      "border": "border-gray-200",
+      "focus": "",
+      "bg": "bg-gray-50 cursor-not-allowed"
+    }
+  },
+
+  "cardStyles": {
+    "default": {
+      "container": "bg-white border border-gray-200 rounded-xl",
+      "hover": "hover:shadow-lg hover:border-gray-300"
+    },
+    "elevated": {
+      "container": "bg-white rounded-xl shadow-lg",
+      "hover": "hover:shadow-xl"
+    },
+    "outlined": {
+      "container": "bg-transparent border-2 border-gray-200 rounded-xl",
+      "hover": "hover:border-primary-300 hover:bg-primary-50/50"
+    },
+    "filled": {
+      "container": "bg-gray-50 rounded-xl",
+      "hover": "hover:bg-gray-100"
+    },
+    "interactive": {
+      "container": "bg-white border border-gray-200 rounded-xl cursor-pointer transition-all",
+      "hover": "hover:shadow-lg hover:border-primary-300 hover:-translate-y-1"
+    }
+  },
+
+  "alertStyles": {
+    "soft": {
+      "success": "bg-success-light/20 border border-success/30 text-success-dark",
+      "warning": "bg-warning-light/20 border border-warning/30 text-warning-dark",
+      "danger": "bg-danger-light/20 border border-danger/30 text-danger-dark",
+      "info": "bg-info-light/20 border border-info/30 text-info-dark",
+      "neutral": "bg-gray-100 border border-gray-200 text-gray-700"
+    },
+    "solid": {
+      "success": "bg-success text-white",
+      "warning": "bg-warning text-white",
+      "danger": "bg-danger text-white",
+      "info": "bg-info text-white",
+      "neutral": "bg-gray-800 text-white"
+    },
+    "leftBorder": {
+      "success": "border-l-4 border-success bg-success-light/10 text-success-dark",
+      "warning": "border-l-4 border-warning bg-warning-light/10 text-warning-dark",
+      "danger": "border-l-4 border-danger bg-danger-light/10 text-danger-dark",
+      "info": "border-l-4 border-info bg-info-light/10 text-info-dark",
+      "neutral": "border-l-4 border-gray-400 bg-gray-50 text-gray-700"
+    }
+  },
+
+  "spacing": {
+    "section": {
+      "sm": "py-12 lg:py-16",
+      "md": "py-16 lg:py-20",
+      "lg": "py-20 lg:py-28",
+      "xl": "py-24 lg:py-32"
+    },
+    "container": {
+      "sm": "max-w-3xl",
+      "md": "max-w-5xl",
+      "lg": "max-w-6xl",
+      "xl": "max-w-7xl",
+      "full": "max-w-full"
+    }
+  },
+
+  "shadows": {
+    "sm": "shadow-sm",
+    "md": "shadow-md",
+    "lg": "shadow-lg",
+    "xl": "shadow-xl",
+    "2xl": "shadow-2xl",
+    "primary": "shadow-lg shadow-primary-600/25",
+    "colored": "shadow-lg shadow-current/25"
+  },
+
+  "transitions": {
+    "none": "",
+    "fast": "transition-all duration-150 ease-out",
+    "default": "transition-all duration-200 ease-out",
+    "slow": "transition-all duration-300 ease-out",
+    "bounce": "transition-all duration-300 ease-bounce"
+  },
+
+  "borderRadius": {
+    "none": "rounded-none",
+    "sm": "rounded",
+    "md": "rounded-md",
+    "lg": "rounded-lg",
+    "xl": "rounded-xl",
+    "2xl": "rounded-2xl",
+    "full": "rounded-full"
+  }
+}

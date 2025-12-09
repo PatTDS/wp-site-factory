@@ -1,9 +1,11 @@
 /**
  * Design Token Generator
  * Generates theme.json (WordPress) and tailwind.config.js from blueprint colors/typography
+ * Includes anti-pattern validation to avoid generic AI-generated aesthetics
  */
 
 import { z } from 'zod';
+import { validateDesign, autoFixDesign, getRecommendedFonts } from './anti-pattern-validator.js';
 
 // Schema for color configuration
 const ColorSchema = z.object({
@@ -448,11 +450,62 @@ export function generateAllTokens(input) {
   };
 }
 
+/**
+ * Generate tokens with anti-pattern validation
+ * Validates design choices and auto-fixes banned patterns
+ */
+export async function generateTokensWithValidation(input, options = {}) {
+  const { autoFix = true, industry = 'default' } = options;
+
+  // Add industry to input for validation
+  const inputWithIndustry = { ...input, industry };
+
+  // Validate design choices
+  const validation = await validateDesign(inputWithIndustry);
+
+  let finalInput = input;
+  let fixedChanges = [];
+
+  // Auto-fix if requested and there are errors
+  if (autoFix && !validation.valid) {
+    const { fixed, changes } = await autoFixDesign(inputWithIndustry);
+    finalInput = fixed;
+    fixedChanges = changes;
+  }
+
+  // Generate tokens with (potentially fixed) input
+  const tokens = generateAllTokens(finalInput);
+
+  return {
+    tokens,
+    validation: validation.toJSON(),
+    autoFixed: fixedChanges.length > 0,
+    changes: fixedChanges,
+  };
+}
+
+/**
+ * Get industry-appropriate typography recommendations
+ */
+export async function getIndustryTypography(industry) {
+  const fonts = await getRecommendedFonts(industry);
+  return {
+    headings: fonts.heading,
+    body: fonts.body,
+    headingsWeight: '700',
+    bodyWeight: '400',
+  };
+}
+
 export default {
   generateThemeJson,
   generateTailwindConfig,
   generateCssVariables,
   extractTokensFromBlueprint,
   generateAllTokens,
+  generateTokensWithValidation,
+  getIndustryTypography,
+  validateDesign,
+  autoFixDesign,
   DesignTokenInputSchema,
 };

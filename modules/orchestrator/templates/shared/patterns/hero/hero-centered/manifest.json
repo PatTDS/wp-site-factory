@@ -1,0 +1,108 @@
+{
+  "id": "hero-centered",
+  "name": "Hero Centered",
+  "description": "Centered text hero with gradient headline, decorative backgrounds, and trust logos. Best for SaaS, Technology, and Startups.",
+  "category": "hero",
+  "variants": ["default", "with-logos", "minimal"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["default", "with-logos", "minimal"],
+      "default": "default",
+      "description": "Hero variant style"
+    },
+    "show_badge": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show announcement badge above headline"
+    },
+    "show_logos": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show trusted by logos section"
+    },
+    "show_secondary_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show secondary CTA button"
+    },
+    "gradient_headline": {
+      "type": "boolean",
+      "default": true,
+      "description": "Apply gradient to headline highlight"
+    },
+    "height": {
+      "type": "enum",
+      "options": ["short", "medium", "tall"],
+      "default": "tall",
+      "description": "Hero section height"
+    }
+  },
+  "content_slots": {
+    "badge_text": {
+      "required": false,
+      "source": "client_profile.company.tagline",
+      "fallback": "New Release"
+    },
+    "headline_line1": {
+      "required": true,
+      "source": "content_drafts.hero.headline"
+    },
+    "headline_highlight": {
+      "required": false,
+      "source": "content_drafts.hero.highlight",
+      "fallback": ""
+    },
+    "subheadline": {
+      "required": false,
+      "source": "content_drafts.hero.subheadline"
+    },
+    "cta_primary_text": {
+      "required": true,
+      "source": "content_drafts.hero.cta_primary.text",
+      "fallback": "Get Started"
+    },
+    "cta_primary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_primary.url",
+      "fallback": "#contact"
+    },
+    "cta_secondary_text": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.text",
+      "fallback": "Watch Demo"
+    },
+    "cta_secondary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.url",
+      "fallback": "#demo"
+    },
+    "trusted_logos": {
+      "required": false,
+      "source": "assets.partner_logos",
+      "fallback": []
+    }
+  },
+  "tailwind_classes": {
+    "section": "relative min-h-[85vh] flex items-center bg-gradient-to-b from-primary-50 via-white to-white overflow-hidden",
+    "container": "max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center",
+    "badge": "inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full mb-8",
+    "headline": "text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-gray-900 leading-[1.1] mb-8",
+    "subheadline": "text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed",
+    "cta_container": "flex flex-col sm:flex-row gap-4 justify-center mb-16",
+    "cta_primary": "inline-flex items-center justify-center px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-primary-600/25",
+    "cta_secondary": "inline-flex items-center justify-center px-8 py-4 bg-white border border-gray-200 hover:border-gray-300 text-gray-700 font-semibold rounded-xl transition-all"
+  },
+  "suitability": {
+    "industries": ["technology", "saas", "startup", "professional-services", "agency"],
+    "styles": ["modern", "minimal", "tech", "clean"],
+    "score_factors": {
+      "is_saas": 0.4,
+      "is_technology": 0.3,
+      "has_product": 0.2,
+      "b2b_focus": 0.2,
+      "needs_trust_signals": 0.2
+    }
+  },
+  "template_file": "template.php"
+}

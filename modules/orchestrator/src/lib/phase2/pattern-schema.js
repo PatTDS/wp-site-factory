@@ -55,7 +55,11 @@ export const PatternManifestSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string().optional(),
-  category: z.enum(['hero', 'services', 'about', 'testimonials', 'contact', 'cta', 'features', 'team', 'portfolio', 'faq']),
+  category: z.enum([
+    'hero', 'services', 'about', 'testimonials', 'contact', 'cta',
+    'features', 'team', 'portfolio', 'faq', 'footer', 'header',
+    'pricing', 'gallery', 'utility', 'forms'
+  ]),
   variants: z.array(z.string()).default(['default']),
 
   // Configuration options that AI/user can set
@@ -85,13 +89,20 @@ export const TemplatePresetSchema = z.object({
   industry: z.string(),
   style: z.string(),
 
-  // Default pattern selections for each section
+  // Default pattern selections for each section (required + optional)
   patterns: z.object({
     hero: z.string(),
     services: z.string(),
     about: z.string(),
     testimonials: z.string(),
     contact: z.string(),
+    // Optional sections
+    header: z.string().optional(),
+    footer: z.string().optional(),
+    pricing: z.string().optional(),
+    cta: z.string().optional(),
+    gallery: z.string().optional(),
+    features: z.string().optional(),
   }),
 
   // Default configuration overrides

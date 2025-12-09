@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Anti-Pattern Rules",
+  "description": "Design anti-patterns to avoid for distinctive, non-generic websites",
+  "version": "1.0.0",
+
+  "fonts": {
+    "banned": [
+      "Inter",
+      "Roboto",
+      "Arial",
+      "Helvetica",
+      "Open Sans",
+      "Montserrat"
+    ],
+    "reason": "These fonts are overused in AI-generated designs and create a generic appearance",
+    "alternatives": {
+      "construction": {
+        "heading": "DM Sans",
+        "body": "Source Sans 3"
+      },
+      "professional": {
+        "heading": "Playfair Display",
+        "body": "Lato"
+      },
+      "restaurant": {
+        "heading": "Cormorant Garamond",
+        "body": "Nunito"
+      },
+      "healthcare": {
+        "heading": "Poppins",
+        "body": "Inter"
+      },
+      "technology": {
+        "heading": "Space Grotesk",
+        "body": "IBM Plex Sans"
+      },
+      "retail": {
+        "heading": "Outfit",
+        "body": "Work Sans"
+      },
+      "creative": {
+        "heading": "Sora",
+        "body": "Plus Jakarta Sans"
+      },
+      "default": {
+        "heading": "Bricolage Grotesque",
+        "body": "Instrument Sans"
+      }
+    }
+  },
+
+  "colors": {
+    "banned_patterns": [
+      "purple gradient with pink",
+      "blue-to-purple gradient",
+      "neon colors",
+      "oversaturated gradients"
+    ],
+    "reason": "These color patterns are associated with AI slop aesthetics",
+    "validation_rules": [
+      {
+        "rule": "no_purple_gradient",
+        "pattern": "gradient.*(purple|violet).*(pink|magenta)",
+        "severity": "error"
+      },
+      {
+        "rule": "no_neon",
+        "colors": ["#ff00ff", "#00ffff", "#ff0000"],
+        "severity": "warning"
+      }
+    ]
+  },
+
+  "layouts": {
+    "banned_patterns": [
+      "symmetric card grids without variation",
+      "perfectly centered everything",
+      "floating elements without purpose",
+      "excessive rounded corners on everything"
+    ],
+    "reason": "These patterns create a template-like, generic appearance",
+    "recommendations": [
+      "Use asymmetric layouts for visual interest",
+      "Vary card sizes in grids",
+      "Add purposeful visual hierarchy",
+      "Mix rounded and sharp corners intentionally"
+    ]
+  },
+
+  "content": {
+    "banned_phrases": [
+      "Welcome to our website",
+      "Lorem ipsum",
+      "Click here",
+      "Learn more",
+      "Read more",
+      "We are a leading",
+      "State-of-the-art",
+      "Cutting-edge",
+      "Revolutionary",
+      "Game-changing"
+    ],
+    "reason": "These phrases are generic and reduce credibility",
+    "alternatives": {
+      "Learn more": "See how it works",
+      "Click here": "Get your quote",
+      "Welcome": "Your trusted partner for",
+      "Leading": "Serving [location] since [year]"
+    }
+  },
+
+  "images": {
+    "banned_styles": [
+      "obviously AI-generated faces",
+      "stock photos with watermarks",
+      "overprocessed HDR photos",
+      "clipart-style illustrations"
+    ],
+    "reason": "Low-quality imagery reduces trust and professionalism",
+    "recommendations": [
+      "Use real team photos when possible",
+      "Choose authentic stock photos with natural lighting",
+      "Prefer photos showing real work/products",
+      "Use illustrations consistently if choosing that style"
+    ]
+  },
+
+  "animations": {
+    "banned_patterns": [
+      "excessive bounce effects",
+      "animations on every element",
+      "parallax on mobile",
+      "auto-playing videos with sound"
+    ],
+    "reason": "Excessive animations distract and slow page performance",
+    "recommendations": [
+      "Use subtle reveal animations (fade-in, slide-up)",
+      "Limit animations to key elements",
+      "Respect prefers-reduced-motion",
+      "Keep total animation time under 300ms"
+    ]
+  }
+}
