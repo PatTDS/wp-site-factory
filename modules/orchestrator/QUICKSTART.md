@@ -200,7 +200,8 @@ const zipPath = await createWordPressThemeZip(
 # 1. Generate blueprint
 node src/cli/blueprint.js
 
-# 2. Review assembled theme
+# 2. Assemble theme (AUTOMATIC: downloads stock photos, generates patterns)
+# Stock photos are downloaded automatically based on industry + patterns
 # Check: output/my-theme/
 
 # 3. Export with ZIP
@@ -209,6 +210,12 @@ node src/cli/blueprint.js
 # 4. Upload to WordPress
 # Upload: output/my-theme/my-theme.zip via WordPress admin
 ```
+
+**What happens automatically:**
+- ✅ Stock photos downloaded for hero, about, services, team, gallery
+- ✅ Images cached locally with attribution
+- ✅ Images assigned to pattern content
+- ✅ No manual photo search required
 
 ### 2. Add New Pattern
 
@@ -233,10 +240,35 @@ node src/cli/blueprint.js
 # - Layout patterns (generic vs distinctive)
 ```
 
-### 4. Search Stock Photos
+### 4. Stock Photos (Automatic)
 
-**Prerequisites:** API keys configured in `.env`
+**Stock photos are generated automatically** during blueprint/theme assembly. No manual steps required!
 
+**How it works:**
+- Industry-specific keyword mapping (construction, healthcare, restaurant, etc.)
+- Pattern-specific searches (hero, about, services, team, etc.)
+- Combines keywords: e.g., "construction site hero image"
+- Downloads and caches images automatically
+- Adds images to pattern content with attribution
+
+**Example:**
+```javascript
+import { assembleTheme } from './src/lib/phase2/index.js';
+
+const result = await assembleTheme(blueprint, {
+  generateImages: true  // Default: true (automatic)
+});
+
+// Access generated images
+console.log(result.images);
+// {
+//   hero: [{ id: 'unsplash-xyz', downloads: {...}, attribution: {...} }],
+//   about: [...],
+//   services: [...]
+// }
+```
+
+**Manual search (optional):**
 ```javascript
 import { StockPhotoService } from './mcp-servers/stock-photos.js';
 
