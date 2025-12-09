@@ -214,7 +214,7 @@ export async function writeThemeFiles(assemblyResult, outputDir, blueprint = {})
                       blueprint.company?.name ||
                       'Theme Preview';
 
-  const htmlPreview = generateHtmlPreview(assemblyResult, {
+  const htmlPreview = await generateHtmlPreview(assemblyResult, {
     title: `${companyName} - Website Preview`,
     includeNavigation: true,
     includePlaceholderImages: true,
