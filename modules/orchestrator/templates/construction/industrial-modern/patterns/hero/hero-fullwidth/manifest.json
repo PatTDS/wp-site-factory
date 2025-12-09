@@ -1,0 +1,100 @@
+{
+  "id": "hero-fullwidth",
+  "name": "Hero Fullwidth Background",
+  "description": "Full-width hero with background image, centered content, and strong overlay. Perfect for impactful first impressions.",
+  "category": "hero",
+  "variants": ["centered", "left-aligned"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["centered", "left-aligned"],
+      "default": "centered",
+      "description": "Content alignment"
+    },
+    "show_tagline": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show company tagline above headline"
+    },
+    "show_secondary_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show secondary CTA button"
+    },
+    "overlay_opacity": {
+      "type": "number",
+      "min": 0,
+      "max": 1,
+      "default": 0.6,
+      "description": "Background overlay darkness"
+    },
+    "height": {
+      "type": "enum",
+      "options": ["short", "medium", "tall", "full"],
+      "default": "tall",
+      "description": "Hero section height"
+    }
+  },
+  "content_slots": {
+    "tagline": {
+      "required": false,
+      "source": "client_profile.company.tagline"
+    },
+    "headline": {
+      "required": true,
+      "source": "content_drafts.hero.headline"
+    },
+    "subheadline": {
+      "required": false,
+      "source": "content_drafts.hero.subheadline"
+    },
+    "cta_primary_text": {
+      "required": true,
+      "source": "content_drafts.hero.cta_primary.text",
+      "fallback": "Get a Quote"
+    },
+    "cta_primary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_primary.url",
+      "fallback": "#contact"
+    },
+    "cta_secondary_text": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.text",
+      "fallback": "Our Services"
+    },
+    "cta_secondary_url": {
+      "required": false,
+      "source": "content_drafts.hero.cta_secondary.url",
+      "fallback": "#services"
+    },
+    "background_image": {
+      "required": true,
+      "source": "assets.hero_image",
+      "fallback": "/wp-content/themes/theme-name/assets/images/hero-placeholder.jpg"
+    }
+  },
+  "tailwind_classes": {
+    "section": "relative min-h-screen flex items-center justify-center",
+    "overlay": "absolute inset-0 bg-black/60",
+    "container": "container mx-auto px-4 py-20 relative z-10",
+    "content": "max-w-4xl mx-auto text-center space-y-6",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary",
+    "headline": "text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight",
+    "subheadline": "text-xl lg:text-2xl text-gray-200 max-w-2xl mx-auto",
+    "cta_container": "flex flex-col sm:flex-row gap-4 justify-center pt-4",
+    "cta_primary": "inline-flex items-center justify-center px-8 py-4 bg-secondary text-white font-semibold rounded-lg hover:bg-secondary/90 transition-colors",
+    "cta_secondary": "inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-primary transition-colors"
+  },
+  "suitability": {
+    "industries": ["construction", "manufacturing", "real-estate", "architecture"],
+    "styles": ["bold", "dramatic", "impactful"],
+    "score_factors": {
+      "has_hero_image": 0.4,
+      "dramatic_style": 0.3,
+      "b2b_focus": 0.2,
+      "has_tagline": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

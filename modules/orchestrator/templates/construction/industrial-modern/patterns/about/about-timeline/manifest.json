@@ -1,0 +1,89 @@
+{
+  "id": "about-timeline",
+  "name": "About Timeline",
+  "description": "Company history timeline with milestones and achievements. Perfect for established companies with significant history.",
+  "category": "about",
+  "variants": ["vertical", "horizontal"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["vertical", "horizontal"],
+      "default": "vertical",
+      "description": "Timeline orientation"
+    },
+    "show_images": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show images for milestones"
+    },
+    "show_stats": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show company statistics section"
+    },
+    "max_milestones": {
+      "type": "number",
+      "min": 3,
+      "max": 10,
+      "default": 5,
+      "description": "Maximum milestones to display"
+    }
+  },
+  "content_slots": {
+    "section_tagline": {
+      "required": false,
+      "source": "content_drafts.about.tagline"
+    },
+    "section_title": {
+      "required": true,
+      "source": "content_drafts.about.headline",
+      "fallback": "Our Journey"
+    },
+    "section_description": {
+      "required": false,
+      "source": "content_drafts.about.intro"
+    },
+    "milestones": {
+      "required": true,
+      "source": "content_drafts.about.milestones",
+      "fallback": []
+    },
+    "stats": {
+      "required": false,
+      "source": "content_drafts.about.stats",
+      "fallback": []
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-16 lg:py-24 bg-gray-50",
+    "container": "container mx-auto px-4",
+    "header": "text-center max-w-3xl mx-auto mb-16",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary mb-4",
+    "title": "text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-6",
+    "description": "text-lg lg:text-xl text-gray-600",
+    "timeline": "relative",
+    "timeline_line": "absolute left-1/2 transform -translate-x-1/2 w-1 bg-secondary h-full",
+    "milestone": "relative flex items-center justify-between mb-12 last:mb-0",
+    "milestone_content": "w-5/12 p-6 bg-white rounded-xl shadow-lg",
+    "milestone_year": "text-3xl font-bold text-secondary mb-2",
+    "milestone_title": "text-xl font-bold text-primary mb-2",
+    "milestone_description": "text-gray-600",
+    "milestone_dot": "absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary rounded-full border-4 border-white shadow",
+    "stats_section": "mt-16 lg:mt-24",
+    "stats_grid": "grid grid-cols-2 lg:grid-cols-4 gap-8",
+    "stat_item": "text-center",
+    "stat_number": "text-4xl lg:text-5xl font-bold text-primary mb-2",
+    "stat_label": "text-gray-600"
+  },
+  "suitability": {
+    "industries": ["construction", "manufacturing", "professional-services", "legal"],
+    "styles": ["corporate", "established", "trustworthy"],
+    "score_factors": {
+      "company_age_high": 0.4,
+      "has_milestones": 0.3,
+      "established_brand": 0.2,
+      "trust_focus": 0.1
+    }
+  },
+  "template_file": "template.php"
+}

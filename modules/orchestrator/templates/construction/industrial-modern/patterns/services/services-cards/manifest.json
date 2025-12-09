@@ -1,0 +1,84 @@
+{
+  "id": "services-cards",
+  "name": "Services Cards",
+  "description": "Alternating service cards with large images and descriptions. Best for detailed service presentations with 2-4 main services.",
+  "category": "services",
+  "variants": ["alternating", "stacked"],
+  "configuration": {
+    "variant": {
+      "type": "enum",
+      "options": ["alternating", "stacked"],
+      "default": "alternating",
+      "description": "Layout style - alternating flips image position, stacked keeps consistent"
+    },
+    "show_numbering": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show service numbers (01, 02, etc.)"
+    },
+    "show_cta": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show CTA button for each service"
+    },
+    "image_aspect": {
+      "type": "enum",
+      "options": ["square", "landscape", "portrait"],
+      "default": "landscape",
+      "description": "Service image aspect ratio"
+    }
+  },
+  "content_slots": {
+    "section_tagline": {
+      "required": false,
+      "source": "content_drafts.services.tagline"
+    },
+    "section_title": {
+      "required": true,
+      "source": "content_drafts.services.headline",
+      "fallback": "What We Do"
+    },
+    "section_description": {
+      "required": false,
+      "source": "content_drafts.services.intro"
+    },
+    "services": {
+      "required": true,
+      "source": "content_drafts.services.services",
+      "fallback": []
+    }
+  },
+  "tailwind_classes": {
+    "section": "py-16 lg:py-24",
+    "container": "container mx-auto px-4",
+    "header": "text-center max-w-3xl mx-auto mb-16 lg:mb-20",
+    "tagline": "text-sm font-semibold uppercase tracking-wider text-secondary mb-4",
+    "title": "text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-6",
+    "description": "text-lg lg:text-xl text-gray-600",
+    "service_item": "grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 lg:mb-24 last:mb-0",
+    "service_content": "space-y-6",
+    "service_number": "text-6xl lg:text-7xl font-bold text-gray-100",
+    "service_title": "text-2xl lg:text-3xl font-bold text-primary",
+    "service_description": "text-lg text-gray-600 leading-relaxed",
+    "service_features": "space-y-3",
+    "feature_item": "flex items-start gap-3",
+    "feature_icon": "w-5 h-5 text-secondary flex-shrink-0 mt-1",
+    "feature_text": "text-gray-700",
+    "service_cta": "inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors",
+    "image_container": "relative rounded-2xl overflow-hidden shadow-xl",
+    "image_landscape": "aspect-[4/3]",
+    "image_square": "aspect-square",
+    "image_portrait": "aspect-[3/4]"
+  },
+  "suitability": {
+    "industries": ["construction", "manufacturing", "architecture", "engineering"],
+    "styles": ["modern", "detailed", "professional"],
+    "score_factors": {
+      "services_count_2_4": 0.3,
+      "has_service_images": 0.3,
+      "detailed_descriptions": 0.2,
+      "b2b_focus": 0.2
+    }
+  },
+  "template_file": "template.php"
+}
