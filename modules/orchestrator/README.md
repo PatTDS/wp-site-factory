@@ -498,6 +498,45 @@ Based on research in:
 - `wordpress-knowledge-base/tools/ref-claude-code-web-design-best-practices.md`
 - `wordpress-knowledge-base/tools/howto-claude-code-web-design-implementation.md`
 
+## Anti-Pattern Validation
+
+The orchestrator now includes anti-pattern validation to prevent generic "AI slop" aesthetics:
+
+```javascript
+import { validateDesign, autoFixDesign, getRecommendedFonts } from './src/lib/phase2/anti-pattern-validator.js';
+
+// Validate design choices
+const validation = await validateDesign({
+  typography: { headings: 'Inter', body: 'Roboto' },
+  colors: { primary: '#0F2942', secondary: '#4DA6FF' },
+  industry: 'construction'
+});
+
+// Auto-fix banned patterns
+const { fixed, changes } = await autoFixDesign(input);
+```
+
+**Banned Fonts:** Inter, Roboto, Arial, Helvetica, Open Sans, Montserrat
+
+**Banned Color Patterns:** Purple-pink gradients, neon colors
+
+## Shared Pattern Library
+
+New cross-industry patterns available in `templates/shared/`:
+
+| Pattern | Category | Best For | Features |
+|---------|----------|----------|----------|
+| hero-centered | hero | SaaS, Technology | Gradient text, trust logos, decorative BG |
+| hero-fullscreen | hero | Hospitality, Portfolio | Full-bleed image, overlays, scroll indicator |
+| pricing-grid | pricing | SaaS, Consulting | 3-tier cards, featured highlight |
+
+## Design Tokens
+
+Located in `tokens/`:
+
+- **variants.json** - Standardized sizes, button styles, badge styles, card styles
+- **anti-patterns.json** - Rules for font/color/layout validation
+
 ## Next Steps (Phase 2B - Realistic Preview)
 
 See `docs/SPEC-realistic-preview-content.md` for full specification.
