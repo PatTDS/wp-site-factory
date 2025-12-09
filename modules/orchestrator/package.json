@@ -11,7 +11,11 @@
   "scripts": {
     "research": "node src/cli/research.js",
     "blueprint": "node src/cli/blueprint.js",
-    "test": "vitest",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:lighthouse": "lhci autorun",
     "lint": "eslint src/"
   },
   "dependencies": {
@@ -22,6 +26,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.57.0",
     "vitest": "^2.1.9"
   },
   "keywords": [
