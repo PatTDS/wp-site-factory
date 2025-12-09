@@ -167,7 +167,7 @@ export function generateContentSummary(patternManifest, content) {
  */
 export function mapServices(services, options = {}) {
   const {
-    maxItems = 6,
+    maxItems = 12,  // Increased to support larger service lists (e.g., 9 services)
     includeDescription = true,
     includeUrl = true,
   } = options;
